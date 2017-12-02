@@ -7,4 +7,3 @@ connection.setup([host], keyspace)
 
 rows = models.User.objects().all()[0:20]
 row = rows[0]
-a=toDict(rows)
