@@ -7,7 +7,7 @@ import time
 import json as json_obj
 from flask_restful.utils import cors
 from cassandra.cqlengine import connection
-from utils import toJson
+from utils import toDict
 # db
 import models
 
@@ -33,13 +33,13 @@ dt_columns = []
 class ResourceHandler(Resource):
     def get(self,model_name, id=None):
         if id:
-            return {'resource': toJson(models.__dict__[model_name].objects.filter(id=id).first())}, 200, default_headers
+            return {'resource': toDict(models.__dict__[model_name].objects.filter(id=id).first())}, 200, default_headers
         else:
             page = int(request.args.get('page') or 1)
             per_page = int(request.args.get('perPage') or 20)
             start = (page - 1) * per_page
             end = page * per_page
-            return {'resources': toJson(models.__dict__[model_name].objects.all()[start:end])}, 200, default_headers
+            return {'resources': toDict(models.__dict__[model_name].objects.all()[start:end])}, 200, default_headers
     # Handle POST event for an insertion/Update event:
     # User must set "Content-Type" to "application/json" in POST request
     # Use table attributes given in MySQL schema for JSON keys
