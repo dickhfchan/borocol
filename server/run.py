@@ -2,16 +2,19 @@ from config import keyspace, host, debug, api_port
 from flask import Flask, jsonify, request, Response
 from flask_restful import Resource, Api, reqparse
 from datetime import datetime, timedelta
-import pandas as pd
 import time
 import json as json_obj
 from flask_restful.utils import cors
 from cassandra.cqlengine import connection
-from utils import toDict
+from utils import to_dict, studly_case, camel_case, model_data_write_guard
 # db
 import models
 
-connection.setup([host], keyspace)
+try:
+    connection.setup([host], keyspace)
+except Exception as e:
+    print "Error: connection db failed"
+    raise
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,6 +23,7 @@ api = Api(app)
 #print conn
 
 default_headers = {
+    'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods':'GET,POST,PUT,PATCH,DELETE,OPTIONS',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie'
@@ -31,22 +35,60 @@ default_headers = {
 dt_columns = []
 
 class ResourceHandler(Resource):
-    @cors.crossdomain(origin='*')
     def get(self,model_name, id=None):
+        model_name = studly_case(camel_case(model_name))
+        model = models.__dict__[model_name]
         if id:
-            return {'resource': toDict(models.__dict__[model_name].objects.filter(id=id).first())}, 200, default_headers
+            return {'resource': to_dict(model.objects.filter(id=id).first())}, 200, default_headers
         else:
             page = int(request.args.get('page') or 1)
             per_page = int(request.args.get('perPage') or 20)
             start = (page - 1) * per_page
             end = page * per_page
-            return {'resources': toDict(models.__dict__[model_name].objects.all()[start:end])}, 200
+            return {'resources': to_dict(model.objects.all()[start:end])}, 200, default_headers
     # Handle POST event for an insertion/Update event:
     # User must set "Content-Type" to "application/json" in POST request
     # Use table attributes given in MySQL schema for JSON keys
-    @cors.crossdomain(origin='*')
     def post(self, model_name, id=None):
-        pass
+        model = models.__dict__[model_name]
+        # make data
+        data = {}
+        for key in request.form:
+            data[key] = request.form[key]
+        model_data_write_guard(data)
+        data['created_at'] = data['updated_at'] = datetime.now()
+        # write
+        errorMsg = None
+        try:
+            model.create(**data)
+        except Exception as e:
+            errorMsg = e.message
+        return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
+
+    def put(self, model_name, id=None):
+        model = models.__dict__[model_name]
+        # make data
+        data = {}
+        for key in request.form:
+            data[key] = request.form[key]
+        model_data_write_guard(data)
+        data['updated_at'] = datetime.now()
+        # write
+        errorMsg = None
+        try:
+            model.objects(id=id).if_exists().update(**data)
+        except Exception as e:
+            errorMsg = e.message
+        return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
+    def delete(self, model_name, id=None):
+        model = models.__dict__[model_name]
+        ids = [id] if ',' not in id else id.split(',')
+        try:
+            model.objects.filter(id__in=ids).if_exists().delete()
+        except Exception as e:
+            errorMsg = e.message
+        return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
+
     def options(self, model_name, id=None):
         print default_headers
         return '', 200, default_headers
