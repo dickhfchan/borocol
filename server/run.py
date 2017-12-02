@@ -32,13 +32,13 @@ dt_columns = []
 class ResourceHandler(Resource):
     def get(self,model_name, id=None):
         if id:
-            return {'resource': models.__dict__[model_name].objects.filter(id=id).first()}, 200, default_headers
+            return {'resource': json.dumps(models.__dict__[model_name].objects.filter(id=id).first())}, 200, default_headers
         else:
             page = int(request.args.get('page') or 1)
             per_page = int(request.args.get('perPage') or 20)
             start = (page - 1) * per_page
             end = page * per_page
-            return jsonify(**models.__dict__[model_name].objects.all()[start:end][0]), 200, default_headers
+            return {'resources': json.dumps(models.__dict__[model_name].objects.all()[start:end])}, 200, default_headers
     # Handle POST event for an insertion/Update event:
     # User must set "Content-Type" to "application/json" in POST request
     # Use table attributes given in MySQL schema for JSON keys
