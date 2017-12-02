@@ -56,6 +56,7 @@ class ResourceHandler(Resource):
             data[key] = request.form[key]
         model_data_write_guard(data)
         data['created_at'] = data['updated_at'] = datetime.now()
+        data['id'] = id or request.form['id']
         # write
         errorMsg = None
         try:

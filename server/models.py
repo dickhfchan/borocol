@@ -6,7 +6,7 @@ from cassandra.cqlengine.models import Model
 
 class user(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id   = columns.Text(required=True, primary_key=True)
 
     password      = columns.Text(required=False, )
 
