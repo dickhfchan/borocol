@@ -6,7 +6,7 @@ import time
 import json as json_obj
 from flask_restful.utils import cors
 from cassandra.cqlengine import connection
-from utils import to_dict, studly_case, camel_case, model_data_write_guard
+from utils import to_dict, model_data_write_guard
 # db
 import models
 
@@ -36,7 +36,6 @@ dt_columns = []
 
 class ResourceHandler(Resource):
     def get(self,model_name, id=None):
-        model_name = studly_case(camel_case(model_name))
         model = models.__dict__[model_name]
         if id:
             return {'resource': to_dict(model.objects.filter(id=id).first())}, 200, default_headers
