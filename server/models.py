@@ -3,7 +3,8 @@ from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table as sync_table0
 from cassandra.cqlengine.models import Model
 
-class User(Model):
+
+class user(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -13,10 +14,10 @@ class User(Model):
 
     email      = columns.Text(required=False, )
 
-    userType      = columns.Text(required=False, )
+    user_type      = columns.Text(required=False, )
 
 
-class CourseSubscriptions(Model):
+class course_subscriptions(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -24,14 +25,14 @@ class CourseSubscriptions(Model):
 
     course_id      = columns.Text(required=False, )
 
-    requireAccomodation      = columns.Text(required=False, )
+    require_accomodation      = columns.Text(required=False, )
 
-    requireInsurance      = columns.Text(required=False, )
+    require_insurance      = columns.Text(required=False, )
 
-    paymentDetails      = columns.Text(required=False, )
+    payment_details      = columns.Text(required=False, )
 
 
-class SchoolProfile(Model):
+class school_profile(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -39,13 +40,13 @@ class SchoolProfile(Model):
 
     status      = columns.Text(required=False, )
 
-    contactPersons      = columns.Text(required=False, )
+    contact_persons      = columns.Text(required=False, )
 
-    schoolName      = columns.Text(required=False, )
+    school_name      = columns.Text(required=False, )
 
-    registrationDocument      = columns.Text(required=False, )
+    registration_document      = columns.Text(required=False, )
 
-    stripeDetails      = columns.Text(required=False, )
+    stripe_details      = columns.Text(required=False, )
 
     address1      = columns.Text(required=False, )
 
@@ -59,14 +60,14 @@ class SchoolProfile(Model):
 
     logo      = columns.Text(required=False, )
 
-    schoolPhotos      = columns.Text(required=False, )
+    school_photos      = columns.Text(required=False, )
 
     subscriptions      = columns.Text(required=False, )
 
     website      = columns.Text(required=False, )
 
 
-class StudentProfile(Model):
+class student_profile(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -74,11 +75,11 @@ class StudentProfile(Model):
 
     status      = columns.Text(required=False, )
 
-    fristName      = columns.Text(required=False, )
+    frist_name      = columns.Text(required=False, )
 
-    lastName      = columns.Text(required=False, )
+    last_name      = columns.Text(required=False, )
 
-    phoneNumber      = columns.Text(required=False, )
+    phone_number      = columns.Text(required=False, )
 
     gender      = columns.Text(required=False, )
 
@@ -88,12 +89,12 @@ class StudentProfile(Model):
 
     language      = columns.Text(required=False, )
 
-    passportInformation      = columns.Text(required=False, )
+    passport_information      = columns.Text(required=False, )
 
-    likedCourses      = columns.Text(required=False, )
+    liked_courses      = columns.Text(required=False, )
 
 
-class CourseDetail(Model):
+class course_detail(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -103,25 +104,25 @@ class CourseDetail(Model):
 
     status      = columns.Text(required=False, )
 
-    viewCount      = columns.Text(required=False, )
+    view_count      = columns.Text(required=False, )
 
     category      = columns.Text(required=False, )
 
     name      = columns.Text(required=False, )
 
-    statDate      = columns.Text(required=False, )
+    stat_date      = columns.Text(required=False, )
 
-    endDate      = columns.Text(required=False, )
+    end_date      = columns.Text(required=False, )
 
-    lengthOfCourse      = columns.Text(required=False, )
+    length_of_course      = columns.Text(required=False, )
 
-    noOfLessons      = columns.Text(required=False, )
+    no_of_lessons      = columns.Text(required=False, )
 
-    classDay      = columns.Text(required=False, )
+    class_day      = columns.Text(required=False, )
 
     level      = columns.Text(required=False, )
 
-    ageRange      = columns.Text(required=False, )
+    age_range      = columns.Text(required=False, )
 
     description      = columns.Text(required=False, )
 
@@ -131,21 +132,21 @@ class CourseDetail(Model):
 
     certification      = columns.Text(required=False, )
 
-    certificationName      = columns.Text(required=False, )
+    certification_name      = columns.Text(required=False, )
 
     quota      = columns.Text(required=False, )
 
     price      = columns.Text(required=False, )
 
-    earlyBirdQuota      = columns.Text(required=False, )
+    early_bird_quota      = columns.Text(required=False, )
 
-    registrationStartDate      = columns.Text(required=False, )
+    registration_start_date      = columns.Text(required=False, )
 
-    registrationEndDate      = columns.Text(required=False, )
+    registration_end_date      = columns.Text(required=False, )
 
-    classSchedule      = columns.Text(required=False, )
+    class_schedule      = columns.Text(required=False, )
 
-    badWeatherArrangement      = columns.Text(required=False, )
+    bad_weather_arrangement      = columns.Text(required=False, )
 
     remarks      = columns.Text(required=False, )
 
@@ -154,7 +155,7 @@ class CourseDetail(Model):
     tags      = columns.Text(required=False, )
 
 
-class AccomodationDetail(Model):
+class accomodation_detail(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -168,28 +169,28 @@ class AccomodationDetail(Model):
 
     address2      = columns.Text(required=False, )
 
-    shareCount      = columns.Text(required=False, )
+    share_count      = columns.Text(required=False, )
 
-    bedStyle      = columns.Text(required=False, )
+    bed_style      = columns.Text(required=False, )
 
-    mealDescriptions      = columns.Text(required=False, )
+    meal_descriptions      = columns.Text(required=False, )
 
     facilites      = columns.Text(required=False, )
 
-    otherFacilites      = columns.Text(required=False, )
+    other_facilites      = columns.Text(required=False, )
 
-    schoolCommuteTime      = columns.Text(required=False, )
+    school_commute_time      = columns.Text(required=False, )
 
-    airportCommuteTime      = columns.Text(required=False, )
+    airport_commute_time      = columns.Text(required=False, )
 
     price      = columns.Text(required=False, )
 
-    cancellationPolicy      = columns.Text(required=False, )
+    cancellation_policy      = columns.Text(required=False, )
 
-    messageToStudent      = columns.Text(required=False, )
+    message_to_student      = columns.Text(required=False, )
 
 
-class VisaDetail(Model):
+class visa_detail(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -197,27 +198,27 @@ class VisaDetail(Model):
 
     information      = columns.Text(required=False, )
 
-    lastDateSubmission      = columns.Text(required=False, )
+    last_date_submission      = columns.Text(required=False, )
 
-    documentDescription      = columns.Text(required=False, )
+    document_description      = columns.Text(required=False, )
 
-    visaUrl      = columns.Text(required=False, )
+    visa_url      = columns.Text(required=False, )
 
-    schooliInvitationLetter      = columns.Text(required=False, )
+    schooli_invitation_letter      = columns.Text(required=False, )
 
-    refundPolicy      = columns.Text(required=False, )
+    refund_policy      = columns.Text(required=False, )
 
-    autoReplyMessage      = columns.Text(required=False, )
+    auto_reply_message      = columns.Text(required=False, )
 
 
-class FeaturedCourse(Model):
+class featured_course(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
     course_id      = columns.Text(required=False, )
 
 
-class Reviews(Model):
+class reviews(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -232,7 +233,7 @@ class Reviews(Model):
     photos      = columns.Text(required=False, )
 
 
-class CourseTypes(Model):
+class course_types(Model):
 
     id      = columns.Text(required=True, primary_key=True)
 
@@ -246,22 +247,22 @@ class CourseTypes(Model):
 
 def sync_table():
 
-  sync_table0(User)
+  sync_table0(user)
 
-  sync_table0(CourseSubscriptions)
+  sync_table0(course_subscriptions)
 
-  sync_table0(SchoolProfile)
+  sync_table0(school_profile)
 
-  sync_table0(StudentProfile)
+  sync_table0(student_profile)
 
-  sync_table0(CourseDetail)
+  sync_table0(course_detail)
 
-  sync_table0(AccomodationDetail)
+  sync_table0(accomodation_detail)
 
-  sync_table0(VisaDetail)
+  sync_table0(visa_detail)
 
-  sync_table0(FeaturedCourse)
+  sync_table0(featured_course)
 
-  sync_table0(Reviews)
+  sync_table0(reviews)
 
-  sync_table0(CourseTypes)
+  sync_table0(course_types)
