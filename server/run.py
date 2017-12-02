@@ -6,7 +6,7 @@ import time
 import json as json_obj
 from flask_restful.utils import cors
 from cassandra.cqlengine import connection
-from utils import to_dict, model_data_write_guard
+from utils import to_dict, before_write
 # db
 import models
 
@@ -54,7 +54,7 @@ class ResourceHandler(Resource):
         data = {}
         for key in request.form:
             data[key] = request.form[key]
-        model_data_write_guard(data)
+        before_write(data, model)
         data['created_at'] = data['updated_at'] = datetime.now()
         data['id'] = id or request.form['id']
         # check exits
@@ -76,7 +76,7 @@ class ResourceHandler(Resource):
         data = {}
         for key in request.form:
             data[key] = request.form[key]
-        model_data_write_guard(data)
+        before_write(data, model)
         data['updated_at'] = datetime.now()
         # write
         errorMsg = None
