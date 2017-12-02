@@ -39,6 +39,7 @@ class ResourceHandler(Resource):
             per_page = int(request.args.get('perPage') or 20)
             start = (page - 1) * per_page
             end = page * per_page
+            return {'resources': [{'a':1}]}, 200, default_headers
             return {'resources': toDict(models.__dict__[model_name].objects.all()[start:end])}, 200, default_headers
     # Handle POST event for an insertion/Update event:
     # User must set "Content-Type" to "application/json" in POST request
