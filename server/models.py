@@ -6,7 +6,7 @@ from cassandra.cqlengine.models import Model
 
 class user(Model):
 
-    id   = columns.Text(required=True, primary_key=True)
+    id      = columns.Text(required=True, primary_key=True)
 
     password      = columns.Text(required=False, )
 
@@ -16,6 +16,8 @@ class user(Model):
 
     user_type      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class course_subscriptions(Model):
 
@@ -31,6 +33,8 @@ class course_subscriptions(Model):
 
     payment_details      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class school_profile(Model):
 
@@ -66,6 +70,8 @@ class school_profile(Model):
 
     website      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class student_profile(Model):
 
@@ -93,6 +99,8 @@ class student_profile(Model):
 
     liked_courses      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class course_detail(Model):
 
@@ -154,6 +162,8 @@ class course_detail(Model):
 
     tags      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class accomodation_detail(Model):
 
@@ -189,6 +199,8 @@ class accomodation_detail(Model):
 
     message_to_student      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class visa_detail(Model):
 
@@ -210,6 +222,8 @@ class visa_detail(Model):
 
     auto_reply_message      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class featured_course(Model):
 
@@ -217,6 +231,8 @@ class featured_course(Model):
 
     course_id      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class reviews(Model):
 
@@ -232,6 +248,8 @@ class reviews(Model):
 
     photos      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 class course_types(Model):
 
@@ -243,6 +261,8 @@ class course_types(Model):
 
     description      = columns.Text(required=False, )
 
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
 
 
 def sync_tables():
