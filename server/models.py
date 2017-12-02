@@ -1,6 +1,6 @@
 from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
-from cassandra.cqlengine.management import sync_table as sync_table0
+from cassandra.cqlengine.management import sync_table as sync_table
 from cassandra.cqlengine.models import Model
 
 
@@ -245,24 +245,24 @@ class course_types(Model):
 
 
 
-def sync_table():
+def sync_tables():
 
-  sync_table0(user)
+  sync_table(user)
 
-  sync_table0(course_subscriptions)
+  sync_table(course_subscriptions)
 
-  sync_table0(school_profile)
+  sync_table(school_profile)
 
-  sync_table0(student_profile)
+  sync_table(student_profile)
 
-  sync_table0(course_detail)
+  sync_table(course_detail)
 
-  sync_table0(accomodation_detail)
+  sync_table(accomodation_detail)
 
-  sync_table0(visa_detail)
+  sync_table(visa_detail)
 
-  sync_table0(featured_course)
+  sync_table(featured_course)
 
-  sync_table0(reviews)
+  sync_table(reviews)
 
-  sync_table0(course_types)
+  sync_table(course_types)
