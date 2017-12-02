@@ -57,12 +57,17 @@ class ResourceHandler(Resource):
         model_data_write_guard(data)
         data['created_at'] = data['updated_at'] = datetime.now()
         data['id'] = id or request.form['id']
-        # write
+        # check exits
         errorMsg = None
-        try:
-            model.create(**data)
-        except Exception as e:
-            errorMsg = e.message
+        item = model.objects(id = data['id']).first()
+        if item:
+            errorMsg = 'Item already exists'
+        else:
+            # write
+            try:
+                model.create(**data)
+            except Exception as e:
+                errorMsg = e.message
         return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
 
     def put(self, model_name, id=None):
