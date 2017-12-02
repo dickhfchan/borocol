@@ -7,6 +7,7 @@ import time
 import json as json_obj
 from flask_restful.utils import cors
 from cassandra.cqlengine import connection
+import json
 # db
 import models
 
