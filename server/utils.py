@@ -6,7 +6,7 @@ def row2dict(row):
     # datetime db_type is timestamp
     dt_columns = [colName for colName in columns if columns[colName].db_type == 'timestamp']
     for col in dt_columns:
-        r[col] = time.mktime(r[col].timetuple())
+        r[col] = int(time.mktime(r[col].timetuple()))
     return r
 
 def to_dict(arg):
