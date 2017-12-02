@@ -2,7 +2,8 @@ import time
 
 def row2dict(row):
     r = dict(row)
-    dt_columns = [col.column_name for col in type(row)._defined_columns if col.db_type == 'datetime']
+    columns = type(row)._defined_columns
+    dt_columns = [colName for colName in columns if columns[colName].db_type == 'datetime']
     for col in dt_columns:
         r[col] = time.mktime(r[col].timetuple())
     return r
