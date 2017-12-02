@@ -4,7 +4,6 @@ def row2dict(row):
     r = dict(row)
     columns = type(row)._defined_columns
     dt_columns = [colName for colName in columns if columns[colName].db_type == 'datetime']
-    print dt_columns
     for col in dt_columns:
         r[col] = time.mktime(r[col].timetuple())
     return r
@@ -15,6 +14,7 @@ def to_dict(arg):
         r = [row2dict(i) for i in arg]
     else:
         r = row2dict(arg)
+    print r
     return r
 
 def camel_case(st):
