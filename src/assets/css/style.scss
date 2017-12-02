@@ -1,0 +1,48 @@
+@import "./common.scss";
+
+.popup-layer{
+  z-index: 1000;
+}
+
+.quick-form{
+  .form-group{
+    min-height: 80px;
+    margin-bottom: 0px;
+    label.el-form-item__label{
+      display: block;
+      height: 21px;
+      float: none;
+      text-align: left;
+      padding: 0;
+    }
+    .help-block{
+      color: #737373;
+      font-size: 12px;
+    }
+    .el-form-item__error{
+      position: relative;
+    }
+    > .el-select{
+      width: 100%;
+    }
+  }
+}
+
+.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+  background-color: rgb(18, 143, 193);
+  color: #fff;
+}
+.GroupSelect{
+  width: 120px;
+}
+.el-menu-1{
+  &.el-menu, .el-menu{
+    background-color: $bg1;
+  }
+}
+
+.removeParentFormError{
+  .el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-textarea__inner{
+    border-color: rgb(191, 207, 217);
+  }
+}

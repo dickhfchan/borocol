@@ -1,0 +1,70 @@
+.w-100{
+  width: 100%;
+}
+.h-100{
+  height: 100%;
+}
+.flex{
+  display: flex;
+}
+.flex-1{
+  flex: 1;
+}
+.flex-col{
+  flex-direction: column;
+}
+.center-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.absolute-backdrop{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(102, 102, 102, 0.16);
+  top: 0;
+  left: 0;
+}
+.relative{
+  position: relative;
+}
+.absolute{
+  position: absolute;
+}
+.overflow-hidden{
+  overflow: hidden;
+}
+.overflow-hidden-x{
+  overflow-x: hidden;
+}
+.overflow-hidden-y{
+  overflow-y: hidden;
+}
+.text-center{
+  text-align: center;
+}
+.grey{
+  color: grey;
+}
+.bg-grey{
+  background-color: grey;
+}
+
+.hidden{
+  display: none;
+}
+
+.bg-primary {
+  background: #128fc1;
+}
+
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+.clearfix{
+  clear: both;
+}
