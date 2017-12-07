@@ -8,8 +8,10 @@ python run.py
 ## models
 models.py defined all models. You can edit it to change data table structure. To apply the changes, run apply-models-change.py
 
+## timestamp
+timestamp is int, unit is second
+
 ## api
-### get
 get: /api/<string:model_name>
 
 | function | method | path | params | result |

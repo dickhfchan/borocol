@@ -10,18 +10,21 @@ from utils import to_dict, before_write
 # db
 import models
 
+# connect databse
 try:
     connection.setup([host], keyspace)
 except Exception as e:
     print("Error: connection db failed")
     raise
 
+# init app, api
 app = Flask(__name__)
 api = Api(app)
 
 #print("Make connection to DB")
 #print(conn)
 
+# cros header
 default_headers = {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -31,23 +34,24 @@ default_headers = {
 
 #Create datatime columns
 
-# dt_columns = ['create_ts','start_date', 'end_date', 'update_ts', 'last_loc_update_ts', 'apps_ts', 'last_access_ts', 'last_login_ts']
-dt_columns = []
-
+# for get ,save and delete data
 class ResourceHandler(Resource):
+    # get data
     def get(self,model_name, id=None):
+        # model class
         model = models.__dict__[model_name]
         if id:
+            # return one row
             return {'resource': to_dict(model.objects.filter(id=id).first())}, 200, default_headers
         else:
+            # return resources list
+            # default page: 1, per_page: 20
             page = int(request.args.get('page') or 1)
-            per_page = int(request.args.get('perPage') or 20)
+            per_page = int(request.args.get('per_page') or 20)
             start = (page - 1) * per_page
             end = page * per_page
             return {'resources': to_dict(model.objects.all()[start:end])}, 200, default_headers
-    # Handle POST event for an insertion/Update event:
-    # User must set "Content-Type" to "application/json" in POST request
-    # Use table attributes given in MySQL schema for JSON keys
+    # create a row; will check row if exist by id
     def post(self, model_name, id=None):
         model = models.__dict__[model_name]
         # make data
@@ -69,7 +73,7 @@ class ResourceHandler(Resource):
             except Exception as e:
                 errorMsg = e.message
         return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
-
+    # update a row
     def put(self, model_name, id=None):
         model = models.__dict__[model_name]
         # make data
@@ -78,6 +82,7 @@ class ResourceHandler(Resource):
             data[key] = request.form[key]
         before_write(data, model)
         data['updated_at'] = datetime.now()
+        del data['id'] # prevent change id
         # write
         errorMsg = None
         try:
@@ -85,6 +90,7 @@ class ResourceHandler(Resource):
         except Exception as e:
             errorMsg = e.message
         return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
+    # delete a row or many rows
     def delete(self, model_name, id=None):
         model = models.__dict__[model_name]
         ids = [id] if ',' not in id else id.split(',')
@@ -93,10 +99,12 @@ class ResourceHandler(Resource):
         except Exception as e:
             errorMsg = e.message
         return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
-
+    # for cros non-get requests
     def options(self, model_name, id=None):
         print(default_headers)
         return '', 200, default_headers
+
+# todo: get data with conditions
 class QueryHandler(Resource):
     pass
 

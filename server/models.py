@@ -264,7 +264,8 @@ class course_types(Model):
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
-
+# this func will auto create tables
+# coonect database before do this
 def sync_tables():
 
   sync_table(user)
