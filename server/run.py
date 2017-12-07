@@ -13,14 +13,14 @@ import models
 try:
     connection.setup([host], keyspace)
 except Exception as e:
-    print "Error: connection db failed"
+    print("Error: connection db failed")
     raise
 
 app = Flask(__name__)
 api = Api(app)
 
-#print "Make connection to DB"
-#print conn
+#print("Make connection to DB")
+#print(conn)
 
 default_headers = {
     'Content-type': 'application/json',
@@ -95,7 +95,7 @@ class ResourceHandler(Resource):
         return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200, default_headers
 
     def options(self, model_name, id=None):
-        print default_headers
+        print(default_headers)
         return '', 200, default_headers
 class QueryHandler(Resource):
     pass

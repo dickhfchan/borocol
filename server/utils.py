@@ -29,5 +29,5 @@ def before_write(data, model):
         if key in data:
             del data[key]
     # todo convert timestamp to datetime beofore save
-    print 'todo convert timestamp to datetime beofore save'
+    print('todo convert timestamp to datetime beofore save')
     return data
