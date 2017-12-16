@@ -1,7 +1,5 @@
 const routes = [
-  { path: '/', redirect: {name: 'dashboard'}},
-  // todo move to authRoutes
-  { path: '/dashboard', name: 'dashboard', component: resolve => require(['../views/Dashboard.vue'], resolve), meta: {title: 'Dashboard'}},
+  { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol'}},
   //
 ]
 
@@ -18,5 +16,5 @@ for (const item of authRoutes) {
 export default [
   ...routes,
   ...authRoutes,
-  { path: '*', redirect: {name: 'dashboard'} },
+  { path: '*', redirect: {name: 'home'} },
 ]
