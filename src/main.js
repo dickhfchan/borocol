@@ -12,6 +12,12 @@ import App from './App'
 import store from './store/index.js'
 import routes from './routes/index.js'
 import { initAxios, initVDV, initRouter, getCurrentUser, registerPreventURLChange } from '@/utils.js'
+// style
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/css-spacing/css/css-spacing.min.css'
+import '@/assets/css/helper.scss'
+import '@/assets/css/common.scss'
+
 //
 Vue.config.productionTip = store.state.isDevelopment
 Vue.config.debug = store.state.isDevelopment

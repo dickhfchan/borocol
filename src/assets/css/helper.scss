@@ -1,3 +1,5 @@
+@import "global.scss";
+
 .w-100{
   width: 100%;
 }
@@ -67,4 +69,7 @@
 }
 .clearfix{
   clear: both;
+}
+.no-bb {
+  @include noBb;
 }
