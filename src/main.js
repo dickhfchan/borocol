@@ -12,9 +12,13 @@ import App from './App'
 import store from './store/index.js'
 import routes from './routes/index.js'
 import { initAxios, initVDV, initRouter, getCurrentUser, registerPreventURLChange } from '@/utils.js'
+// components
+import Checkbox from '@/components/Checkbox'
+import Radio from '@/components/Radio'
 // style
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/css-spacing/css/css-spacing.min.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './assets/css/bootstrap-custom.scss'
 import '@/assets/css/helper.scss'
 import '@/assets/css/common.scss'
 
@@ -35,6 +39,10 @@ const router = initRouter(Router, Vue, store, routes, () => {
 
 registerPreventURLChange(Vue, router)
 Vue.prototype.$state = store.state
+
+// global components
+Vue.component('Checkbox', Checkbox)
+Vue.component('Radio', Radio)
 
 // start
 /* eslint-disable no-new */

@@ -7,12 +7,24 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
+      .form-group.has-feedback
+        label Input with success
+        input.form-control.input-lg(type='text')
+        span.icon.icon-calendar.form-control-feedback
+
       .form-group
-        label(for='exampleInputEmail1') Email address
-        input#exampleInputEmail1.form-control(type='email', placeholder='Email')
+        label *Email address
+        input.form-control.input-lg(type='email', placeholder='Email')
       .form-group
-        label(for='exampleInputPassword1') Password
-        input#exampleInputPassword1.form-control(type='password', placeholder='Password')
+        label Password
+        select.form-control.input-lg(placeholder='Password')
+          option asfasg
+          option help-block
+          option Why
+        span Duration: 4 Days 3 Nights
+        textarea.form-control(rows='3')
+        Checkbox
+        span Option one is this and that—be sure to include why it's great
       .form-group
         label(for='exampleInputFile') File input
         input#exampleInputFile(type='file')
@@ -21,7 +33,7 @@
         label
           input(type='checkbox')
           |  Check me out
-      button.btn.btn-default(type='submit') Submit
+      button.btn.btn-primary.btn-lg(type='submit') Submit
 </template>
 
 <script>
