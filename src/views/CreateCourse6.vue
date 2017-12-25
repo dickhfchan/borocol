@@ -8,10 +8,10 @@
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
       .form-group
-        span.left_span Guest Requirement
-        textarea.form-control(rows='3')(placeholder='- Skill level - Occupations ')
+        span.left_span Number of hours
+        textarea.form-control(rows='3')(placeholder='Selena is a….')
       .form-group
-        span.left_span *Do you want to set up a Request Form? 
+        span.left_span *Will you issue Certificate to your guest?
         Checkbox
         span.left_span yes
         Checkbox
@@ -19,11 +19,11 @@
       .form-group
         Checkbox.l
         span.l Question 1 :
-        textarea.form-control.txt(rows='3' placeholder='Selena is a….')
+        textarea.form-control.txt(rows='3')(placeholder='Selena is a….')
       .form-group
         Checkbox.l
         span.l Question 2 :
-        textarea.form-control.txt(rows='3' placeholder='Selena is a….')
+        textarea.form-control.txt(rows='3')(placeholder='Selena is a….')
 </template>
 
 <script>

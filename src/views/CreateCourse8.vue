@@ -6,8 +6,8 @@
       .title Start with the basic
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    form.content-card-body
-      .form-group.top
+    form.content-card-body.row
+      .form-group.col-sm-8
         span.l Options
         Checkbox
         span.option Hotel
@@ -17,12 +17,13 @@
         span.option Dorm
         Checkbox
         span.option Others
-        input.form-control.input-lg.lang(type='input', placeholder='')
-      .form-group.middle
-        span Describe the location
+      .col-sm-4
+        input.form-control.input-lg(type='input', placeholder='')
+      span.col-sm-12 Describe the location
+      .form-group.col-sm-12
         textarea.form-control.txt(rows='3')(placeholder='ABC Resorts is located at Country side….')
-      span Facilities
-      .form-group
+      span.col-sm-12 Facilities
+      .p1.col-sm-12
         Checkbox
         span.option WiFi
         Checkbox
@@ -35,6 +36,7 @@
         span.option TV
         Checkbox
         span.option.r Balcony
+      .p2.col-sm-12
         Checkbox
         span.option Washing machine
         Checkbox
@@ -43,13 +45,14 @@
         span.option Kitchen
         Checkbox
         span.option Swimming pool
+      .p3.col-sm-12
         Checkbox
         span.option Free parking
         Checkbox
         span.option Wheel Chair Accessible
         Checkbox
         span.option Others:
-        input.form-control.input-lg.lang(type='input', placeholder='e.g. Other facilities')
+      input.form-control.input-lg.lang(type='input', placeholder='e.g. Other facilities')
           //- todo
           //-   todo
           //-     todo
@@ -83,12 +86,6 @@ export default {
     margin-top: 20px;
   }
 
-  .lang {
-    width: 30%;
-    position: relative;
-    left: 70%;
-    top: -30px;
-  }
   .form-group.top {
     height: 35px;
     /* line-height: 70px; */

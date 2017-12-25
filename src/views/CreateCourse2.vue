@@ -6,33 +6,38 @@
       .title Start with the basic
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    form.content-card-body
-      .form-group.inline.multiple
+    form.content-card-body.row
+      .form-group.col-sm-3
         label *Group Size
         input.form-control.input-lg(type="number" placeholder='Fitness & Sports - Yoya')
-      .form-group.inline.rightside
+      .form-group.col-sm-3
         label Gender
         select.form-control.input-lg(placeholder='Beginner')
           option asfasg
           option help-block
           option Why
-      span.age age age age age age
-      span.hours Number of hours
-      .form-group.inline.middle
-        select.form-control.input-lg(placeholder='Fitness & Sports - Yoya',multiple="multiple", size="3")
-          option asfasg
-          option help-block
-          option Why
-      label.course *The course will be offered in
-      input.form-control.input-lg.lang(type='input', placeholder='English, French')
-      span.info Host / Instructor(s) Info
-      textarea.form-control.Selena(rows='3' placeholder='Selena is a….')
-      span.left_span *Will you issue Certificate to your guest?
-      Checkbox
-      span.left_span yes
-      Checkbox
-      span.left_span no
-      textarea.form-control(rows='3' placeholder='With at least 70% attendance...')
+      .form-group.age.col-sm-6
+        span.age age age age age age
+      .form-group.col-sm-3
+        span.hours Number of hours
+      .form-group.col-sm-2.right
+        input.form-control.input-lg(type="number" placeholder='Fitness & Sports - Yoya')
+      .form-group.col-sm-4.txt
+        label.course *The course will be offered in
+      .form-group.col-sm-3.end
+        input.form-control.input-lg.end(type='input', placeholder='English, French')
+      label.info.col-sm-12 Host / Instructor(s) Info
+      .box.col-sm-12
+        .tu.col-sm-2
+          i.jia
+        textarea.form-control.col-sm-10.text(rows='3' placeholder='Selena is a….')
+      label.col-sm-8 *Will you issue Certificate to your guest?
+      .form-group.col-sm-4
+        Checkbox
+        span.left_span yes
+        Checkbox
+        span.left_span no
+      textarea.form-control.col-sm-4(rows='3' placeholder='With at least 70% attendance...')
       //-   Checkbox
       //-   span Option one is this and that—be sure to include why it's great
       //- .form-group
@@ -62,59 +67,31 @@ export default {
 
 <style lang="scss">
 .CreateCourse2{
-  .inline{
-  width: 15%;
-  display: inline-block;
+  .age{
+    height: 75px;
+    line-height: 90px;
   }
-  .multiple {
-    /* height: 92px; */
-    /* overflow: hidden; */
-    float: left;
-    margin-right: 40px;
+  .right{
+    padding-left: 0px;
   }
-
-  .rightside {
-    margin-right: 50px;
-    margin-bottom: 35px;
+  .txt{
+    padding: 0px;
+  }
+  .end{
+    padding-right: 0px;
+  }
+  .tu{
+    width: 20%;
+    background: red;
+    height: 100px;
+    border: #c2b5b5 dashed 2px;
+    margin-left: 15px;
     float: left;
-   }
-   span.age {
-    margin-left: 7%;
-    width: 40%;
-    height: 115px;
-    line-height: 115px;
-    float: left;
-    }
-    span.hours {
-        float: left;
-        margin-right: 20px;
-    }
-    .lang {
-    width: 25%;
+  }
+  .text{
+    width: 75%;
     float: right;
-    margin-bottom: 35px;
-    }
-
-    span.info {
-        float: left;
-    }
-
-    .middle {
-        margin-right: 15px;
-        float: left;
-    }
-
-    label.course {
-        /* line-height: 75px; */
-        /* height: 75px; */
-        margin-bottom: 60px;
-        display: block;
-        float: left;
-    }
-
-    .Selena {
-        width: 74%;
-        /* padding-top: 145px; */
-    }
+    height: 100px;
+  }
 }
 </style>

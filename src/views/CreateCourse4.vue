@@ -7,27 +7,27 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
-      span.left_span Number of hours
+      label Number of hours
       .form-group.inline.more
         select.form-control.input-lg(placeholder='Fitness & Sports - Yoya',multiple="multiple", size="3")
           option asfasg
           option help-block
           option Why
       .form-group.option
-        span.left_span *Are meals included?
+        label *Are meals included?
         Checkbox
-        span.left_span yes
+        label yes
         Checkbox
-        span.left_span no
+        label no
       .form-group.option
         Checkbox.l
-        span.left_span Breakfast
+        label Breakfast
         Checkbox
-        span.left_span Lunch
+        label Lunch
         Checkbox
-        span.left_span Bunch
+        label Bunch
         Checkbox
-        span.left_span Dinner
+        label Dinner
       textarea.form-control(rows='3' placeholder='More information')
 </template>
 
