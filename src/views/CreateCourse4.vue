@@ -27,7 +27,7 @@
         span.left_span Bunch
         Checkbox
         span.left_span Dinner
-      textarea.form-control(rows='3')(placeholder='More information')
+      textarea.form-control(rows='3' placeholder='More information')
 </template>
 
 <script>

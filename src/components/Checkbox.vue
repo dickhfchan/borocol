@@ -1,6 +1,6 @@
 <template lang="pug">
 .Checkbox
-  span.icon.icon-check
+  span.icon.icon-check.hidden
   input(type="checkbox" v-model="value2")
 </template>
 

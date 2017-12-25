@@ -9,7 +9,7 @@
     form.content-card-body
       .form-group
         span.left_span Number of hours
-        textarea.form-control(rows='3')(placeholder='Selena is a….')
+        textarea.form-control(rows='3' placeholder='Selena is a….')
       .form-group
         span.left_span *Will you issue Certificate to your guest?
         Checkbox
@@ -19,11 +19,11 @@
       .form-group
         Checkbox.l
         span.l Question 1 :
-        textarea.form-control.txt(rows='3')(placeholder='Selena is a….')
+        textarea.form-control.txt(rows='3' placeholder='Selena is a….')
       .form-group
         Checkbox.l
         span.l Question 2 :
-        textarea.form-control.txt(rows='3')(placeholder='Selena is a….')
+        textarea.form-control.txt(rows='3' placeholder='Selena is a….')
 </template>
 
 <script>
