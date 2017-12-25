@@ -20,5 +20,9 @@ export default {
 <style lang="scss">
 .MainContent{
   background-image: url(~@/assets/img/school-bg.jpg);
+  background-size: 100%;
+  @media(max-width: 1920px) {
+    background-size: 1920px;
+  }
 }
 </style>

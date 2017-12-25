@@ -9,10 +9,7 @@
     form.content-card-body
       .form-group.inline.multiple
         label *Group Size
-        select.form-control.input-lg(placeholder='Fitness & Sports - Yoya',multiple="multiple", size="3")
-          option asfasg
-          option help-block
-          option Why
+        input.form-control.input-lg(type="number" placeholder='Fitness & Sports - Yoya')
       .form-group.inline.rightside
         label Gender
         select.form-control.input-lg(placeholder='Beginner')
@@ -29,13 +26,13 @@
       label.course *The course will be offered in
       input.form-control.input-lg.lang(type='input', placeholder='English, French')
       span.info Host / Instructor(s) Info
-      textarea.form-control.Selena(rows='3')(placeholder='Selena is a….')
+      textarea.form-control.Selena(rows='3' placeholder='Selena is a….')
       span.left_span *Will you issue Certificate to your guest?
       Checkbox
       span.left_span yes
       Checkbox
       span.left_span no
-      textarea.form-control(rows='3')(placeholder='With at least 70% attendance...')
+      textarea.form-control(rows='3' placeholder='With at least 70% attendance...')
       //-   Checkbox
       //-   span Option one is this and that—be sure to include why it's great
       //- .form-group

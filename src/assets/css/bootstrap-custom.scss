@@ -12,7 +12,7 @@
 }
 .btn-lg{
   font-weight: bold;
-  padding:15px 35px;
+  padding:$formControlVerticalPadding-lg 35px;
   font-size: $fs-md;
 }
 
@@ -26,7 +26,7 @@
 
 .input-lg{
   font-size: $fs-md;
-  padding:15px 15px;
+  padding:$formControlVerticalPadding-lg 15px;
 }
 
 select.input-lg{

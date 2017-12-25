@@ -23,13 +23,13 @@
         label *API Key
         input.form-control.input-lg(type='imput', placeholder='')
       span.left_span Describe the location
-      textarea.form-control(rows='3')(placeholder='Please describe the location')
+      textarea.form-control(rows='3' placeholder='Please describe the location')
       .form-group.how
         span.left_span How to get there?
-        textarea.form-control(rows='3')(placeholder='Please book your flight to arrive at JFK Airport, New York.')
+        textarea.form-control(rows='3' placeholder='Please book your flight to arrive at JFK Airport, New York.')
       .form-group.guest
         span.left_span Where to meet up your guest?
-        textarea.form-control(rows='3')(placeholder='')
+        textarea.form-control(rows='3' placeholder='')
       //-   Checkbox
       //-   span Option one is this and that—be sure to include why it's great
       //- .form-group
