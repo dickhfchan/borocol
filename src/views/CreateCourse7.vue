@@ -7,10 +7,13 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
-      span.left_span Number of hours
-      textarea.form-control(rows='3')(placeholder='Selena is a….')
-      span.left_span Number of hours
-      textarea.form-control(rows='3')(placeholder='Selena is a….')
+      span.left_span Tags
+      textarea.form-control(rows='3')(placeholder='')
+        //- todo
+        //-   todo
+        //-     todo
+      span.left_span Notes
+      textarea.form-control(rows='3')(placeholder='')
 </template>
 
 <script>

@@ -13,13 +13,14 @@
           option asfasg
           option help-block
           option Why
-      span.left_span *Are meals included?
-      Checkbox
-      span.left_span yes
-      Checkbox
-      span.left_span no
-      Checkbox
-      .form-group
+      .form-group.option
+        span.left_span *Are meals included?
+        Checkbox
+        span.left_span yes
+        Checkbox
+        span.left_span no
+      .form-group.option
+        Checkbox.l
         span.left_span Breakfast
         Checkbox
         span.left_span Lunch
@@ -45,5 +46,15 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse4{}
+.CreateCourse4{
+  .Checkbox{
+    margin-left: 20px;
+  }
+  .Checkbox.l{
+  margin-left: 0px;
+  }
+  .option{
+    margin-top: 20px;
+  }
+}
 </style>
