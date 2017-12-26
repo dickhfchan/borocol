@@ -36,10 +36,11 @@ export default {
   border-radius: 3px;
   display: inline-block;
   $side: $lh;
-  width: $lh;
-  height: $lh;
+  width: $side;
+  height: $side;
+  vertical-align: middle;
   .icon{
-    font-size: 18px;
+    font-size: 1.3em;
     position: relative;
     top: -2px;
   }

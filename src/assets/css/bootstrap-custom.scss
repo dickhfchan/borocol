@@ -9,6 +9,10 @@
   background: $bg2;
   color: #fff;
   border: 1px solid #8BDBDA;
+  &:hover{
+    border-color: #8BDBDA;
+    background-color: darken($bg2, 10%);
+  }
 }
 .btn-lg{
   font-weight: bold;
@@ -64,4 +68,9 @@ select.input-lg{
       color: #9d9d9d;
     }
   }
+}
+
+.help-block2{
+  padding: $formControlVerticalPadding-lg 0;
+  line-height: 1em;
 }

@@ -7,10 +7,12 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
-      label.left_span What You’ll Provide?
-      textarea.form-control(rows='3')(placeholder='- Equipment - Airport Pickup - Towels ')
-      label.left_span What Your Guest Needs to Bring?
-      textarea.form-control(rows='3')(placeholder='- Goggle - Swimsuits ')
+      .form-group
+        label What You’ll Provide?
+        textarea.form-control(rows='5' placeholder='- Equipment\n- Airport Pickup\n- Towels ')
+      .form-group
+        label.left_span What Your Guest Needs to Bring?
+        textarea.form-control(rows='5' placeholder='- Goggle\n- Swimsuits ')
 </template>
 
 <script>

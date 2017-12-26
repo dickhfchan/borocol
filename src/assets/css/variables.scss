@@ -1,7 +1,6 @@
 $transition: 150ms;
 $transition-slow: 320ms;
 $finger-size: 48px;
-$border-radius: 4px;
 $formControlHeight: 55px;
 
 // COLORS
@@ -13,6 +12,7 @@ $bd1: #e4e4e4;
 // TYPOGRAPHY
 $fs: 14px;
 $fs-md: 16px;
+$fs-title: 28px;
 $flh-normal: 1.3;
 $fw-light: 300;
 $fw: normal;
@@ -20,6 +20,7 @@ $fw-md: 500;
 $fw-bd: bold;
 $lh: 20px;
 $formControlVerticalPadding-lg: 15px;
+$bdr: 3px;
 
 // media size
 $small: 768px;

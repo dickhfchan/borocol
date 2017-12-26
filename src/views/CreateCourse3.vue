@@ -21,7 +21,9 @@
           option Why
       .form-group.col-sm-4
         label *API Key
-        input.form-control.input-lg(type='imput', placeholder='')
+        .api-input
+          img(src="static/images/google-map.png")
+          input.form-control.input-lg(type='imput', placeholder='')
       .form-group.col-sm-12
         label Describe the location
         textarea.form-control(rows='3' placeholder='Please describe the location')
@@ -31,17 +33,6 @@
       .form-group.col-sm-6
         label Where to meet up your guest?
         textarea.form-control(rows='3' placeholder='')
-      //-   Checkbox
-      //-   label Option one is this and that—be sure to include why it's great
-      //- .form-group
-      //-   label(for='exampleInputFile') File input
-      //-   input#exampleInputFile(type='file')
-      //-   p.help-block Example block-level help text here.
-      //- .checkbox
-      //-   label
-      //-     input(type='checkbox')
-      //-     |  Check me out
-      //- button.btn.btn-primary.btn-lg(type='submit') Submit
 </template>
 
 <script>
@@ -60,6 +51,16 @@ export default {
 
 <style lang="scss">
 .CreateCourse3{
-
+  .api-input{
+    position: relative;
+    img{
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+    input{
+      padding-left: 65px;
+    }
+  }
 }
 </style>

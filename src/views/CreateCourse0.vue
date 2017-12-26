@@ -6,29 +6,20 @@
       .title Start with the basic
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    .container
-      .title
-        h3 i want to create
-      .filter
-        .filter_left
-          .filter_title A program
-            p Accomodation
-              span.bold "With"
-              span.icon ?
-        .or
-        .filter_right
-          .filter_title A program
-            p Accomodation
-              span.bold "With"
-              span.icon ?
-      .text
-        ul
-          li hereby declare than all information porvide above is true and accurate.
-            span.li
-          li hereby declare than all information porvide above is true and accurate.
-            span.li
-      .button
-        input(type='button',name='', value='CONFIRM')
+    form.content-card-body
+      .title I want to create
+      ._1
+        .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
+        .or OR
+        .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
+      ._2
+        .item
+          Radio
+          span.mls I hereby declare than all information porvide above is true and accurate.
+        .item
+          Radio
+          span.mls I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
+      button.btn.btn-primary.btn-lg.confirm-btn Confirm
 </template>
 
 <script>
@@ -46,146 +37,51 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/assets/css/global.scss";
 .CreateCourse0{
-  *{
-  margin: 0px;
-  padding: 0px;
-  }
-  a{
-    text-decoration: none;
-    color: #63cace;
-  }
-  ul,ol{
-    list-style: none;
-  }
-  body{
-    background: red;
-  }
-  .container {
-    width: 70%;
-    height: 700px;
-    overflow: hidden;
-    margin: 0 auto;
-    margin-top: 20px;
-    background: #fff;
-  }
-
-
-
-  /*P1css*/
-  .title {
-      width: 50%;
-      height: 80px;
-      margin: 0 auto;
-      margin-top: 50px;
-      margin-bottom: 32px;
-      line-height: 80px;
-      text-align: center;
-      font-size: 40px;
-      color: #464546;
-  }
-  h3{
-        font-weight: lighter;
-  }
-
-  .filter {
-      width: 60%;
-      height: 120px;
-      margin: 0 auto;
-      position: relative;
-  }
-
-  .filter_left {
-      position: absolute;
-      left: 0px;
-      top: 20%;
-      width: 43%;
-      height: 90px;
-      border: solid 2px #a8a2a2;
-      border-radius: 3px;
-  }
-  .filter_title {
-    display: block;
-    margin: 0 auto;
-    margin-top: 20px;
-    font-size: 17px;
+  .content-card-body {
     text-align: center;
-  }
-  .filter_left p {
-    width: 80%;
-    height: 30px;
+    width: 60%;
+    padding-left: 0;
     margin: 0 auto;
-    margin-top: 5px;
-    text-align: center;
-    font-size: 16px;
-  }
-  span.bold {
-      font-weight: bold;
-  }
-  .filter_right {
-      position: absolute;
-      right: 0px;
-      top: 20%;
-      width: 42%;
-      height: 90px;
-      border: solid 2px #a8a2a2;
-      border-radius: 3px;
-  }
-  .filter_right p {
-    width: 80%;
-    height: 30px;
-    margin: 0 auto;
-    margin-top: 5px;
-    text-align: center;
-    font-size: 16px;
-  }
-
-  .or {
-      position: absolute;
-      left: 47%;
-      top: 33%;
+    .title{
       font-size: 35px;
-      color: #5f5f5f;
+      font-weight: $fw-light;
+      margin-bottom: 80px;
+    }
   }
-  .text {
-      width: 90%;
-      margin-left: 20%;
-      margin-top: 30px;
-      vertical-align: center;
+  ._1 {
+    display: flex;
+    align-items: center;
   }
-  .text ul {
-      font-size: 14px;
-  }
-  input[type="button"] {
-      width: 100px;
-      height: 45px;
-      margin: 0 auto;
-      margin-top: 30px;
-      background: #63cace;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      font-size: 16px;
-      text-align: center;
-  }
-
-  .button {
-      width: 100px;
-      height: 60px;
-      margin: 0 auto;
-      margin-top: 20px;
-      margin-bottom: 100px;
-  }
-  span.li{
+  .text-box{
+    flex-grow: 1;
+    width: 300px;
     display: inline-block;
-    margin-right: 5px;
-    width: 7px;
-    height: 7px;
-    border-radius: 47px;
-    background: #63cace;
-    float: left;
+    border: 1px solid $bd1;
+    border-radius: $bdr;
+    padding: 20px;
+    .icon{
+      color: #ccc;
+      font-size: 1.4em;
+    }
   }
-
-
+  .or{
+    display: inline-block;
+    height: 100%;
+    line-height: 100%;
+    vertical-align: middle;
+    padding: 30px;
+  }
+  ._2{
+    margin-top: 30px;
+    text-align: left;
+    a{
+      font-weight: $fw-md;
+    }
+  }
+  .confirm-btn{
+    margin-top: 50px;
+  }
 }
 </style>

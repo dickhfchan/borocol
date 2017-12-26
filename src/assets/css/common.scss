@@ -23,6 +23,9 @@ body {
   color: $color1;
   line-height: $lh;
 }
+a{
+  color: $bg2;
+}
 .container{
   min-width: $small;
 }
@@ -71,7 +74,7 @@ body {
 }
 
 .content-card-header{
-  font-size: 28px;
+  font-size: $fs-title;
   $h: 80px;
   height: $h;
   line-height: $h;

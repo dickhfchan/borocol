@@ -7,13 +7,15 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
-      span.left_span Tags
-      textarea.form-control(rows='3')(placeholder='')
-        //- todo
-        //-   todo
-        //-     todo
-      span.left_span Notes
-      textarea.form-control(rows='3')(placeholder='')
+      .form-group
+        label Tags
+        textarea.form-control(rows='3' placeholder='')
+      .form-group
+        label Upload Photos (Min. 3)
+        p todo 
+      .form-group
+        label Notes
+        textarea.form-control(rows='3' placeholder='')
 </template>
 
 <script>

@@ -7,28 +7,28 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
-      label Number of hours
-      .form-group.inline.more
-        select.form-control.input-lg(placeholder='Fitness & Sports - Yoya',multiple="multiple", size="3")
-          option asfasg
-          option help-block
-          option Why
-      .form-group.option
-        label *Are meals included?
+      .form-group
+        label Itinerary / Typical Daily Schedule
+        select.form-control(multiple="multiple", size="10")
+          option Day 1
+          option Day 2
+          option Day 3
+      .form-group
+        label Are meals included?
+        Checkbox.mls
+        label.mls No
+        Checkbox.mls
+        label.mls Yes
+      .form-group
         Checkbox
-        label yes
-        Checkbox
-        label no
-      .form-group.option
-        Checkbox.l
-        label Breakfast
-        Checkbox
-        label Lunch
-        Checkbox
-        label Bunch
-        Checkbox
-        label Dinner
-      textarea.form-control(rows='3' placeholder='More information')
+        label.mls Breakfast
+        Checkbox.mls
+        label.mls Lunch
+        Checkbox.mls
+        label.mls Bunch
+        Checkbox.mls
+        label.mls Dinner
+      textarea.form-control(rows='5' placeholder='More information')
 </template>
 
 <script>
@@ -47,14 +47,5 @@ export default {
 
 <style lang="scss">
 .CreateCourse4{
-  .Checkbox{
-    margin-left: 20px;
-  }
-  .Checkbox.l{
-  margin-left: 0px;
-  }
-  .option{
-    margin-top: 20px;
-  }
 }
 </style>

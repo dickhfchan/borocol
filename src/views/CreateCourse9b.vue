@@ -7,73 +7,57 @@
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body.row
-      .form-group.col-sm-4
-        Checkbox.top3
-        select.top3.form-control.input-lg(placeholder='Shared Room')
-          option asfasg
-          option help-block
-          option Why
-      .form-group.col-sm-3
-        span.top3 Quota
-        select.top3.form-control.input-lg(placeholder='Beginner')
-          option asfasg
-          option help-block
-          option Why
-      .form-group.col-sm-4
-        span.Price Price
-        select.top3.form-control.input-lg(placeholder='Beginner')
-          option asfasg
-          option help-block
-          option Why
-        span.r USD
-      .form-group.col-sm-4
-        Checkbox.top3
-        select.top3.form-control.input-lg(placeholder='Beginner')
-          option asfasg
-          option help-block
-          option Why
-      .form-group.col-sm-3
-        span.top3 Quota
-        select.top3.form-control.input-lg(placeholder='Beginner')
-          option asfasg
-          option help-block
-          option Why
-      .form-group.col-sm-4
-        span.Price Price
-        select.top3.form-control.input-lg(placeholder='Beginner')
-          option asfasg
-          option help-block
-          option Why
-        span.r USD
-      .form-group.has-feedback.col-sm-6
-        label *Registration Start Date
-        input.form-control.input-lg(type='text')(placeholder='')
-        span.i1.icon.icon-calendar.form-control-feedback
-      .form-group.has-feedback.col-sm-6
-        label *Registration End Date
-        input.form-control.input-lg(type='text')(placeholder='')
-        span.icon.icon-calendar.form-control-feedback
-          //- todo
-          //-   todo
-          //-     todo
-      .col-sm-4
-        Checkbox
-        span *Early Bird Discount copy
-      .form-group.col-sm-4
-        span Discount Rate
-        select.form-control.input-lg(placeholder='10% off copy')
-          option asfasg
-          option help-block
-          option Why
-      .form-group.col-sm-4
-        span  Quota copy
-        select.form-control.input-lg(placeholder='')
-          option asfasg
-          option help-block
-          option Why
-      .col-sm-12
-        Checkbox
-        span Down Payment 25%  copy
+      ._1.col-sm-12
+        .form-group
+          Checkbox
+          select.form-control.mlm
+            option Shared Room
+          label.mll Quota
+          input.form-control.quota-input.mls(type="number")
+          label.mll Price
+          input.form-control.price-input.mls(type="number")
+          span.help-block2.mlm.grey USD
+        .form-group
+          Checkbox
+          select.form-control.mlm
+            option Standard Room
+          label.mll Quota
+          input.form-control.quota-input.mls(type="number")
+          label.mll Price
+          input.form-control.price-input.mls(type="number")
+          span.help-block2.mlm.grey USD
+      .mtm &nbsp;
+      .col-sm-6
+        .form-group.has-feedback
+          label *Registration Start Date
+          input.form-control.input-lg(type='text' placeholder='')
+          span.icon.icon-calendar.form-control-feedback
+      .col-sm-6
+        .form-group.has-feedback
+          label *Registration Start Date
+          input.form-control.input-lg(type='text' placeholder='')
+          span.icon.icon-calendar.form-control-feedback
+      .form-group.col-sm-12.additional
+        .title
+          .line
+          span Additional
+          .line
+        .line1
+          Checkbox
+          label.mls *Early Bird Discount copy
+          span.icon.icon-question-circle.mlm
+          label.mll Discount Rate
+          select.form-control.mls(placeholder='')
+            option 10% off copy
+            option 20% off copy
+          label.mll Quota
+          select.form-control.mls(placeholder='')
+            option 10% off copy
+            option 20% off copy
+        .line2
+          Checkbox
+          label.mls Down Payment 25%
+          span.icon.icon-question-circle.mlm
 </template>
 
 <script>
@@ -91,7 +75,58 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/assets/css/global.scss";
 .CreateCourse9b{
-
+  ._1{
+    select{
+      display: inline-block;
+      width: 200px;
+    }
+    .quota-input{
+      display: inline-block;
+      width: 100px;
+    }
+    .price-input{
+      display: inline-block;
+      width: 150px;
+    }
+    // input, select{
+    //   display: inline-block;
+    // }
+    // select{
+    //   width: auto;
+    // }
+    .icon{
+      color: #ccc;
+      font-size: 1.4em;
+    }
+  }
+  .additional{
+    .title{
+      font-size: $fs-title * 0.8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      .line{
+        height: 1px;
+        width: 35%;
+        background: $bd1;
+      }
+    }
+    input, select{
+      display: inline-block;
+      width: auto;
+    }
+    .line1{
+      // display: flex;
+      // justify-content: space-between;
+      // align-items: center;
+    }
+    .icon{
+      color: #ccc;
+      font-size: 1.4em;
+    }
+  }
 }
 </style>

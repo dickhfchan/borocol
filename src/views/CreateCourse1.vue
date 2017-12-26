@@ -41,7 +41,7 @@
       .col-sm-4.duration
         .form-group
           label &nbsp;
-          span Duration: 4 Days 3 Nights
+          .help-block2.duration 4 Days 3 Nights
 
       .form-group.col-sm-12
         label What Will We Do? (Description)
@@ -67,11 +67,6 @@ export default {
 .CreateCourse1{
   .duration{
     text-align: right;
-    span{
-      padding: $formControlVerticalPadding-lg 0;
-      line-height: 1em;
-      display: block;
-    }
   }
 }
 </style>

@@ -73,3 +73,12 @@
 .no-bb {
   @include noBb;
 }
+.display-b{
+  display: block;
+}
+.display-i{
+  display: inline;
+}
+.display-ib{
+  display: inline-block;
+}
