@@ -4,6 +4,7 @@ import initialData from '@/initialData'
 // import {studlyCase} from 'helper-js'
 import urls from './urls.js'
 // import menu from './menu'
+import createCourse from './createCourse'
 // import noImg from '../assets/img/noThumb.jpg'
 // import createLogger from '@/../node_modules/vuex/src/plugins/logger.js'
 
@@ -13,6 +14,7 @@ Vue.use(Vuex)
 const state = {
   urls,
   // menu,
+  createCourse,
   //
   environment: process.env.NODE_ENV,
   isDevelopment: true,

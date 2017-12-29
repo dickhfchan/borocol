@@ -1,11 +1,6 @@
 <template lang="pug">
-.CreateCourse0.container
+.CreateCourseIndex
   .content-card
-    .content-card-header
-      .step Step 1
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
     form.content-card-body
       .title I want to create
       ._1
@@ -19,7 +14,7 @@
         .item
           Radio
           span.mls I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
-      button.btn.btn-primary.btn-lg.confirm-btn Confirm
+      router-link.btn.btn-primary.btn-lg.confirm-btn(:to="{name: 'createCourseStep1'}") Confirm
 </template>
 
 <script>
@@ -38,11 +33,11 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.CreateCourse0{
+.CreateCourseIndex{
   .content-card-body {
     text-align: center;
     width: 60%;
-    padding-left: 0;
+    padding: 120px 0;
     margin: 0 auto;
     .title{
       font-size: 35px;
