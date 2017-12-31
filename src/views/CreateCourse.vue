@@ -6,18 +6,24 @@
 <script>
 export default {
   // components: {},
-  // data() {
-  //   return {}
-  // },
+  data() {
+    return {
+      state: this.$state.createCourse,
+    }
+  },
   // computed: {},
   watch: {
-    // update progressStr
+    // update step, progressStr
     '$route': {
       immediate: true,
       handler(value) {
         const num = this.$route.name.match(/\d+/)
         if (num) {
-          this.$state.createCourse.progressStr = Math.floor(num / this.$state.createCourse.stepCount * 100) + '%'
+          const [step] = num
+          Object.assign(this.state, {
+            step,
+            progressStr: Math.floor(step / this.state.stepCount * 100) + '%',
+          })
         }
       }
     }
@@ -33,10 +39,14 @@ export default {
 .CreateCourse{
   .content-card-body.has-tips{
     display: flex;
-    // justify-content: space-between;
+    justify-content: space-between;
+    > form{
+      width: 100%;
+    }
     .Tips{
       margin-left: 50px;
       flex-shrink: 0;
+      margin-bottom: 15px;
     }
   }
 }

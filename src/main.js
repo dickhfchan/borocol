@@ -14,6 +14,7 @@ import routes from './routes/index.js'
 import { initAxios, initVDV, initRouter, getCurrentUser, registerPreventURLChange } from '@/utils.js'
 // components
 import Checkbox from '@/components/Checkbox'
+import CheckboxGroup from '@/components/CheckboxGroup'
 import Radio from '@/components/Radio'
 // style
 import '../node_modules/css-spacing/css/css-spacing.min.css'
@@ -42,6 +43,7 @@ Vue.prototype.$state = store.state
 
 // global components
 Vue.component('Checkbox', Checkbox)
+Vue.component('CheckboxGroup', CheckboxGroup)
 Vue.component('Radio', Radio)
 
 // start

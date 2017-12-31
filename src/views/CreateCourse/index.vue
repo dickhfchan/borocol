@@ -9,20 +9,22 @@
         .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
       ._2
         .item
-          Radio
+          Radio(v-model="formData.declared")
           span.mls I hereby declare than all information porvide above is true and accurate.
         .item
-          Radio
+          Radio(v-model="formData.agreed")
           span.mls I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
       router-link.btn.btn-primary.btn-lg.confirm-btn(:to="{name: 'createCourseStep1'}") Confirm
 </template>
 
 <script>
+import base from './base'
 export default {
-  components: {},
-  data() {
-    return {}
-  },
+  extends: base,
+  // components: {},
+  // data() {
+  //   return {}
+  // },
   // computed: {},
   // watch: {},
   // methods: {},

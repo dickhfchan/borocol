@@ -1,5 +1,5 @@
 <template lang="pug">
-.Radio
+.Radio(:class="{checked: value}")
   input(type="checkbox" v-model="value2")
 </template>
 
@@ -7,9 +7,7 @@
 // todo
 export default {
   props: {
-    multiple: {default: true},
     value: {},
-    values: {},
   },
   components: {},
   data() {
@@ -18,6 +16,7 @@ export default {
   computed: {
     value2: {
       get() {return this.value},
+      set(value) { this.$emit('input', value) },
     },
   },
   // watch: {},
@@ -44,7 +43,7 @@ export default {
     height: 100%;
     left: 0;
     top: 0;
-    visibility: hidden;
+    opacity: 0;
   }
   &.checked{
     background-color: $bg2;

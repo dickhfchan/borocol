@@ -1,16 +1,14 @@
 <template lang="pug">
 .Checkbox
-  span.icon.icon-check.hidden
+  span.icon.icon-check(v-if="value2")
   input(type="checkbox" v-model="value2")
 </template>
 
 <script>
-// todo
+import {arrayRemove} from 'helper-js'
 export default {
   props: {
-    multiple: {default: true},
     value: {},
-    values: {},
   },
   components: {},
   data() {
@@ -18,11 +16,50 @@ export default {
   },
   computed: {
     value2: {
-      get() {return this.value},
+      get() {
+        if (this.inGroup()) {
+          const parent  = this.$parent
+          if (parent.multiple) {
+            return parent.value && parent.value.includes(this.value)
+          } else {
+            return parent.value === this.value
+          }
+        } else {
+          return this.value
+        }
+      },
+      set(value) {
+        if (this.inGroup()) {
+          const parent  = this.$parent
+          if (parent.multiple) {
+            const arr = (parent.value || []).slice(0)
+            if (value) {
+              if (!arr.includes(this.value)) {
+                arr.push(this.value)
+              }
+            } else {
+              arrayRemove(arr, this.value)
+            }
+            parent.$emit('input', arr)
+          } else {
+            parent.$emit('input', this.value)
+          }
+        } else {
+          this.$emit('input', value)
+        }
+      },
     },
   },
   // watch: {},
-  // methods: {},
+  methods: {
+    inGroup() {
+      try {
+        return this.$parent.$options.name === 'CheckboxGroup'
+      } catch (e) {
+        return false
+      }
+    },
+  },
   // created() {},
   // mounted() {},
 }
@@ -50,7 +87,7 @@ export default {
     height: 100%;
     left: 0;
     top: 0;
-    visibility: hidden;
+    opacity: 0;
   }
 }
 </style>

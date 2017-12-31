@@ -1,40 +1,44 @@
 <template lang="pug">
-.CreateCourse6.container
+.CreateCourse6
   .content-card
     .content-card-header
-      .step Step 1
+      .step Step {{state.step}}
       .title Start with the basic
     .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    form.content-card-body
-      .form-group
-        label Guest Requirement
-        textarea.form-control(rows='3' placeholder='Selena is a….')
-      .form-group
-        label *Will you issue Certificate to your guest?
-        Checkbox.mls
-        span.mls No
-        Checkbox.mls
-        span.mls Yes
-      ._1
+      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
+    .content-card-body.has-tips
+      form
         .form-group
-          Checkbox
-          span.mls Question 1 :
-          textarea.form-control.mls(rows='3')
-          .clearfix
+          label Guest Requirement
+          textarea.form-control(rows='3' placeholder='Selena is a….')
         .form-group
-          Checkbox
-          span.mls Question 2 :
-          textarea.form-control.mls(rows='3')
-          .clearfix
+          label *Will you issue Certificate to your guest?
+          Checkbox.mls
+          span.mls No
+          Checkbox.mls
+          span.mls Yes
+        ._1
+          .form-group
+            Checkbox
+            span.mls Question 1 :
+            textarea.form-control.mls(rows='3')
+            .clearfix
+          .form-group
+            Checkbox
+            span.mls Question 2 :
+            textarea.form-control.mls(rows='3')
+            .clearfix
+      Tips
 </template>
 
 <script>
+import base from './base'
 export default {
-  components: {},
-  data() {
-    return {}
-  },
+  extends: base,
+  // components: {},
+  // data() {
+  //   return {}
+  // },
   // computed: {},
   // watch: {},
   // methods: {},
@@ -47,7 +51,7 @@ export default {
 .CreateCourse6{
   ._1{
     textarea{
-      width: 80%;
+      width: 75%;
       float: right;
       display: inline-block;
     }

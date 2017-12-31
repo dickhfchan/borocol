@@ -1,26 +1,30 @@
 <template lang="pug">
-.CreateCourse5.container
+.CreateCourse5
   .content-card
     .content-card-header
-      .step Step 1
+      .step Step {{state.step}}
       .title Start with the basic
     .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    form.content-card-body
-      .form-group
-        label What You’ll Provide?
-        textarea.form-control(rows='5' placeholder='- Equipment\n- Airport Pickup\n- Towels ')
-      .form-group
-        label.left_span What Your Guest Needs to Bring?
-        textarea.form-control(rows='5' placeholder='- Goggle\n- Swimsuits ')
+      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
+    .content-card-body.has-tips
+      form
+        .form-group
+          label What You’ll Provide?
+          textarea.form-control(rows='5' placeholder='- Equipment\n- Airport Pickup\n- Towels ')
+        .form-group
+          label.left_span What Your Guest Needs to Bring?
+          textarea.form-control(rows='5' placeholder='- Goggle\n- Swimsuits ')
+      Tips
 </template>
 
 <script>
+import base from './base'
 export default {
-  components: {},
-  data() {
-    return {}
-  },
+  extends: base,
+  // components: {},
+  // data() {
+  //   return {}
+  // },
   // computed: {},
   // watch: {},
   // methods: {},

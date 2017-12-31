@@ -10,11 +10,12 @@
       span.icon.icon-idea
       | Tips
     .tips-text More information more chance to attract your student!
-  br
-  a.btn.btn-link.btn-lg.back-btn(@click="back")
-    span.icon.icon-arrow-left.mrs
-    | Back
-  a.btn.btn-primary.btn-lg.pull-right(@click="next") Next
+  .flex-1
+  .footer
+    a.btn.btn-link.btn-lg.back-btn(@click="back")
+      span.icon.icon-arrow-left.mrs
+      | Back
+    a.btn.btn-primary.btn-lg.pull-right(@click="next") Next
 </template>
 
 <script>
@@ -23,7 +24,9 @@ import {createCourse} from '@/routes/index'
 export default {
   components: {},
   data() {
-    return {}
+    return {
+      state: this.$state.createCourse,
+    }
   },
   // computed: {},
   // watch: {},
@@ -50,6 +53,8 @@ export default {
 <style lang="scss">
 @import "~@/assets/css/global.scss";
 .Tips{
+  display: flex;
+  flex-direction: column;
   .tips{
     border-width: 2px;
     border-color: $bd1;

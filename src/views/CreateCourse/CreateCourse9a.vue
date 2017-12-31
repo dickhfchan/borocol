@@ -2,11 +2,11 @@
 .CreateCourse9a.container
   .content-card
     .content-card-header
-      .step Step 1
+      .step Step {{state.step}}
       .title Start with the basic
     .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', style='width: 12%') 12%
-    form.content-card-body.row
+      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
+    .content-card-body.has-tips.row
       ._1.col-sm-12
         .form-group
           label *How many seats available on Borocol
@@ -49,13 +49,17 @@
           Checkbox
           label.mls Down Payment 25%
           span.icon.icon-question-circle.mlm
+      Tips
 </template>
 
 <script>
+import Tips from './Tips.vue'
 export default {
-  components: {},
+  components: {Tips},
   data() {
-    return {}
+    return {
+      state: this.$state.createCourse,
+    }
   },
   // computed: {},
   // watch: {},

@@ -2,7 +2,7 @@
 .CreateCourse1
   .content-card
     .content-card-header
-      .step Step 1
+      .step Step {{state.step}}
       .title Start with the basic
     .content-card-progress-bar.progress
       .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
@@ -47,14 +47,13 @@
 </template>
 
 <script>
-import Tips from './Tips.vue'
+import base from './base'
 export default {
-  components: {Tips},
-  data() {
-    return {
-      state: this.$state.createCourse,
-    }
-  },
+  extends: base,
+  // components: {},
+  // data() {
+  //   return {}
+  // },
   // computed: {},
   // watch: {},
   // methods: {},
