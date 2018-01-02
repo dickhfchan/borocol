@@ -21,7 +21,7 @@
           input.form-control.input-lg.mll._1(type='text', placeholder='')
         .form-group
           label Describe the location
-          textarea.form-control(rows='3' placeholder='ABC Resorts is located at Country side….')
+          textarea.form-control(rows='3' placeholder='e.g. ABC Resorts is located at Country side….')
         .form-group.facilities
           label Facilities
           br

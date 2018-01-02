@@ -31,7 +31,7 @@
             label.mls Bunch
             Checkbox.mls(value="dinner")
             label.mls Dinner
-        textarea.form-control(rows='5' placeholder='More information')
+        textarea.form-control(rows='5' placeholder='More Information')
       Tips
 </template>
 

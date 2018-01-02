@@ -8,6 +8,7 @@ export const createCourse = [
   { path: '/CreateCourse/Step6', name: 'createCourseStep6', component: resolve => require(['../views/CreateCourse/Step6.vue'], resolve), meta: {title: 'Step 6 - Create Course'}},
   { path: '/CreateCourse/Step7', name: 'createCourseStep7', component: resolve => require(['../views/CreateCourse/Step7.vue'], resolve), meta: {title: 'Step 7 - Create Course'}},
   { path: '/CreateCourse/Step8', name: 'createCourseStep8', component: resolve => require(['../views/CreateCourse/Step8.vue'], resolve), meta: {title: 'Step 8 - Create Course'}},
+  { path: '/CreateCourse/Step9', name: 'createCourseStep9', component: resolve => require(['../views/CreateCourse/Step9.vue'], resolve), meta: {title: 'Step 9 - Create Course'}},
 ]
 
 const routes = [

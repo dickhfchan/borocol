@@ -4,11 +4,11 @@ include ../common.pug
   .container
     .brand-bar
       .brand
-        img(src="~@/../static/images/brand.png")
+        img(src="~@/assets/img/brand.png")
       .tool-bar.pull-right
         a(href="#")
           .avatar
-            img(src="~@/../static/pictures/avatar.jpg")
+            img(src="~$static/avatar.jpg")
           span.mlm My Course
         .divider |
         a(href="#")

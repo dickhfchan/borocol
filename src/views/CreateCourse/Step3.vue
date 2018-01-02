@@ -10,27 +10,27 @@
       form.row
         .form-group.col-sm-12
           label *Address
-          input.form-control.input-lg(type='imput', placeholder='')
+          input.form-control.input-lg(type='text', placeholder='')
         .form-group.col-sm-4
           label *City
-          input.form-control.input-lg(type='imput', placeholder='')
+          input.form-control.input-lg(type='text', placeholder='')
         .form-group.col-sm-4
           label *Country
-          select.form-control.input-lg(placeholder='Beginner')
-            option asfasg
-            option help-block
-            option Why
+          select.form-control.input-lg()
+            option England
         .form-group.col-sm-4
-          label *API Key
+          label
+            span *API Key
+            //- span.icon.icon-question-circle
           .api-input
-            img(src="/static/images/google-map.png")
-            input.form-control.input-lg(type='imput', placeholder='')
+            img(src="~@/assets/img/google-map.png")
+            input.form-control.input-lg(type='text', placeholder='')
         .form-group.col-sm-12
           label Describe the location
           textarea.form-control(rows='3' placeholder='Please describe the location')
         .form-group.col-sm-6
           label How to get there?
-          textarea.form-control(rows='3' placeholder='Please book your flight to arrive at JFK Airport, New York.')
+          textarea.form-control(rows='3' placeholder='e.g. Please book your flight to arrive at JFK Airport, New York.')
         .form-group.col-sm-6
           label Where to meet up your guest?
           textarea.form-control(rows='3' placeholder='')

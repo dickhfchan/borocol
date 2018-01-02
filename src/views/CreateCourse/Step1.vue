@@ -10,50 +10,46 @@
       form.row
         .form-group.col-sm-12
           label *Title
-          input.form-control.input-lg(type='email', placeholder='5 Days Yoga Retreat in Bali')
-
-
+          input.form-control.input-lg(type='text' placeholder="e.g. 5 Days Yoga Retreat in Bali")
         .form-group.col-sm-8
           label *Category
-          select.form-control.input-lg(placeholder='Fitness & Sports - Yoya')
-            option asfasg
-            option help-block
-            option Why
+          select.form-control.input-lg()
+            option Fitness & Sports - Yoya
         .form-group.col-sm-4
           label *Level
-          select.form-control.input-lg(placeholder='Beginner')
-            option asfasg
-            option help-block
-            option Why
+          select.form-control.input-lg()
+            option Beginner
         .col-sm-4
-          .form-group.has-feedback
+          .form-group
             label *Start Date
-            input.form-control.input-lg(type='text' placeholder='Sep 1, 2017')
-            span.icon.icon-calendar.form-control-feedback
+            DatePicker(v-model="formData.startDate" :format="dateFormat")
+
         .col-sm-4
-          .form-group.has-feedback
+          .form-group
             label *End Date
-            input.form-control.input-lg(type='text' placeholder='Sep 13 2017')
-            span.icon.icon-calendar.form-control-feedback
+            DatePicker(v-model="formData.endDate" :format="dateFormat")
         .col-sm-4.duration
           .form-group
             label &nbsp;
-            .help-block2.duration 4 Days 3 Nights
+            //- .help-block2.duration 4 Days 3 Nights
 
         .form-group.col-sm-12
           label What Will We Do? (Description)
-          textarea.form-control(rows='5' placeholder='We will go to Rain Forest to hunt….')
+          textarea.form-control(rows='5' placeholder="e.g. We will go to Rain Forest to hunt….")
       Tips
 </template>
 
 <script>
 import base from './base'
+import DatePicker from '@/components/DatePicker';
 export default {
   extends: base,
-  // components: {},
-  // data() {
-  //   return {}
-  // },
+  components: {DatePicker},
+  data() {
+    return {
+      dateFormat: 'MMM dd yyyy',
+    }
+  },
   // computed: {},
   // watch: {},
   // methods: {},

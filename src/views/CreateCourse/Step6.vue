@@ -10,9 +10,9 @@
       form
         .form-group
           label Guest Requirement
-          textarea.form-control(rows='3' placeholder='Selena is a….')
+          textarea.form-control(rows='3' placeholder="- Skill level\n- Occupations")
         .form-group
-          label *Will you issue Certificate to your guest?
+          label *Do you want to set up a Request Form?
           Checkbox.mls
           span.mls No
           Checkbox.mls
