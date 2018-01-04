@@ -1,7 +1,7 @@
 <template lang="pug">
 .CreateCourseIndex
   .content-card
-    form.content-card-body
+    form.content-card-body(@submit.prevent="submit")
       .title I want to create
       ._1
         .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
@@ -9,12 +9,12 @@
         .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
       ._2
         .item
-          Radio(v-model="formData.declared")
+          Radio(v-model="fields.declared.value")
           span.mls I hereby declare than all information porvide above is true and accurate.
         .item
-          Radio(v-model="formData.agreed")
+          Radio(v-model="fields.agreed.value")
           span.mls I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
-      router-link.btn.btn-primary.btn-lg.confirm-btn(:to="{name: 'createCourseStep1'}") Confirm
+      button.btn.btn-primary.btn-lg.confirm-btn Confirm
 </template>
 
 <script>
@@ -22,13 +22,28 @@ import base from './base'
 export default {
   extends: base,
   // components: {},
-  // data() {
-  //   return {}
-  // },
+  data() {
+    const state = this.$state.createCourse
+    const {fields, validations} = state
+    return {
+      fields: fields.start,
+      validation: validations.start,
+    }
+  },
   // computed: {},
   // watch: {},
-  // methods: {},
-  // created() {},
+  methods: {
+    submit() {
+      this.state.checkIsValidByKey('start').then(() => {
+        this.$router.push({name: 'createCourseStep1'})
+      }, (e) => {
+        this.$alert('Please check the terms')
+      })
+    },
+  },
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
   // mounted() {},
 }
 </script>

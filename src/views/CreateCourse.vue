@@ -12,25 +12,17 @@ export default {
     }
   },
   // computed: {},
-  watch: {
-    // update step, progressStr
-    '$route': {
-      immediate: true,
-      handler(value) {
-        const num = this.$route.name.match(/\d+/)
-        if (num) {
-          const [step] = num
-          Object.assign(this.state, {
-            step,
-            progressStr: Math.floor(step / this.state.stepCount * 100) + '%',
-          })
-        }
-      }
-    }
-  },
+  // watch: {},
   // methods: {},
-  // created() {},
+  created() {
+    this.$state.createCourseVm = this
+  },
   // mounted() {},
+  beforeDestroy() {
+    this.state.validations.forEach(item => {
+      item.clear && item.clear()
+    })
+  },
 }
 </script>
 

@@ -1,7 +1,91 @@
+import store from './index'
+import {createCourse as routes} from '@/routes/index'
+
 export default {
-  stepCount: 9,
-  step: null,
-  progressStr: null,
+  fields: {
+    start: {
+      declared: {
+        rules: 'required|accepted',
+      },
+      agreed: {
+        rules: 'required|accepted',
+      },
+    },
+    step1: {
+      name: {
+        rules: 'required',
+        text: 'Title',
+      },
+      category_id: {
+        rules: 'required',
+        text: 'Category',
+      },
+      level: {
+        rules: 'required',
+        text: 'Level',
+      },
+      startDate: {
+        rules: 'required',
+        text: 'Start Date',
+      },
+      endDate: {
+        rules: 'required',
+        text: 'End Date',
+      },
+      description: {
+        rules: '',
+        text: 'What Will We Do? (Description)',
+      },
+    },
+  },
+  validations: {
+    start: {},
+    step1: {},
+  },
+  pageOrder: ['start', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7', 'step8', 'step9'],
+  getRouteIndex() {
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].name === store.state.createCourseVm.$route.name) {
+        return i
+      }
+    }
+  },
+  goPrevPage() {
+    const vm = store.state.createCourseVm
+    vm.$router.push(routes[this.getRouteIndex() - 1])
+  },
+  goNextPage() {
+    const vm = store.state.createCourseVm
+    vm.$router.push(routes[this.getRouteIndex() + 1])
+  },
+  checkIsValidByKey(key) {
+    const fields = this.fields[key]
+    const validation = this.validations[key]
+    if (validation.isPause) {
+      // pause or not init validate
+      const vm = store.state.createCourseVm
+      vm.$validate(validation, fields)
+    }
+    return validation.check()
+  },
+  async checkIsValidTillKey(key) {
+    for (const key2 of this.pageOrder) {
+      await this.checkIsValidByKey(key2)
+      if (key2 === key) {
+        break
+      }
+    }
+  },
+  checkIsValidCurrentPage() {
+    const index = this.getRouteIndex()
+    let key
+    if (index === 0) {
+      key = 'start'
+    } else {
+      key = `step${index}`
+    }
+    return this.checkIsValidByKey(key)
+  },
   formData: {
     declared: false,
     agreed: false,

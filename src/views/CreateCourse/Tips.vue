@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import {createCourse} from '@/routes/index'
-
 export default {
   components: {},
   data() {
@@ -31,18 +29,15 @@ export default {
   // computed: {},
   // watch: {},
   methods: {
-    getRouteIndex() {
-      for (let i = 0; i < createCourse.length; i++) {
-        if (createCourse[i].name === this.$route.name) {
-          return i
-        }
-      }
-    },
     back() {
-      this.$router.push(createCourse[this.getRouteIndex() - 1])
+      this.state.goPrevPage()
     },
     next() {
-      this.$router.push(createCourse[this.getRouteIndex() + 1])
+      this.state.checkIsValidCurrentPage().then(() => {
+        this.state.goNextPage()
+      }, () => {
+        // invalid
+      })
     },
   },
   // created() {},

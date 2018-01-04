@@ -20,8 +20,8 @@ export function initVDV(VueDataValidator, store, Vue) {
   Vue.use(VueDataValidator.validator)
   Object.assign(Vue.validator.rules, VueDataValidator.rules)
   Object.assign(Vue.validator.messages, store.state.lang === 'en' ? VueDataValidator.enMessages : VueDataValidator.zhCNMessages)
-  Vue.validator.validClass = 'valid'
-  Vue.validator.invalidClass = 'md-input-invalid'
+  // Vue.validator.validClass = 'has-success'
+  // Vue.validator.invalidClass = 'has-error'
 }
 
 export function initRouter(Router, Vue, store, routes, authFailed) {
@@ -657,5 +657,20 @@ export function cloneObj(obj, exclude) {
     default:
         return obj
       break;
+  }
+}
+
+export function setTimeoutInterval(timeout, interval, func, immediate = true) {
+  if (immediate) {
+    func()
+  }
+  const i = setInterval(func, interval);
+  const t = setTimeout(() => {
+    clearInterval(i)
+  }, timeout)
+  // cancel
+  return () => {
+    clearInterval(i)
+    clearTimeout(t)
   }
 }

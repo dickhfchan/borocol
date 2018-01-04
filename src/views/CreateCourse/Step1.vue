@@ -1,60 +1,58 @@
 <template lang="pug">
-.CreateCourse1
-  .content-card
-    .content-card-header
-      .step Step {{state.step}}
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
-    .content-card-body.has-tips
-      form.row
-        .form-group.col-sm-12
-          label *Title
-          input.form-control.input-lg(type='text' placeholder="e.g. 5 Days Yoga Retreat in Bali")
-        .form-group.col-sm-8
-          label *Category
-          select.form-control.input-lg()
-            option Fitness & Sports - Yoya
-        .form-group.col-sm-4
-          label *Level
-          select.form-control.input-lg()
-            option Beginner
-        .col-sm-4
-          .form-group
-            label *Start Date
-            DatePicker(v-model="formData.startDate" :format="dateFormat")
+include ../../common.pug
++createCourse(1)
+  form.row
+    +formGroup('fields.name').col-sm-12
+      +inputLg(placeholder="e.g. 5 Days Yoga Retreat in Bali" v-model="fields.name.value")
+    +formGroup('fields.category_id').col-sm-8
+      +selectLg(v-model="fields.category_id.value")
+        option Fitness &amp; Sports - Yoya
+    +formGroup('fields.level').col-sm-4
+      +selectLg(v-model="fields.level.value")
+        option Beginner
+    .clearfix
+    .col-sm-4
+      +formGroup('fields.startDate')
+        DatePicker(v-model="fields.startDate.value" :format="dateFormat")
+    .col-sm-4
+      +formGroup('fields.endDate')
+        DatePicker(v-model="fields.endDate.value" :format="dateFormat")
+    .col-sm-4.duration
+      .form-group
+        label &nbsp;
+        //- .help-block2.duration 4 Days 3 Nights
 
-        .col-sm-4
-          .form-group
-            label *End Date
-            DatePicker(v-model="formData.endDate" :format="dateFormat")
-        .col-sm-4.duration
-          .form-group
-            label &nbsp;
-            //- .help-block2.duration 4 Days 3 Nights
-
-        .form-group.col-sm-12
-          label What Will We Do? (Description)
-          textarea.form-control(rows='5' placeholder="e.g. We will go to Rain Forest to hunt….")
-      Tips
+    +formGroup('fields.description').col-sm-12
+      +textarea(rows='5' placeholder="e.g. We will go to Rain Forest to hunt…." v-model="fields.description.value")
 </template>
 
 <script>
 import base from './base'
 import DatePicker from '@/components/DatePicker';
+import {setTimeoutInterval} from '@/utils'
 export default {
   extends: base,
   components: {DatePicker},
   data() {
+    const state = this.$state.createCourse
+    const {fields, validations} = state
     return {
+      fields: fields.step1,
+      validation: validations.step1,
       dateFormat: 'MMM dd yyyy',
     }
   },
   // computed: {},
   // watch: {},
   // methods: {},
-  // created() {},
-  // mounted() {},
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
+  mounted() {
+    setTimeoutInterval(1000, 16, () => {
+      this.validation.setDirty(false)
+    })
+  },
 }
 </script>
 

@@ -1,2 +1,39 @@
 mixin icon(name)
   span(class="icon icon-"+name)&attributes(attributes)
+mixin formGroup(field)
+  .form-group(:class=`${field}.getValidationClass()`)&attributes(attributes)
+    label
+      = `{{${field}.required ? '* ' : ''}}{{${field}.text}}`
+    block
+    template(v-if=`${field}.isValidationErrorsVisible()`)
+      .help-block(v-for=`error in ${field}.errors`) {{error.message}}
+
+mixin inputLg
+  input.form-control.input-lg(type='text')&attributes(attributes)
+mixin input
+  input.form-control(type='text')&attributes(attributes)
+mixin textarea
+  textarea.form-control&attributes(attributes)
+mixin select
+  select.form-control&attributes(attributes)
+    option(:value="null") Please select
+    block
+mixin selectLg
+  +select.input-lg&attributes(attributes)
+    block
+mixin createCourse(step)
+  -
+    var stepCount = 9
+    var progressStr = Math.floor(step / stepCount * 100) + '%'
+  div(class=`CreateCourse${step}`)&attributes(attributes)
+    .content-card
+      .content-card-header
+        .step 
+          = `Step ${step}`
+        .title Start with the basic
+      .content-card-progress-bar.progress
+        .progress-bar.progress-bar-warning(role='progressbar', style=`width: ${progressStr};`)
+          = progressStr
+      .content-card-body.has-tips
+        block
+        Tips
