@@ -36,9 +36,11 @@ export default {
   data() {
     const state = this.$state.createCourse
     const {fields, validations} = state
+    const name = state.pageOrder[state.getRouteIndex()]
     return {
-      fields: fields.step1,
-      validation: validations.step1,
+      name,
+      fields: fields[name],
+      validation: validations[name],
       dateFormat: 'MMM dd yyyy',
     }
   },

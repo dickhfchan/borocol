@@ -6,6 +6,10 @@ export default {
   components: {Tips},
   beforeRouteEnter (to, from, next) {
     const state = store.state.createCourse
+    if (store.state.isDevelopment && state.ignoreValidation) {
+      next()
+      return
+    }
     const key = state.pageOrder[state.getRouteIndex(to) - 1]
     if (key) {
       state.checkIsValidTillKey(key).then(() => {

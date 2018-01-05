@@ -4,6 +4,7 @@ import {createCourse as routes} from '@/routes/index'
 
 export default {
   routes,
+  ignoreValidation: true, // only when developing
   fields: {
     start: {
       declared: {
@@ -39,10 +40,45 @@ export default {
         text: 'What Will We Do? (Description)',
       },
     },
+    step2: {
+      groupSize: {
+        rules: 'required',
+        text: 'Group Size',
+      },
+      gender: {
+        rules: 'required',
+        text: 'Gender',
+      },
+      ageRange: {
+        text: 'Age',
+        value: [16, 32],
+      },
+      hours: {
+        rules: 'required',
+      },
+      language: {
+        rules: 'required',
+      },
+      instructorPhoto: {},
+      instructorInfo: {},
+      issueCertificate: {
+        rules: 'required',
+        value: false,
+      },
+      certificate: {},
+    },
   },
   validations: {
     start: {},
     step1: {},
+    step2: {},
+    step3: {},
+    step4: {},
+    step5: {},
+    step6: {},
+    step7: {},
+    step8: {},
+    step9: {},
   },
   pageOrder: ['start', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7', 'step8', 'step9'],
   getRouteIndex(route) {
