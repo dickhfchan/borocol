@@ -12,10 +12,10 @@
     .tips-text More information more chance to attract your student!
   .flex-1
   .footer
-    a.btn.btn-link.btn-lg.back-btn(@click="back")
+    a.btn.btn-link.btn-lg.back-btn(@click="state.goPrevPage()")
       span.icon.icon-arrow-left.mrs
       | Back
-    a.btn.btn-primary.btn-lg.pull-right(@click="next") Next
+    a.btn.btn-primary.btn-lg.pull-right(@click="state.checkAndGoNextPage()") Next
 </template>
 
 <script>
@@ -28,18 +28,7 @@ export default {
   },
   // computed: {},
   // watch: {},
-  methods: {
-    back() {
-      this.state.goPrevPage()
-    },
-    next() {
-      this.state.checkIsValidCurrentPage().then(() => {
-        this.state.goNextPage()
-      }, () => {
-        // invalid
-      })
-    },
-  },
+  // methods: {},
   // created() {},
   // mounted() {},
 }

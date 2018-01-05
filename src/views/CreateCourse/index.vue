@@ -1,7 +1,7 @@
 <template lang="pug">
 .CreateCourseIndex
   .content-card
-    form.content-card-body(@submit.prevent="submit")
+    form.content-card-body
       .title I want to create
       ._1
         .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
@@ -14,7 +14,7 @@
         .item
           Radio(v-model="fields.agreed.value")
           span.mls I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
-      button.btn.btn-primary.btn-lg.confirm-btn Confirm
+      a.btn.btn-primary.btn-lg.confirm-btn(@click="confirm") Confirm
 </template>
 
 <script>
@@ -35,10 +35,8 @@ export default {
   // computed: {},
   // watch: {},
   methods: {
-    submit() {
-      this.state.checkIsValidByKey('start').then(() => {
-        this.$router.push({name: 'createCourseStep1'})
-      }, (e) => {
+    confirm() {
+      this.state.checkAndGoNextPage().catch(e => {
         this.$alert('Please check the terms')
       })
     },

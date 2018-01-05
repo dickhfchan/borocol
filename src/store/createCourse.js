@@ -88,6 +88,10 @@ export default {
       }
     }
   },
+  getPageName(route) {
+    const index = this.getRouteIndex(route)
+    return this.pageOrder[index]
+  },
   goPrevPage() {
     const vm = store.state.createCourseVm
     vm.$router.push(routes[this.getRouteIndex() - 1])
@@ -95,6 +99,19 @@ export default {
   goNextPage() {
     const vm = store.state.createCourseVm
     vm.$router.push(routes[this.getRouteIndex() + 1])
+  },
+  checkAndGoNextPage(alert = true) {
+    return this.checkIsValidCurrentPage().then(() => {
+      this.goNextPage()
+    }, (e) => {
+      // invalid
+      if (alert) {
+        const validation = this.validations[this.getPageName()]
+        Vue.alert(validation.getFirstError().message)
+      } else {
+        throw e
+      }
+    })
   },
   async checkIsValidByKey(key) {
     const fields = this.fields[key]
