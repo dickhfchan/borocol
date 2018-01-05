@@ -1,8 +1,17 @@
 # borocol server
 
+## important
+in the server 52.76.*.*, app is in virtualenv not global. First, run source server/bin/activate
+
 ## run
 require python3
 ``` bash
+# important
+# in the server 52.76.*.*, app is in virtualenv not global. First, run follow cmd to enter switch to the env
+source server/bin/activate
+# exit the env
+deactivate
+
 # install dependencies
 pip install -r requirements.txt
 # write dependencies to requirements.txt
