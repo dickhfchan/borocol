@@ -1,5 +1,6 @@
 ##DATABASE CONNECTION PARAMETERS:
 keyspace = "borocol"
-host = '127.0.0.1'
+db_host = '127.0.0.1'
 debug = True
-api_port = 8081
+app_host = '0.0.0.0'
+app_port = 8081

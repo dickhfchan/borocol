@@ -105,6 +105,6 @@ bin/
 include/
 local/
 
-# developer
+# developer local
 info.txt
 borocol.cql
