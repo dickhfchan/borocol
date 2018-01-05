@@ -1,7 +1,9 @@
+import Vue from 'vue'
 import store from './index'
 import {createCourse as routes} from '@/routes/index'
 
 export default {
+  routes,
   fields: {
     start: {
       declared: {
@@ -43,9 +45,9 @@ export default {
     step1: {},
   },
   pageOrder: ['start', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7', 'step8', 'step9'],
-  getRouteIndex() {
+  getRouteIndex(route) {
     for (let i = 0; i < routes.length; i++) {
-      if (routes[i].name === store.state.createCourseVm.$route.name) {
+      if (routes[i].name === (route || store.state.createCourseVm.$route).name) {
         return i
       }
     }
@@ -58,19 +60,29 @@ export default {
     const vm = store.state.createCourseVm
     vm.$router.push(routes[this.getRouteIndex() + 1])
   },
-  checkIsValidByKey(key) {
+  async checkIsValidByKey(key) {
     const fields = this.fields[key]
     const validation = this.validations[key]
-    if (validation.isPause) {
+    if (validation.isPause || !validation.check) {
       // pause or not init validate
-      const vm = store.state.createCourseVm
+      const vm = store.state.appVm
       vm.$validate(validation, fields)
+      // wait 10 ms
+      await new Promise(function(resolve, reject) {
+        setTimeout(function () {
+          resolve()
+        }, 10);
+      });
     }
     return validation.check()
   },
   async checkIsValidTillKey(key) {
-    for (const key2 of this.pageOrder) {
-      await this.checkIsValidByKey(key2)
+    for (let i = 0; i < this.pageOrder.length; i++) {
+      const key2 = this.pageOrder[i]
+      await this.checkIsValidByKey(key2).catch(e => {
+        e.index = i
+        throw e
+      })
       if (key2 === key) {
         break
       }

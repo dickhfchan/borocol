@@ -29,6 +29,7 @@ export default {
   methods: {
   },
   created() {
+    this.$state.appVm = this
   },
 }
 </script>

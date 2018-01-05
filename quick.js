@@ -24,10 +24,14 @@ const viewsPath = '/home/he/www/works/borocol/src/views'
 // console.log(str);
 
 // rename
-const dir = viewsPath + '/' + 'CreateCourse'
-fs.readdirSync(dir).forEach(v => {
-  if (v.match(/\d.vue/)) {
-    const newName = v.replace('CreateCourse', '')
-    fs.renameSync(dir + '/' + v, dir + '/' + newName)
-  }
-})
+// const dir = viewsPath + '/' + 'CreateCourse'
+// fs.readdirSync(dir).forEach(v => {
+//   if (v.match(/\d.vue/)) {
+//     const newName = v.replace('CreateCourse', '')
+//     fs.renameSync(dir + '/' + v, dir + '/' + newName)
+//   }
+// })
+// fs.watch('./src', { encoding: 'buffer' }, (eventType, filename) => {
+//   console.log(eventType);
+//   console.log(filename);
+// });

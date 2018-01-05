@@ -15,6 +15,7 @@ const state = {
   urls,
   // menu,
   createCourse,
+  appVm: null,
   createCourseVm: null,
   //
   environment: process.env.NODE_ENV,
