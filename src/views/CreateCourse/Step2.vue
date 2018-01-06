@@ -19,12 +19,12 @@ include ../../common.pug
       .flex-1
       .help-block2 * The course will be offered in
       input.form-control.input-lg.mlm.language(type='input', placeholder='Language' v-model="fields.language.value")
-    .form-group._2.mtm
+    .form-group.mtm
       label Host / Instructor(s) Info
-      ._2-1
-        .upload
-          .icon.icon-plus
-        textarea.form-control(rows='3' v-model="fields.instructorInfo.value")
+      .instructor
+        ImageUploader.mrl
+        .info
+          textarea.form-control(rows='3' v-model="fields.instructorInfo.value")
     .form-group.mtm
       label *Will you issue Certificate to your guest?
       CheckboxGroup(:multiple="false" v-model="fields.issueCertificate.value")
@@ -38,10 +38,11 @@ include ../../common.pug
 <script>
 import base from './base'
 import Slider from '@/components/Slider';
+import ImageUploader from '@/components/ImageUploader';
 
 export default {
   extends: base,
-  components: {Slider},
+  components: {Slider, ImageUploader},
   data() {
     const state = this.$state.createCourse;
     const {fields, validations} = state
@@ -83,28 +84,11 @@ export default {
       width: 200px;
     }
   }
-  ._2{
-
-  }
-  ._2-1{
-    $h: 100px;
-    height: $h;
+  .instructor{
     display: flex;
     justify-content: space-between;
-    .upload{
-      $side: $h;
-      width: $side;
-      height: $side;
-      line-height: $side;
-      display: inline-block;
-      border: $bd1 dashed 2px;
-      margin-right: 20px;
-      flex-shrink: 0;
-      text-align: center;
-      .icon{
-        font-size: 30px;
-        color: $bd1;
-      }
+    .info{
+      flex-grow: 1;
     }
     textarea{
       height: 100%;

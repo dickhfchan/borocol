@@ -76,3 +76,37 @@ class ResourceController(Resource):
 # todo: get data with conditions
 class QueryController(Resource):
     pass
+
+class FileController(Resource):
+    def get(self):
+        return {'resources': '666'}, 200
+    # upload file or files
+    def post(self):
+        print(request.files['a'])
+        # file = request.files['file']
+        # if file and allowed_file(file.filename):
+        #     filename = secure_filename(file.filename)
+        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #     return redirect(url_for('uploaded_file',
+        #                             filename=filename))
+        # model = models.__dict__[model_name]
+        # # make data
+        # data = {}
+        # for key in request.form:
+        #     data[key] = request.form[key]
+        # before_write(data, model)
+        # data['created_at'] = data['updated_at'] = datetime.now()
+        # data['id'] = id or request.form['id']
+        # # check exits
+        # errorMsg = None
+        # item = model.objects(id = data['id']).first()
+        # if item:
+        #     errorMsg = 'Item already exists'
+        # else:
+        #     # write
+        #     try:
+        #         model.create(**data)
+        #     except Exception as e:
+        #         errorMsg = e.message
+        # return {'result': 'failed' if errorMsg else 'success', 'message': errorMsg}, 200
+    pass

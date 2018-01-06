@@ -7,18 +7,25 @@ import json as json_obj
 from cassandra.cqlengine import connection
 from utils import to_dict, before_write
 # file
-from config import keyspace, db_host, debug, app_host, app_port
+import config
+from config import db_keyspace, db_host, debug, app_host, app_port
 import store
 
 # connect databse
 try:
-    connection.setup([db_host], keyspace, lazy_connect=True)
+    connection.setup([db_host], db_keyspace, lazy_connect=True)
     print("Make connection to DB")
 except Exception as e:
     print("Error: connection db failed")
     raise
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+# inject config to app
+configNames = [item for item in dir(config) if not item.startswith("__")]
+for name in configNames:
+    app.config[name] = config.__dict__[name]
+app.config['MAX_CONTENT_LENGTH'] = app.config['request_maxContentLength']
+# store app to store
 store.app = app
 import routes
 
