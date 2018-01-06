@@ -22,7 +22,7 @@ include ../../common.pug
     .form-group.mtm
       label Host / Instructor(s) Info
       .instructor
-        ImageUploader.mrl
+        ImageUploader.mrl(:aspectRatio="1/1" v-model="fields.instructorPhoto.value")
         .info
           textarea.form-control(rows='3' v-model="fields.instructorInfo.value")
     .form-group.mtm

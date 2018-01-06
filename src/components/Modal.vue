@@ -9,7 +9,8 @@
             button.close(type='button', @click="$emit('close')")
               span(aria-hidden='true') &times;
               span.sr-only Close
-            h4.modal-title {{title}}
+            slot(name="title")
+              h4.modal-title {{title}}
         .modal-body(v-if="bodyVisible")
           slot
             slot(name="body")
