@@ -105,6 +105,9 @@ bin/
 include/
 local/
 
+# gunicorn pid
+.pid
+
 # developer local
 info.txt
 borocol.cql

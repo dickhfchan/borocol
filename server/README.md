@@ -18,7 +18,7 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 
 # development
-python app/run.py
+python run.py
 ```
 ## models
 models.py defined all models. You can edit it to change data table structure. To apply the changes, run sync-tables.py
