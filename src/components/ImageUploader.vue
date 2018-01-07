@@ -1,8 +1,7 @@
 <template lang="pug">
 .ImageUploader
   .box
-    img.preview(v-if="src" :src="src")
-    .icon.icon-plus(v-else)
+    .icon.icon-plus
   VueUploadComponent.VueUploadComponent(
     ref="upload"
     v-model="files"
@@ -13,9 +12,13 @@
     @input-file="inputFile"
     @input-filter="inputFilter"
   )
-  .edit(@click="remove" v-show="src && !modalVisible && !uploading") Remove
-  .progress-mask(v-show="uploading")
-    span {{progress}}%
+  .preview(v-if="src" @mouseenter="hovering=true" @mouseleave="hovering=false")
+    img.preview-img(:src="src")
+    .black-mask(v-show="hovering || uploading")
+      .edit(v-show="!uploading")
+        span.icon.icon-search(title="Preview" @click="preview")
+        span.icon.icon-trash-o.mls(title="Remove" @click="remove")
+      span(v-show="uploading") {{progress}}%
   Modal(
     v-if="modalVisible",
     :options="modalOptions",
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       // preview
+      hovering: false,
       editVisible: false,
       src: null,
       files: [],
@@ -104,7 +108,8 @@ export default {
     modalClose () {
       this.modalVisible = false
     },
-    inputFile(newFile, oldFile, prevent) {
+    inputFile(newFile, oldFile) {
+      console.log(1);
       // when add
       if (newFile && !oldFile) {
         this.$nextTick(function () {
@@ -114,6 +119,21 @@ export default {
       // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
       if (!newFile && oldFile) {
         this.modalVisible = false
+      }
+      // uploading
+      if (this.uploading) {
+        if (newFile.active) {
+          this.progress = Math.ceil(newFile.progress)
+        } else {
+          this.uploading = false
+          if (newFile.success) {
+            this.$notification.success(`The file was uploaded successfully`)
+            this.$emit('input', newFile.response.data)
+          } else {
+            this.$alert(`Upload Failed. ${newFile.response.message}`)
+            this.src = this.getSrcFromValue(this.value) // restore src
+          }
+        }
       }
     },
     inputFilter(newFile, oldFile, prevent) {
@@ -129,20 +149,6 @@ export default {
         let URL = window.URL || window.webkitURL
         if (URL && URL.createObjectURL) {
           newFile.url = URL.createObjectURL(newFile.file)
-        }
-      }
-      if (this.uploading) {
-        if (newFile.error) {
-          this.uploading = false
-          this.$alert(`Upload Failed. ${newFile.response.message}`)
-          this.src = this.getSrcFromValue(this.value) // restore src
-        } else {
-          this.progress = Math.ceil(newFile.progress)
-          if (this.progress === 100 && newFile.success) {
-            this.$notification.success(`The file was uploaded successfully`)
-            this.uploading = false
-            this.$emit('input', newFile.response.data)
-          }
         }
       }
     },
@@ -166,6 +172,9 @@ export default {
       this.uploading = true
       this.progress = 0
     },
+    preview() {
+      window.open(this.src)
+    },
     remove() {
       this.$emit('input', null)
     },
@@ -181,39 +190,23 @@ export default {
   display: inline-block;
   position: relative;
   flex-shrink: 0;
+  $side: 100px;
   .box{
-    $side: 100px;
     width: $side;
     height: $side;
     line-height: $side;
     display: inline-block;
     border: $bd1 dashed 2px;
     text-align: center;
-    .preview{
-      @extend %mask;
-      width: 100%;
-      height: 100%;
-    }
   }
-  .edit{
-    display: none;
-    padding: .5em;
-    text-align: center;
-    background-color: rgba(0,0,0,0.5);
-    color: #fff;
-    font-weight: $fw-md;
-    cursor: pointer;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
+  .preview{
+    @extend %mask;
   }
-  &:hover{
-    .edit{
-      display: block;
-    }
+  .preview-img{
+    width: $side;
+    height: $side;
   }
-  .progress-mask{
+  .black-mask{
     @extend %mask;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
@@ -221,6 +214,18 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    .edit{
+      display: none;
+      font-size: 1.7em;
+      .icon{
+        cursor: pointer;
+      }
+    }
+    &:hover{
+      .edit{
+        display: block;
+      }
+    }
   }
   .icon-plus{
     font-size: 30px;
