@@ -46,8 +46,13 @@ export default {
         text: 'Group Size',
       },
       gender: {
-        rules: 'required',
+        rules: '',
         text: 'Gender',
+        options: [
+          {value: 'male', text: 'Male'},
+          {value: 'female', text: 'Female'},
+        ],
+        enum: true,
       },
       ageRange: {
         text: 'Age',
@@ -67,6 +72,68 @@ export default {
       },
       certificate: {},
     },
+    step3: {
+      address: {
+        rules: 'required',
+        text: 'Address',
+      },
+      city: {
+        rules: 'required',
+        text: 'City',
+      },
+      country: {
+        rules: 'required',
+        text: 'Country',
+      },
+      apiKey: {
+        rules: 'required',
+        text: 'API Key',
+      },
+      locationDescription: {
+        rules: '',
+        text: 'Describe the location',
+      },
+      howToGetThere: {
+        rules: '',
+        text: 'How to get there?',
+      },
+      whereToMeet: {
+        rules: '',
+        text: 'Where to meet up your guest?',
+      },
+    },
+    step4: {
+      schedule: {
+        rules: 'required',
+        text: 'Itinerary / Typical Daily Schedule',
+      },
+      mealsIncluded: {
+        rules: 'required',
+        text: 'Are meals included?',
+        value: false,
+      },
+      meals: {
+        rules: '',
+        value: [],
+      },
+      mealsInfo: {
+        rules: '',
+      },
+    },
+    step5: {
+      provide: {
+        rules: '',
+        text: 'What You’ll Provide?',
+      },
+      guestNeedsToBring: {
+        rules: '',
+        text: 'What Your Guest Needs to Bring?',
+      },
+    },
+    step6: {},
+    step7: {},
+    step8: {},
+    step9: {},
   },
   validations: {
     start: {},

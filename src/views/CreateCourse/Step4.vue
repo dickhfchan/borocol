@@ -1,38 +1,26 @@
 <template lang="pug">
-.CreateCourse4
-  .content-card
-    .content-card-header
-      .step Step {{state.step}}
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
-    .content-card-body.has-tips
-      form
-        .form-group
-          label Itinerary / Typical Daily Schedule
-          select.form-control(multiple="multiple", size="10")
-            option Day 1
-            option Day 2
-            option Day 3
-        .form-group
-          label *Are meals included?
-          CheckboxGroup(:multiple="false" v-model="formData.mealsIncluded")
-            Checkbox.mls(:value="false")
-            span.mls No
-            Checkbox.mls(:value="true")
-            span.mls Yes
-        .form-group
-          CheckboxGroup(v-model="formData.meals")
-            Checkbox(value="breakfast")
-            label.mls Breakfast
-            Checkbox.mls(value="lunch")
-            label.mls Lunch
-            Checkbox.mls(value="bunch")
-            label.mls Bunch
-            Checkbox.mls(value="dinner")
-            label.mls Dinner
-        textarea.form-control(rows='5' placeholder='More Information')
-      Tips
+include ../../common.pug
++createCourse(4)
+  form
+    +formGroup('fields.schedule')
+      +textarea(v-model="fields.schedule.value" rows="8" placeholder="e.g.\nDay 1\nDay 2\nDay 3")
+    +formGroup('fields.mealsIncluded')
+      CheckboxGroup(:multiple="false" v-model="fields.mealsIncluded.value")
+        Checkbox.mls(:value="false")
+        span.mls No
+        Checkbox.mls(:value="true")
+        span.mls Yes
+    .form-group
+      CheckboxGroup(v-model="fields.meals.value")
+        Checkbox(value="breakfast")
+        label.mls Breakfast
+        Checkbox.mls(value="lunch")
+        label.mls Lunch
+        Checkbox.mls(value="bunch")
+        label.mls Bunch
+        Checkbox.mls(value="dinner")
+        label.mls Dinner
+    +textarea(v-model="fields.mealsInfo.value" rows='5' placeholder='More Information')
 </template>
 
 <script>
@@ -40,13 +28,23 @@ import base from './base'
 export default {
   extends: base,
   // components: {},
-  // data() {
-  //   return {}
-  // },
+  data() {
+    const state = this.$state.createCourse;
+    const {fields, validations} = state
+    const name = state.pageOrder[state.getRouteIndex()]
+    return {
+      name,
+      fields: fields[name],
+      validation: validations[name],
+    }
+  },
+
   // computed: {},
   // watch: {},
   // methods: {},
-  // created() {},
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
   // mounted() {},
 }
 </script>

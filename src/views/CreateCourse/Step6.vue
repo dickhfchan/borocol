@@ -36,13 +36,23 @@ import base from './base'
 export default {
   extends: base,
   // components: {},
-  // data() {
-  //   return {}
-  // },
+  data() {
+    const state = this.$state.createCourse;
+    const {fields, validations} = state
+    const name = state.pageOrder[state.getRouteIndex()]
+    return {
+      name,
+      fields: fields[name],
+      validation: validations[name],
+    }
+  },
+
   // computed: {},
   // watch: {},
   // methods: {},
-  // created() {},
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
   // mounted() {},
 }
 </script>

@@ -1,40 +1,24 @@
 <template lang="pug">
-.CreateCourse3
-  .content-card
-    .content-card-header
-      .step Step {{state.step}}
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
-    .content-card-body.has-tips
-      form.row
-        .form-group.col-sm-12
-          label *Address
-          input.form-control.input-lg(type='text', placeholder='')
-        .form-group.col-sm-4
-          label *City
-          input.form-control.input-lg(type='text', placeholder='')
-        .form-group.col-sm-4
-          label *Country
-          select.form-control.input-lg()
-            option England
-        .form-group.col-sm-4
-          label
-            span *API Key
-            //- span.icon.icon-question-circle
-          .api-input
-            img(src="~@/assets/img/google-map.png")
-            input.form-control.input-lg(type='text', placeholder='')
-        .form-group.col-sm-12
-          label Describe the location
-          textarea.form-control(rows='3' placeholder='Please describe the location')
-        .form-group.col-sm-6
-          label How to get there?
-          textarea.form-control(rows='3' placeholder='e.g. Please book your flight to arrive at JFK Airport, New York.')
-        .form-group.col-sm-6
-          label Where to meet up your guest?
-          textarea.form-control(rows='3' placeholder='')
-      Tips
+include ../../common.pug
++createCourse(3)
+  form.row
+    +formGroup('fields.address').col-sm-12
+      +inputLg(v-model="fields.address.value")
+    +formGroup('fields.city').col-sm-4
+      +inputLg(v-model="fields.city.value")
+    +formGroup('fields.country').col-sm-4
+      +selectLg(v-model="fields.country.value")
+        option(value="England") England
+    +formGroup('fields.apiKey').col-sm-4
+      .api-input
+        img(src="~@/assets/img/google-map.png")
+        +inputLg(v-model="fields.apiKey.value")
+    +formGroup('fields.locationDescription').col-sm-12
+      +textarea(v-model="fields.locationDescription.value" rows='3' placeholder='Please describe the location')
+    +formGroup('fields.howToGetThere').col-sm-6
+      +textarea(v-model="fields.howToGetThere.value" rows='3' placeholder='e.g. Please book your flight to arrive at JFK Airport, New York.')
+    +formGroup('fields.whereToMeet').col-sm-6
+      +textarea(v-model="fields.whereToMeet.value" rows='3')
 </template>
 
 <script>
@@ -42,13 +26,22 @@ import base from './base'
 export default {
   extends: base,
   // components: {},
-  // data() {
-  //   return {}
-  // },
+  data() {
+    const state = this.$state.createCourse;
+    const {fields, validations} = state
+    const name = state.pageOrder[state.getRouteIndex()]
+    return {
+      name,
+      fields: fields[name],
+      validation: validations[name],
+    }
+  },
   // computed: {},
   // watch: {},
   // methods: {},
-  // created() {},
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
   // mounted() {},
 }
 </script>

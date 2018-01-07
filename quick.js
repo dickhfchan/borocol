@@ -35,3 +35,13 @@ const viewsPath = '/home/he/www/works/borocol/src/views'
 //   console.log(eventType);
 //   console.log(filename);
 // });
+a = `created() {
+    this.$validate(this.validation, this.fields)
+  },
+`;
+[3,4,5,6,7,8,9].forEach(v => {
+  const p =  `${viewsPath}/CreateCourse/Step${v}.vue`
+  let str = fs.readFileSync(p).toString()
+  str = str.replace(/\n\n\n/, '\n')
+  fs.writeFileSync(p, str)
+})

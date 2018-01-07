@@ -7,8 +7,7 @@ include ../../common.pug
         +inputLg(type="number" v-model="fields.groupSize.value")
       +formGroup('fields.gender').col-sm-3
         +selectLg(v-model="fields.gender.value")
-          option(value="male") Male
-          option(value="female") Female
+          option(v-for="item in fields.gender.options" :value="item.value") {{item.text}}
       .form-group.age.col-sm-6
         label Age
         .slider-wrapper

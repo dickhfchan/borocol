@@ -54,18 +54,26 @@
 </template>
 
 <script>
-import Tips from './Tips.vue'
+import base from './base'
 export default {
-  components: {Tips},
+  extends: base,
   data() {
+    const state = this.$state.createCourse;
+    const {fields, validations} = state
+    const name = state.pageOrder[state.getRouteIndex()]
     return {
-      state: this.$state.createCourse,
+      name,
+      fields: fields[name],
+      validation: validations[name],
     }
   },
+
   // computed: {},
   // watch: {},
   // methods: {},
-  // created() {},
+  created() {
+    this.$validate(this.validation, this.fields)
+  },
   // mounted() {},
 }
 </script>

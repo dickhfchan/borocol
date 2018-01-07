@@ -31,8 +31,8 @@ get: /api/v1/<string:model_name>
 
 | function | method | path | params | result |
 | :--- | :---- | :---- | :---- | :---- |
-| get one | get | /api/v1/[string:model_name]/[string:id] | | {**resource**:...}|
-| get many | get | /api/v1/[string:model_name] | page, default 1; per_page, default 20 | {**resources**:...}|
+| get one | get | /api/v1/[string:model_name]/[string:id] | | {**data**:...}|
+| get many | get | /api/v1/[string:model_name] | page, default 1; per_page, default 20 | {**data**:...}|
 | create | post | /api/v1/[string:model_name] | field name  | {result:success/failed, message: error message}|
 | update | put | /api/v1/[string:model_name]/[string:id] | field name  | {result:success/failed, message: error message}|
 | delete | delete | /api/v1/[string:model_name]/[string:id] |  | {result:success/failed, message: error message}|
