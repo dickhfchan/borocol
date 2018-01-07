@@ -1,34 +1,21 @@
 <template lang="pug">
-.CreateCourse6
-  .content-card
-    .content-card-header
-      .step Step {{state.step}}
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
-    .content-card-body.has-tips
-      form
-        .form-group
-          label Guest Requirement
-          textarea.form-control(rows='3' placeholder="- Skill level\n- Occupations")
-        .form-group
-          label *Do you want to set up a Request Form?
-          Checkbox.mls
-          span.mls No
-          Checkbox.mls
-          span.mls Yes
-        ._1
-          .form-group
-            Checkbox
-            span.mls Question 1 :
-            textarea.form-control.mls(rows='3')
-            .clearfix
-          .form-group
-            Checkbox
-            span.mls Question 2 :
-            textarea.form-control.mls(rows='3')
-            .clearfix
-      Tips
+include ../../common.pug
++createCourse(6)
+  form
+    +formGroup('fields.guestRequirement')
+      +textarea(v-model="fields.guestRequirement.value" rows='3' placeholder="- Skill level\n- Occupations")
+    +formGroup('fields.requestFormExisted')
+      CheckboxGroup(:multiple="false" v-model="fields.requestFormExisted.value")
+        Checkbox.mls(:value="false")
+        span.mls No
+        Checkbox.mls(:value="true")
+        span.mls Yes
+    ._1
+      .form-group(v-for="(item, i) in fields.requestForm.value")
+        Checkbox(v-model="item.enabled")
+        span.mls Question {{i + 1}} :
+        +textarea.mls(v-model="item.value" rows='3')
+        .clearfix
 </template>
 
 <script>

@@ -130,8 +130,35 @@ export default {
         text: 'What Your Guest Needs to Bring?',
       },
     },
-    step6: {},
-    step7: {},
+    step6: {
+      guestRequirement: {
+        rules: '',
+        text: 'Guest Requirement',
+      },
+      requestFormExisted: {
+        rules: 'required',
+        text: 'Do you want to set up a Request Form?',
+        value: false,
+      },
+      requestForm: {
+        value: [{enabled: false, value: null}, {enabled: false, value: null}],
+      },
+    },
+    step7: {
+      tags: {
+        rules: '',
+        text: 'Tags',
+        value: [],
+      },
+      photos: {
+        rules: 'required|minLength:3',
+        text: 'Tags',
+        value: [],
+      },
+      notes: {
+        text: 'Notes',
+      },
+    },
     step8: {},
     step9: {},
   },

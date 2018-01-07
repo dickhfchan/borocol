@@ -19,7 +19,7 @@ mixin select
 mixin selectLg
   +select.input-lg&attributes(attributes)
     block
-mixin createCourse(step)
+mixin createCourse(step, title)
   -
     var stepCount = 9
     var progressStr = Math.floor(step / stepCount * 100) + '%'
@@ -28,7 +28,8 @@ mixin createCourse(step)
       .content-card-header
         .step 
           = `Step ${step}`
-        .title Start with the basic
+        .title
+          = title
       .content-card-progress-bar.progress
         .progress-bar.progress-bar-warning(role='progressbar', style=`width: ${progressStr};`)
           = progressStr

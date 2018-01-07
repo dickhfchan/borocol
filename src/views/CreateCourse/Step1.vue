@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(1)
++createCourse(1, 'Start with the basic')
   form.row
     +formGroup('fields.name').col-sm-12
       +inputLg(placeholder="e.g. 5 Days Yoga Retreat in Bali" v-model="fields.name.value")

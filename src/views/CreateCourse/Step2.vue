@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(2)
++createCourse(2, 'Start with the basic')
   form
     .row
       +formGroup('fields.groupSize').col-sm-3

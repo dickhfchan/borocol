@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(3)
++createCourse(3, 'Location')
   form.row
     +formGroup('fields.address').col-sm-12
       +inputLg(v-model="fields.address.value")

@@ -3,9 +3,9 @@ include ../../common.pug
 +createCourse(5)
   form
     +formGroup('fields.provide')
-      +textarea(v-model="fields.provide.value" rows='5' placeholder='e.g.\n- Equipment\n- Airport Pickup\n- Towels ')
+      +textarea(v-model="fields.provide.value" rows='5' placeholder='- Equipment\n- Airport Pickup\n- Towels ')
     +formGroup('fields.guestNeedsToBring')
-      +textarea(v-model="fields.guestNeedsToBring.value" rows='5' placeholder='e.g.\n- Goggle\n- Swimsuits ')
+      +textarea(v-model="fields.guestNeedsToBring.value" rows='5' placeholder='- Goggle\n- Swimsuits ')
 </template>
 
 <script>
