@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     getValueDetails(value) {
-      this.src = value ? `${this.$state.urls.serverBase}/file/${value}` : null
+      this.src = value ? value.replace('~', `${this.$state.urls.serverBase}/file`) : null
     },
     modalClose () {
       this.modalVisible = false
@@ -147,7 +147,7 @@ export default {
       const oldFile = this.files[0]
       const base64Str = this.cropper.getCroppedCanvas().toDataURL(oldFile.type).split(',')[1]
       this.src = `data:${oldFile.type};base64,${base64Str}`
-      const binStr = Base64.decode(base64Str)
+      const binStr = Base64.atob(base64Str)
       const arr = new Uint8Array(binStr.length)
       for (let i = 0; i < binStr.length; i++) {
         arr[i] = binStr.charCodeAt(i)

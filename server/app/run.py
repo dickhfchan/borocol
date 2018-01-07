@@ -6,6 +6,7 @@ import time
 import json as json_obj
 from cassandra.cqlengine import connection
 from utils import to_dict, before_write
+from werkzeug.contrib.cache import SimpleCache
 # file
 import config
 from config import db_keyspace, db_host, debug, app_host, app_port
@@ -25,8 +26,9 @@ configNames = [item for item in dir(config) if not item.startswith("__")]
 for name in configNames:
     app.config[name] = config.__dict__[name]
 app.config['MAX_CONTENT_LENGTH'] = app.config['request_maxContentLength']
-# store app to store
+# store app, cache to store
 store.app = app
+store.cache = SimpleCache()
 import routes
 
 if __name__ == '__main__':
