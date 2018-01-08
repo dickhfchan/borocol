@@ -109,7 +109,6 @@ export default {
       this.modalVisible = false
     },
     inputFile(newFile, oldFile) {
-      console.log(1);
       // when add
       if (newFile && !oldFile) {
         this.$nextTick(function () {
