@@ -11,6 +11,8 @@ from utils import file_get_contents
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
+@app.route('/<t1>')
+@app.route('/<t1>/<t2>')
 def index():
     html = file_get_contents('./static/index.html')
     initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /

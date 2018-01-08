@@ -1,5 +1,5 @@
 <template lang="pug">
-.modal.modal-layer(style="display:block;")
+.Modal.modal.modal-layer(style="display:block;")
   .modal-backdrop.in(@click="backDropClick")
   .modal-dialog(:class="['modal-' + size]", :style="dialogStyle")
     .modal-content
@@ -69,13 +69,15 @@ export default {
 
 </script>
 <style lang="scss">
-.modal{
-  position: fixed;
-}
-.modal-backdrop{
-  z-index: 1000;
-}
-.modal-dialog{
-  z-index: 1001;
+.Modal{
+  &.modal{
+    position: fixed;
+  }
+  .modal-backdrop{
+    z-index: 1000;
+  }
+  .modal-dialog{
+    z-index: 1001;
+  }
 }
 </style>
