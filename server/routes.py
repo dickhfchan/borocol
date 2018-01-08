@@ -1,9 +1,9 @@
 # module
 from flask_restful import Api
 from flask_cors import CORS
+from flask import current_app as app
 # file
 from controllers import ResourceController, QueryController, FileController
-from store import app
 
 # cors
 CORS(app, resources={r"/api/*": {"origins": "*"}})

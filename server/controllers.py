@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, Response, send_from_directory
+from flask import Flask, jsonify, request, Response, send_from_directory, current_app as app
 from flask_restful import Resource, Api, reqparse, url_for
 from datetime import datetime, timedelta
 import time
@@ -6,9 +6,9 @@ from utils import to_dict, before_write
 from werkzeug import secure_filename
 from os import path, makedirs
 import models
-from store import app, cache
 import hashlib
 import random
+import json
 
 # for get ,save and delete data
 class ResourceController(Resource):
@@ -103,8 +103,13 @@ class FileController(Resource):
             # save
             file.save(fullPath)
             # mark temperature
-            tmp = cache.get('temperature_uploads') or {}
-            tmp[fullPath] = time.time()
-            cache.set('temperature_uploads', tmp)
+            tmpPath = app.config['file_uploadDir'] + '/tmp.json'
+            f = open(tmpPath, 'r')
+            tmp = json.load(f)
+            f.close()
+            f = open(tmpPath, 'w')
+            tmp[filename] = int(time.time())
+            json.dump(tmp,f)
+            f.close()
             return {'result': 'success', 'data': filename}
         return {'result': 'failed', 'message': 'Disallowed file type' if file else 'No file'}, 400
