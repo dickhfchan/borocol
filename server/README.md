@@ -3,6 +3,11 @@
 ## important
 in the server 52.76.*.*, app is in virtualenv not global. First, run source server/bin/activate
 
+## project files
+* gunicorn-config.py: gunicorn config. gunicorn is used in production mode
+* gunicorn.log: gunicorn error log
+
+
 ## run
 require python3
 ``` bash
@@ -19,8 +24,8 @@ pip freeze > requirements.txt
 
 # development
 python run.py
-# production, please check nginx config follow
-gunicorn run:app -p .pid -D
+# production; please check nginx config follow
+gunicorn run:app -p .pid -D -c gunicorn-config.py
 # exit
 kill `cat .pid`
 ```

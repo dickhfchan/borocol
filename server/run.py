@@ -13,7 +13,7 @@ from config import db_keyspace, db_host, debug, app_host, app_port
 # connect databse
 try:
     connection.setup([db_host], db_keyspace, lazy_connect=True)
-    print("Make connection to DB")
+    print("Make connection to DB lazily")
 except Exception as e:
     print("Error: connection db failed")
     raise
