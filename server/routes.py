@@ -13,7 +13,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 @app.route('/')
 @app.route('/<t1>')
 @app.route('/<t1>/<t2>')
-def index():
+def index(t1 = None, t2 = None):
     html = file_get_contents('./static/index.html')
     initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
     html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
