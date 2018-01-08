@@ -1,12 +1,12 @@
 from os import path
 
-debug = True
+debug = path.exists('./.dev')
 # db
 db_keyspace = "borocol"
 db_host = '127.0.0.1'
 # app
-app_host = '0.0.0.0'
-app_port = 8081
+app_host = '0.0.0.0' # dev
+app_port = 8081 # dev
 app_name = 'Borocol'
 app_path = path.dirname(__file__)
 # request

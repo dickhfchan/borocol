@@ -19,6 +19,38 @@ pip freeze > requirements.txt
 
 # development
 python run.py
+# production, please check nginx config follow
+gunicorn run:app -p .pid -D
+# exit
+kill `cat .pid`
+```
+## nginx config
+nginx is used to proxy the app in production mode  
+the config file is /etc/nginx/sites-available/borocol-flask  
+example:  
+``` nginx
+# Redirect www.domain.com to domain.com
+# server {
+#         server_name www.domain.com;
+#         rewrite ^ http://domain.com/ permanent;
+# }
+
+# Handle requests to domain.com on port 80
+server {
+        listen 80;
+        server_name 52.76.70.227;
+
+        # Handle all locations
+        location / {
+                # Pass the request to Gunicorn
+                proxy_pass http://127.0.0.1:8000;
+
+                # Set some HTTP headers so that our app knows where the request really came from
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+}
 ```
 ## models
 models.py defined all models. You can edit it to change data table structure. To apply the changes, run sync-tables.py

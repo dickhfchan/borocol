@@ -1,0 +1,2 @@
+webpackJsonp([7],{"9ukW":function(e,t){},j7e0:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{staticClass:"Home container"},[t("div",{staticClass:"content-card"},[t("div",[t("router-link",{attrs:{to:{name:"createCourse"}}},[this._v("Create Course ")])],1)])])},staticRenderFns:[]},s=n("8AGX")({components:{},data:function(){return{}}},r,!1,function(e){n("9ukW")},null,null);t.default=s.exports}});
+//# sourceMappingURL=7.b6e0b3192eb6183f2b6a.js.map

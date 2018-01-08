@@ -1,6 +1,14 @@
 import time
 import datetime
 
+# quick read, write file
+def file_get_contents(filename):
+    with open(filename) as f:
+        return f.read()
+def file_put_contents(filename, content):
+    with open(filename, 'w') as f:
+        return f.write(content)
+
 # get datetime columns from model class
 # data: dict    model: class
 def get_datetime_columns_from_model(model):
