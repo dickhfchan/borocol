@@ -1,12 +1,12 @@
 <template lang="pug">
 .MultipleImageUploader
-  .preview(v-for="(item, index) in initialValuesAndFiles" :index="index")
+  .preview(v-for="(item, index) in files" :index="index")
     img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
     .black-mask
       .edit(v-show="!item.active")
         span.icon.icon-search(title="Preview" @click="preview(item, index)")
         span.icon.icon-trash-o.mls(title="Remove" @click="remove(item, index)")
-      span(v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
+      span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
   .box
     .icon.icon-plus
     VueUploadComponent.VueUploadComponent(
@@ -33,6 +33,7 @@ export default {
   components: {VueUploadComponent},
   props: {
     name: {default: 'file'},
+    value: {},
     extensions: {default: is => ["gif", "jpg", "jpeg", "png", "webp"]},
     maximum: {default: 20},
     thread: {default: 3},
@@ -40,9 +41,6 @@ export default {
   data() {
     return {
       files: [],
-      cache: {
-        initialValuesAndFiles: null,
-      },
     }
   },
   computed: {
@@ -57,24 +55,28 @@ export default {
         return 1
       }
     },
-    initialValuesAndFiles() {
-      const arr = []
-      if (this.value) {
-        arr.push(...this.value.map(v => {
-          return {
-            _initial: true,
-            url: this.getAbsUrl(v),
-          }
-        }))
-      }
-      arr.push(...this.files)
-      return arr
-    },
   },
-  // watch: {},
   methods: {
     getAbsUrl(value) {
       return value ? value.replace('~', `${this.$state.urls.serverBase}/file`) : null
+    },
+    getValueDetails(value) {
+      this.files = value.map(v => {
+        return {
+          simulated: true, // not a fiel instance of VueUploadComponent, just a simulation
+          initialUrl: v,
+          url: this.getAbsUrl(v),
+        }
+      })
+    },
+    // a file uploaded or deleted
+    filesChanged() {
+      const {files} = this
+      const arr = files.filter(v => !v.active && v.success && v.progress == 100).map(v => v.response.data || v.initialUrl)
+      this.setValue(arr)
+      setTimeout(() => {
+        console.log(this.value);
+      }, 300);
     },
     inputFile(newFile, oldFile) {
       // when add
@@ -85,17 +87,20 @@ export default {
       // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
       if (!newFile && oldFile) {
       }
-      // uploading
-      if (newFile.active) {
-      } else {
-        if (newFile.error) {
-          console.log('upload failed');
-          this.remove(newFile)
-          this.$alert(`Upload Failed. ${newFile.response.message}`)
-        } else if (newFile.success && newFile.progress == 100) {
-          console.log('upload succeeded')
-          this.$notification.success(`The file was uploaded successfully`)
-          newFile.url = this.getAbsUrl(newFile.response.data)
+      if (newFile) {
+        // uploading
+        if (newFile.active) {
+        } else {
+          if (newFile.error) {
+            console.log('upload failed');
+            this.remove(newFile)
+            this.$alert(`Upload Failed. ${newFile.response.message}`)
+          } else if (newFile.success && newFile.progress == 100) {
+            console.log('upload succeeded')
+            this.$notification.success(`The file was uploaded successfully`)
+            newFile.url = this.getAbsUrl(newFile.response.data)
+            this.filesChanged(newFile)
+          }
         }
       }
     },
@@ -125,7 +130,12 @@ export default {
       window.open(item.url)
     },
     remove(item, index) {
-      this.$refs.upload.remove(item)
+      if (item.simulated) {
+        this.files.splice(index, 1)
+      } else {
+        this.$refs.upload.remove(item)
+      }
+      this.filesChanged(item)
     },
   },
   // created() {},
