@@ -2,9 +2,20 @@ import Vue from 'vue'
 import store from './index'
 import {createCourse as routes} from '@/routes/index'
 
+export const steps = [
+  {index: 1, pageRange: [1,2], title: 'Start with the basic'},
+  {index: 2, pageRange: [3, 3], title: 'Location'},
+  {index: 3, pageRange: [4, 5], title: 'General Details'},
+  {index: 4, pageRange: [6, 6], title: 'Request Form'},
+  {index: 5, pageRange: [7, 7], title: 'Make your program looks more attractive'},
+  {index: 6, pageRange: [8, 8], title: 'Accomodation'},
+  {index: 7, pageRange: [9, 9], title: 'Accomodation Pricing & Quota'},
+  {index: 8, pageRange: [10, 10], title: 'Pricing & Quota'},
+]
 export default {
   routes,
   ignoreValidation: true, // only when developing
+  steps,
   fields: [
     {
       declared: {

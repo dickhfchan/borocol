@@ -1,15 +1,23 @@
+import {steps} from '@/store/createCourse'
 export const createCourse = [
   { path: '', name: 'createCourse', component: resolve => require(['../views/CreateCourse/index.vue'], resolve), meta: {title: 'Create Course'}},
-  { path: '/CreateCourse/Step1', name: 'createCourseStep1', component: resolve => require(['../views/CreateCourse/Step1.vue'], resolve), meta: {title: 'Step 1 - Create Course'}},
-  { path: '/CreateCourse/Step2', name: 'createCourseStep2', component: resolve => require(['../views/CreateCourse/Step2.vue'], resolve), meta: {title: 'Step 2 - Create Course'}},
-  { path: '/CreateCourse/Step3', name: 'createCourseStep3', component: resolve => require(['../views/CreateCourse/Step3.vue'], resolve), meta: {title: 'Step 3 - Create Course'}},
-  { path: '/CreateCourse/Step4', name: 'createCourseStep4', component: resolve => require(['../views/CreateCourse/Step4.vue'], resolve), meta: {title: 'Step 4 - Create Course'}},
-  { path: '/CreateCourse/Step5', name: 'createCourseStep5', component: resolve => require(['../views/CreateCourse/Step5.vue'], resolve), meta: {title: 'Step 5 - Create Course'}},
-  { path: '/CreateCourse/Step6', name: 'createCourseStep6', component: resolve => require(['../views/CreateCourse/Step6.vue'], resolve), meta: {title: 'Step 6 - Create Course'}},
-  { path: '/CreateCourse/Step7', name: 'createCourseStep7', component: resolve => require(['../views/CreateCourse/Step7.vue'], resolve), meta: {title: 'Step 7 - Create Course'}},
-  { path: '/CreateCourse/Step8', name: 'createCourseStep8', component: resolve => require(['../views/CreateCourse/Step8.vue'], resolve), meta: {title: 'Step 8 - Create Course'}},
-  { path: '/CreateCourse/Step9', name: 'createCourseStep9', component: resolve => require(['../views/CreateCourse/Step9.vue'], resolve), meta: {title: 'Step 9 - Create Course'}},
+  { path: '/CreateCourse/Page1', name: 'createCoursePage1', component: resolve => require(['../views/CreateCourse/Page1.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page2', name: 'createCoursePage2', component: resolve => require(['../views/CreateCourse/Page2.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page3', name: 'createCoursePage3', component: resolve => require(['../views/CreateCourse/Page3.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page4', name: 'createCoursePage4', component: resolve => require(['../views/CreateCourse/Page4.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page5', name: 'createCoursePage5', component: resolve => require(['../views/CreateCourse/Page5.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page6', name: 'createCoursePage6', component: resolve => require(['../views/CreateCourse/Page6.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page7', name: 'createCoursePage7', component: resolve => require(['../views/CreateCourse/Page7.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page8', name: 'createCoursePage8', component: resolve => require(['../views/CreateCourse/Page8.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page9', name: 'createCoursePage9', component: resolve => require(['../views/CreateCourse/Page9.vue'], resolve), meta: {}},
+  { path: '/CreateCourse/Page10', name: 'createCoursePage10', component: resolve => require(['../views/CreateCourse/Page10.vue'], resolve), meta: {}},
 ]
+createCourse.forEach((item, index) => {
+  if (index > 0) {
+    const title = steps.find(v => v.pageRange[0] <= index && index <= v.pageRange[1]).title
+    item.meta.title = `${title} - Create Course`
+  }
+})
 
 const routes = [
   { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol'}},

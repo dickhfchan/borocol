@@ -35,7 +35,27 @@ export default {
       validation: validations[index],
     }
   },
-  // computed: {},
+  computed: {
+    stepMeta() {
+      const {index} = this
+      return this.state.steps.find(v => v.pageRange[0] <= index && index <= v.pageRange[1])
+    },
+    step() {
+      return this.stepMeta.index
+    },
+    progress() {
+      const {step} = this
+      const total = this.state.steps.length
+      return step / total
+    },
+    progressStr() {
+      const {progress} = this
+      return Math.floor(progress * 100) + '%'
+    },
+    title() {
+      return this.stepMeta.title
+    },
+  },
   // watch: {},
   // methods: {},
   // created() {},

@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(3, 'Location')
++createCourse
   form.row
     +formGroup('fields.address').col-sm-12
       +inputLg(v-model="fields.address.value")
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse3{
+.CreateCoursePage3{
   .api-input{
     position: relative;
     img{

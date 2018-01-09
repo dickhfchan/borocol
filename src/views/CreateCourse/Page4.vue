@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(4)
++createCourse
   form
     +formGroup('fields.schedule')
       +textarea(v-model="fields.schedule.value" rows="8" placeholder="e.g.\nDay 1\nDay 2\nDay 3")
@@ -44,6 +44,6 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse4{
+.CreateCoursePage4{
 }
 </style>

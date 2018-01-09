@@ -1,5 +1,6 @@
 const fs = require('fs')
 const viewsPath = '/home/he/www/works/borocol/src/views'
+const createCourseViewsPath = viewsPath + '/CreateCourse'
 // arr = [1,2,3,4,5,6,7,8,'9a','9b','Tips']
 // tpl = '/home/he/www/works/borocol/src/views/CreateCourse0.vue'
 // tplStr = fs.readFileSync(tpl).toString()
@@ -35,13 +36,16 @@ const viewsPath = '/home/he/www/works/borocol/src/views'
 //   console.log(eventType);
 //   console.log(filename);
 // });
-a = `created() {
-    this.$validate(this.validation, this.fields)
-  },
-`;
-[3,4,5,6,7,8,9].forEach(v => {
-  const p =  `${viewsPath}/CreateCourse/Step${v}.vue`
-  let str = fs.readFileSync(p).toString()
-  str = str.replace(/\n\n\n/, '\n')
-  fs.writeFileSync(p, str)
+// a = `created() {
+//     this.$validate(this.validation, this.fields)
+//   },
+// `;
+// [3,4,5,6,7,8,9].forEach(v => {
+//   const p =  `${viewsPath}/CreateCourse/Step${v}.vue`
+//   let str = fs.readFileSync(p).toString()
+//   str = str.replace(/\n\n\n/, '\n')
+//   fs.writeFileSync(p, str)
+// })
+fs.readdirSync(createCourseViewsPath).forEach(v => {
+  fs.renameSync(createCourseViewsPath + '/' + v, createCourseViewsPath + '/' + v.replace('Step', 'Page'))
 })

@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(7)
++createCourse
   form
     +formGroup('fields.tags')
       TagsInput(v-model="fields.tags.value")
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse7{
+.CreateCoursePage7{
   .cover{
     .ImageUploader{
       display: block;

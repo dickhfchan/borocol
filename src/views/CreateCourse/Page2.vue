@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(2, 'Start with the basic')
++createCourse
   form
     .row
       +formGroup('fields.groupSize').col-sm-3
@@ -62,7 +62,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.CreateCourse2{
+.CreateCoursePage2{
   .slider-wrapper{
     position: relative;
     top: 2em;

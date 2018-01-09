@@ -1,5 +1,5 @@
 <template lang="pug">
-.CreateCourse9
+.CreateCoursePage9
   .content-card
     .content-card-header
       .step Step {{state.step}}
@@ -74,7 +74,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.CreateCourse9{
+.CreateCoursePage9{
   ._1{
     input{
       display: inline-block;

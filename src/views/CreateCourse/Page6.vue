@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(6)
++createCourse
   form
     +formGroup('fields.guestRequirement')
       +textarea(v-model="fields.guestRequirement.value" rows='3' placeholder="- Skill level\n- Occupations")
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse6{
+.CreateCoursePage6{
   ._1{
     textarea{
       width: 75%;

@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../../common.pug
-+createCourse(1, 'Start with the basic')
++createCourse
   form.row
     +formGroup('fields.name').col-sm-12
       +inputLg(placeholder="e.g. 5 Days Yoga Retreat in Bali" v-model="fields.name.value")
@@ -54,7 +54,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.CreateCourse1{
+.CreateCoursePage1{
   .duration{
     text-align: right;
   }

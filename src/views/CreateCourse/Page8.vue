@@ -1,5 +1,5 @@
 <template lang="pug">
-.CreateCourse8
+.CreateCoursePage8
   .content-card
     .content-card-header
       .step Step {{state.step}}
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse8{
+.CreateCoursePage8{
   ._1{
     display: inline-block;
     width: 200px;
