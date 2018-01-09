@@ -17,6 +17,7 @@ export default {
   ignoreValidation: true, // only when developing
   steps,
   fields: [
+    // 0
     {
       declared: {
         rules: 'required|accepted',
@@ -25,6 +26,7 @@ export default {
         rules: 'required|accepted',
       },
     },
+    // 1
     {
       name: {
         rules: 'required',
@@ -51,6 +53,7 @@ export default {
         text: 'What Will We Do? (Description)',
       },
     },
+    // 2
     {
       groupSize: {
         rules: 'required',
@@ -83,6 +86,7 @@ export default {
       },
       certificate: {},
     },
+    // 3
     {
       address: {
         rules: 'required',
@@ -113,6 +117,7 @@ export default {
         text: 'Where to meet up your guest?',
       },
     },
+    // 4
     {
       schedule: {
         rules: 'required',
@@ -132,6 +137,7 @@ export default {
         rules: '',
       },
     },
+    // 5
     {
       provide: {
         rules: '',
@@ -142,6 +148,7 @@ export default {
         text: 'What Your Guest Needs to Bring?',
       },
     },
+    // 6
     {
       guestRequirement: {
         rules: '',
@@ -156,6 +163,7 @@ export default {
         value: [{enabled: false, value: null}, {enabled: false, value: null}],
       },
     },
+    // 7
     {
       tags: {
         rules: '',
@@ -176,10 +184,15 @@ export default {
         text: 'Notes',
       },
     },
+    // 8
     {},
+    // 9
+    {},
+    // 10
     {},
   ],
   validations: [
+    {},
     {},
     {},
     {},

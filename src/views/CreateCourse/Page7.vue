@@ -25,24 +25,10 @@ export default {
   components: {TagsInput, ImageUploader, MultipleImageUploader},
   data() {
     return {
-      cache: {
-        photos: null,
-      },
     }
   },
 
   computed: {
-    photos() {
-      const photos = this.fields.photos.value.slice(0)
-      for (let i = 0; i < 4; i++) {
-        if (photos[i] === undefined) {
-          photos[i] = null
-        }
-      }
-      photos.push(null)
-      this.cache.photos = photos
-      return photos
-    },
   },
   // watch: {},
   // methods: {},
