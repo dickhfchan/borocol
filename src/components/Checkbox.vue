@@ -75,6 +75,7 @@ export default {
   $side: $lh;
   width: $side;
   height: $side;
+  line-height: $side;
   vertical-align: middle;
   .icon{
     font-size: 1.3em;
