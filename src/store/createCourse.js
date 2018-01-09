@@ -185,7 +185,39 @@ export default {
       },
     },
     // 8
-    {},
+    {
+      options: {
+        rules: '',
+        text: 'Tags',
+        value: [],
+      },
+      otherOptions: {
+        rules: 'requiredIf',
+        text: 'Other Options',
+        ruleParams: {
+          requiredIf: ({fields}) => fields.options.value.includes('others')
+        },
+      },
+      locationDescription: {
+        text: 'Describe the location',
+      },
+      facilities: {
+        text: 'Facilities',
+        value: [],
+      },
+      otherFacilities: {
+        rules: 'requiredIf',
+        text: 'Other Facilities',
+        ruleParams: {
+          requiredIf: ({fields}) => fields.facilities.value.includes('others')
+        },
+      },
+      photos: {
+        rules: '',
+        text: 'Upload Photos (If Any)',
+        value: [],
+      },
+    },
     // 9
     {},
     // 10
