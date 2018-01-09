@@ -24,13 +24,7 @@ export default {
   extends: base,
   components: {TagsInput, ImageUploader, MultipleImageUploader},
   data() {
-    const state = this.$state.createCourse;
-    const {fields, validations} = state
-    const name = state.pageOrder[state.getRouteIndex()]
     return {
-      name,
-      fields: fields[name],
-      validation: validations[name],
       cache: {
         photos: null,
       },

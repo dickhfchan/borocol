@@ -25,9 +25,14 @@ export default {
   data() {
     const state = this.$state.createCourse
     const {formData} = state
+    const {fields, validations} = state
+    const index = state.getRouteIndex()
     return {
       state,
       formData,
+      index,
+      fields: fields[index],
+      validation: validations[index],
     }
   },
   // computed: {},

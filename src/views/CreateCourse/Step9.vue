@@ -58,13 +58,7 @@ import base from './base'
 export default {
   extends: base,
   data() {
-    const state = this.$state.createCourse;
-    const {fields, validations} = state
-    const name = state.pageOrder[state.getRouteIndex()]
     return {
-      name,
-      fields: fields[name],
-      validation: validations[name],
     }
   },
 

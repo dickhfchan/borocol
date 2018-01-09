@@ -5,8 +5,8 @@ import {createCourse as routes} from '@/routes/index'
 export default {
   routes,
   ignoreValidation: true, // only when developing
-  fields: {
-    start: {
+  fields: [
+    {
       declared: {
         rules: 'required|accepted',
       },
@@ -14,7 +14,7 @@ export default {
         rules: 'required|accepted',
       },
     },
-    step1: {
+    {
       name: {
         rules: 'required',
         text: 'Title',
@@ -40,7 +40,7 @@ export default {
         text: 'What Will We Do? (Description)',
       },
     },
-    step2: {
+    {
       groupSize: {
         rules: 'required',
         text: 'Group Size',
@@ -72,7 +72,7 @@ export default {
       },
       certificate: {},
     },
-    step3: {
+    {
       address: {
         rules: 'required',
         text: 'Address',
@@ -102,7 +102,7 @@ export default {
         text: 'Where to meet up your guest?',
       },
     },
-    step4: {
+    {
       schedule: {
         rules: 'required',
         text: 'Itinerary / Typical Daily Schedule',
@@ -121,7 +121,7 @@ export default {
         rules: '',
       },
     },
-    step5: {
+    {
       provide: {
         rules: '',
         text: 'What You’ll Provide?',
@@ -131,7 +131,7 @@ export default {
         text: 'What Your Guest Needs to Bring?',
       },
     },
-    step6: {
+    {
       guestRequirement: {
         rules: '',
         text: 'Guest Requirement',
@@ -145,7 +145,7 @@ export default {
         value: [{enabled: false, value: null}, {enabled: false, value: null}],
       },
     },
-    step7: {
+    {
       tags: {
         rules: '',
         text: 'Tags',
@@ -165,32 +165,27 @@ export default {
         text: 'Notes',
       },
     },
-    step8: {},
-    step9: {},
-  },
-  validations: {
-    start: {},
-    step1: {},
-    step2: {},
-    step3: {},
-    step4: {},
-    step5: {},
-    step6: {},
-    step7: {},
-    step8: {},
-    step9: {},
-  },
-  pageOrder: ['start', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7', 'step8', 'step9'],
+    {},
+    {},
+  ],
+  validations: [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ],
   getRouteIndex(route) {
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].name === (route || store.state.createCourseVm.$route).name) {
         return i
       }
     }
-  },
-  getPageName(route) {
-    const index = this.getRouteIndex(route)
-    return this.pageOrder[index]
   },
   goPrevPage() {
     const vm = store.state.createCourseVm
@@ -206,16 +201,16 @@ export default {
     }, (e) => {
       // invalid
       if (alert) {
-        const validation = this.validations[this.getPageName()]
+        const validation = this.validations[this.getRouteIndex()]
         Vue.alert(validation.getFirstError().message)
       } else {
         throw e
       }
     })
   },
-  async checkIsValidByKey(key) {
-    const fields = this.fields[key]
-    const validation = this.validations[key]
+  async checkIsValidByIndex(index) {
+    const fields = this.fields[index]
+    const validation = this.validations[index]
     if (validation.isPause || !validation.check) {
       // pause or not init validate
       const vm = store.state.appVm
@@ -229,27 +224,17 @@ export default {
     }
     return validation.check()
   },
-  async checkIsValidTillKey(key) {
-    for (let i = 0; i < this.pageOrder.length; i++) {
-      const key2 = this.pageOrder[i]
-      await this.checkIsValidByKey(key2).catch(e => {
+  async checkIsValidTillIndex(index) {
+    for (let i = 0; i <= index; i++) {
+      await this.checkIsValidByIndex(i).catch(e => {
         e.index = i
         throw e
       })
-      if (key2 === key) {
-        break
-      }
     }
   },
   checkIsValidCurrentPage() {
     const index = this.getRouteIndex()
-    let key
-    if (index === 0) {
-      key = 'start'
-    } else {
-      key = `step${index}`
-    }
-    return this.checkIsValidByKey(key)
+    return this.checkIsValidByIndex(index)
   },
   formData: {
     declared: false,
