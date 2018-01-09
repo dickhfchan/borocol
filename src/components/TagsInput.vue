@@ -1,5 +1,5 @@
 <template lang="pug">
-InputTag.TagsInput(:tags="tags")
+InputTag.TagsInput(:tags="tags" title="Press Enter or Comma to create a new tag, Backspace or Delete to remove the last one.")
 </template>
 
 <script>
