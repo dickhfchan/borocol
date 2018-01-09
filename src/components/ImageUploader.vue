@@ -99,11 +99,11 @@ export default {
     },
   },
   methods: {
-    getSrcFromValue(value) {
+    getAbsUrl(value) {
       return value ? value.replace('~', `${this.$state.urls.serverBase}/file`) : null
     },
     getValueDetails(value) {
-      this.src = this.getSrcFromValue(value)
+      this.src = this.getAbsUrl(value)
     },
     modalClose () {
       this.modalVisible = false
@@ -130,7 +130,7 @@ export default {
             this.$emit('input', newFile.response.data)
           } else {
             this.$alert(`Upload Failed. ${newFile.response.message}`)
-            this.src = this.getSrcFromValue(this.value) // restore src
+            this.src = this.getAbsUrl(this.value) // restore src
           }
         }
       }

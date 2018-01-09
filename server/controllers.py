@@ -104,9 +104,11 @@ class FileController(Resource):
             file.save(fullPath)
             # mark temperature
             tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-            f = open(tmpPath, 'r')
-            tmp = json.load(f)
-            f.close()
+            tmp = {}
+            if path.exists(tmpPath):
+                f = open(tmpPath, 'r')
+                tmp = json.load(f)
+                f.close()
             f = open(tmpPath, 'w')
             tmp[filename] = int(time.time())
             json.dump(tmp,f)

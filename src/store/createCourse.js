@@ -106,6 +106,7 @@ export default {
       schedule: {
         rules: 'required',
         text: 'Itinerary / Typical Daily Schedule',
+        nameInMessage: 'schedule',
       },
       mealsIncluded: {
         rules: 'required',
@@ -150,9 +151,14 @@ export default {
         text: 'Tags',
         value: [],
       },
+      cover: {
+        rules: 'required',
+        text: 'Cover Photo',
+      },
       photos: {
-        rules: 'required|minLength:3',
-        text: 'Tags',
+        rules: 'required|minLength:2',
+        text: 'Photos (Min. 3)',
+        nameInMessage: 'photos',
         value: [],
       },
       notes: {

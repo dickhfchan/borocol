@@ -1,30 +1,28 @@
 <template lang="pug">
-.CreateCourse7
-  .content-card
-    .content-card-header
-      .step Step {{state.step}}
-      .title Start with the basic
-    .content-card-progress-bar.progress
-      .progress-bar.progress-bar-warning(role='progressbar', :style="{width: state.progressStr}") {{state.progressStr}}
-    .content-card-body.has-tips
-      form
-        .form-group
-          label Tags
-          textarea.form-control(rows='3' placeholder='')
-        .form-group
-          label Upload Photos (Min. 3)
-          p todo
-        .form-group
-          label Notes
-          textarea.form-control(rows='3' placeholder='')
-      Tips
+include ../../common.pug
++createCourse(7)
+  form
+    +formGroup('fields.tags')
+      TagsInput(v-model="fields.tags.value")
+    .flex
+      +formGroup('fields.cover').cover
+        ImageUploader(v-model="fields.cover.value")
+      +formGroup('fields.photos').photos.mll
+        MultipleImageUploader(v-model="fields.photos.value")
+
+    +formGroup('fields.notes')
+      +textarea(v-model="fields.notes.value" rows='3')
 </template>
 
 <script>
 import base from './base'
+import TagsInput from '@/components/TagsInput'
+import ImageUploader from '@/components/ImageUploader';
+import MultipleImageUploader from '@/components/MultipleImageUploader';
+
 export default {
   extends: base,
-  // components: {},
+  components: {TagsInput, ImageUploader, MultipleImageUploader},
   data() {
     const state = this.$state.createCourse;
     const {fields, validations} = state
@@ -33,10 +31,25 @@ export default {
       name,
       fields: fields[name],
       validation: validations[name],
+      cache: {
+        photos: null,
+      },
     }
   },
 
-  // computed: {},
+  computed: {
+    photos() {
+      const photos = this.fields.photos.value.slice(0)
+      for (let i = 0; i < 4; i++) {
+        if (photos[i] === undefined) {
+          photos[i] = null
+        }
+      }
+      photos.push(null)
+      this.cache.photos = photos
+      return photos
+    },
+  },
   // watch: {},
   // methods: {},
   created() {
@@ -47,5 +60,11 @@ export default {
 </script>
 
 <style lang="scss">
-.CreateCourse7{}
+.CreateCourse7{
+  .cover{
+    .ImageUploader{
+      display: block;
+    }
+  }
+}
 </style>
