@@ -10,7 +10,6 @@ export const createCourse = [
   { path: '/CreateCourse/Page7', name: 'createCoursePage7', component: resolve => require(['../views/CreateCourse/Page7.vue'], resolve), meta: {}},
   { path: '/CreateCourse/Page8', name: 'createCoursePage8', component: resolve => require(['../views/CreateCourse/Page8.vue'], resolve), meta: {}},
   { path: '/CreateCourse/Page9', name: 'createCoursePage9', component: resolve => require(['../views/CreateCourse/Page9.vue'], resolve), meta: {}},
-  { path: '/CreateCourse/Page10', name: 'createCoursePage10', component: resolve => require(['../views/CreateCourse/Page10.vue'], resolve), meta: {}},
 ]
 createCourse.forEach((item, index) => {
   if (index > 0) {

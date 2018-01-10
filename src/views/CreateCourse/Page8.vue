@@ -50,6 +50,32 @@ include ../../common.pug
         +input.mll.other-facilities(v-model="fields.otherFacilities.value" placeholder='e.g. Other facilities')
     +formGroup('fields.photos')
       MultipleImageUploader(v-model="fields.photos.value")
+    ._2.mtl
+      .dividing-line-title
+        .title
+          .line
+          span Room
+          .line
+      .form-group
+        Checkbox(v-model="fields.room1Enabled.value")
+        +select.mlm(v-model="fields.room1Type.value")
+          option(value="shared") Shared Room
+          option(value="standard") Standard Room
+        label.mll Quota
+        +input.quota-input.mls(v-model="fields.room1Quota.value" type="number")
+        label.mll Price
+        +input.price-input.mls(v-model="fields.room1Price.value" type="number")
+        span.help-block2.mlm.grey USD
+      .form-group
+        Checkbox(v-model="fields.room2Enabled.value")
+        +select.mlm(v-model="fields.room2Type.value")
+          option(value="shared") Shared Room
+          option(value="standard") Standard Room
+        label.mll Quota
+        +input.quota-input.mls(v-model="fields.room2Quota.value" type="number")
+        label.mll Price
+        +input.price-input.mls(v-model="fields.room2Price.value" type="number")
+        span.help-block2.mlm.grey USD
 </template>
 
 <script>
@@ -85,6 +111,30 @@ export default {
   .other-facilities{
     display: inline-block;
     width: 150px;
+  }
+  ._2{
+    select{
+      display: inline-block;
+      width: 150px;
+    }
+    .quota-input{
+      display: inline-block;
+      width: 80px;
+    }
+    .price-input{
+      display: inline-block;
+      width: 120px;
+    }
+    // input, select{
+    //   display: inline-block;
+    // }
+    // select{
+    //   width: auto;
+    // }
+    .icon{
+      color: #ccc;
+      font-size: 1.4em;
+    }
   }
 }
 </style>

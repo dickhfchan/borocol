@@ -9,9 +9,14 @@ export const steps = [
   {index: 4, pageRange: [6, 6], title: 'Request Form'},
   {index: 5, pageRange: [7, 7], title: 'Make your program looks more attractive'},
   {index: 6, pageRange: [8, 8], title: 'Accomodation'},
-  {index: 7, pageRange: [9, 9], title: 'Accomodation Pricing & Quota'},
-  {index: 8, pageRange: [10, 10], title: 'Pricing & Quota'},
+  {index: 7, pageRange: [9, 9], title: 'Pricing & Quota'},
 ]
+
+
+const priceRegex = /^[1-9]\d*(\.\d{1,2})?$/
+const requiredIfRoomEnabled1 = ({fields}) => fields.room1Enabled.value
+const requiredIfRoomEnabled2 = ({fields}) => fields.room2Enabled.value
+
 export default {
   routes,
   ignoreValidation: true, // only when developing
@@ -188,7 +193,6 @@ export default {
     {
       options: {
         rules: '',
-        text: 'Tags',
         value: [],
       },
       otherOptions: {
@@ -217,14 +221,83 @@ export default {
         text: 'Upload Photos (If Any)',
         value: [],
       },
+      room1Enabled: {},
+      room1Type: {
+        rules: 'requiredIf',
+        text: 'Room Type',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled1],
+        },
+      },
+      room1Quota: {
+        rules: 'requiredIf',
+        text: 'Room Quota',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled1],
+        },
+      },
+      room1Price: {
+        rules: 'requiredIf|regex',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled1],
+          regex: [priceRegex]
+        },
+        nameInMessage: 'Room Price',
+      },
+      room2Enabled: {},
+      room2Type: {
+        rules: 'requiredIf',
+        text: 'Room Type',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled2],
+        },
+      },
+      room2Quota: {
+        rules: 'requiredIf',
+        text: 'Room Quota',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled2],
+        },
+      },
+      room2Price: {
+        rules: 'requiredIf|regex',
+        ruleParams: {
+          requiredIf: [requiredIfRoomEnabled2],
+          regex: [priceRegex]
+        },
+        nameInMessage: 'Room Price',
+      },
     },
     // 9
-    {},
-    // 10
-    {},
+    {
+      seats: {
+        rules: 'required|integer',
+        text: 'How many seats available on Borocol',
+        nameInMessage: 'seats',
+      },
+      price: {
+        rules: 'required|regex',
+        ruleParams: {
+          regex: [priceRegex]
+        },
+        text: 'Price (13% service charge is included)',
+        nameInMessage: 'price',
+      },
+      registrationStartDate: {
+        rules: 'required',
+        text: 'Registration Start Date',
+      },
+      registrationEndDate: {
+        rules: 'required',
+        text: 'Registration End Date',
+      },
+      earlyBirdDiscount: {},
+      discountRate: {},
+      quota: {},
+      downPayment: {},
+    },
   ],
   validations: [
-    {},
     {},
     {},
     {},
@@ -291,57 +364,5 @@ export default {
   checkIsValidCurrentPage() {
     const index = this.getRouteIndex()
     return this.checkIsValidByIndex(index)
-  },
-  formData: {
-    declared: false,
-    agreed: false,
-    // 1
-    title: null,
-    category: null,
-    level: null,
-    startDate: null,
-    endDate: null,
-    description: null,
-    // 2
-    groupSize: null,
-    gender: null,
-    ageRange: [16, 30],
-    hours: null,
-    language: null,
-    instructorPhoto: null,
-    instructorInfo: null,
-    issueCertificate: null,
-    certification: null,
-    // 3
-    address: null,
-    // 4
-    mealsIncluded: null,
-    meals: null,
-  },
-  formDataMapping: {
-    // 1
-    title: 'name',
-    // 2
-    // groupSize
-    // gender
-    // hours
-    // instructorPhoto,
-    // instructorInfo,
-    issueCertificate: 'certification',
-    certification: 'certification_name',
-    // 3
-    // address
-    // city
-    // apiKey
-    // locationDescription
-    // howToGetThere
-    // whereToMeetUpYourGuest
-    // 4
-    // schedule
-    // mealsIncluded
-    // meals
-    // mealsInfo
-    // 5
-
   },
 }

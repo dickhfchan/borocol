@@ -41,5 +41,32 @@ export default {
       margin-bottom: 15px;
     }
   }
+  .dividing-line-title{
+    .title{
+      font-size: $fs-title * 0.8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      .line{
+        height: 1px;
+        width: 35%;
+        background: $bd1;
+      }
+    }
+    input, select{
+      display: inline-block;
+      width: auto;
+    }
+    .line1{
+      select{
+        width: 95px;
+      }
+    }
+    .icon{
+      color: #ccc;
+      font-size: 1.4em;
+    }
+  }
 }
 </style>
