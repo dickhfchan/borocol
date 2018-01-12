@@ -43,12 +43,12 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../server/static/index.html'),
+    index: path.resolve(__dirname, '../server/templates/user-admin.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../server/static'), // output to production directory; 直接输出到工作目录
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/static/',
+    assetsRoot: path.resolve(__dirname, '../server/static/user-admin'), // output to production directory; 直接输出到工作目录
+    assetsSubDirectory: '',
+    assetsPublicPath: '/static/user-admin/',
 
     /**
      * Source Maps
