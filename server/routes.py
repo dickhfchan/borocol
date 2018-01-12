@@ -1,7 +1,7 @@
 # module
 from flask_restful import Api
 from flask_cors import CORS
-from flask import current_app as app
+from flask import current_app as app, render_template
 import json
 # file
 from controllers import ResourceController, QueryController, FileController
@@ -11,11 +11,15 @@ from utils import file_get_contents
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
-@app.route('/<t1>')
-@app.route('/<t1>/<t2>')
-def index(t1 = None, t2 = None):
-    html = file_get_contents('./static/index.html')
-    initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
+def index():
+    return render_template('index.html')
+@app.route('/user-admin')
+@app.route('/user-admin/<t1>')
+@app.route('/user-admin/<t1>/')
+@app.route('/user-admin/<t1>/<t2>')
+def userAdmin(t1 = None, t2 = None):
+    html = render_template('user-admin.html')
+    initialData = {'serverRoot': '', 'clientBase': '/user-admin/'} # serverRoot cant end with /
     html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
     return html
 
