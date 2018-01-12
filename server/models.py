@@ -6,7 +6,7 @@ from cassandra.cqlengine.models import Model
 
 class user(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     password      = columns.Text(required=False, )
 
@@ -21,7 +21,7 @@ class user(Model):
 
 class course_subscriptions(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     user_id      = columns.Text(required=False, )
 
@@ -38,7 +38,7 @@ class course_subscriptions(Model):
 
 class school_profile(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     user_id      = columns.Text(required=False, )
 
@@ -75,7 +75,7 @@ class school_profile(Model):
 
 class student_profile(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     user_id      = columns.Text(required=False, )
 
@@ -104,107 +104,82 @@ class student_profile(Model):
 
 class course_detail(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
-
+    id      = columns.UUID(required=True, primary_key=True)
     school_id      = columns.Text(required=False, )
 
-    country      = columns.Text(required=False, )
-
-    status      = columns.Text(required=False, )
-
-    view_count      = columns.Text(required=False, )
-
-    category      = columns.Text(required=False, )
-
-    name      = columns.Text(required=False, )
-
-    stat_date      = columns.Text(required=False, )
-
-    end_date      = columns.Text(required=False, )
-
-    length_of_course      = columns.Text(required=False, )
-
-    no_of_lessons      = columns.Text(required=False, )
-
-    class_day      = columns.Text(required=False, )
-
-    level      = columns.Text(required=False, )
-
-    age_range      = columns.Text(required=False, )
-
-    description      = columns.Text(required=False, )
-
-    language      = columns.Text(required=False, )
-
-    requirement      = columns.Text(required=False, )
-
-    certification      = columns.Text(required=False, )
-
-    certification_name      = columns.Text(required=False, )
-
-    quota      = columns.Text(required=False, )
-
-    price      = columns.Text(required=False, )
-
-    early_bird_quota      = columns.Text(required=False, )
-
-    registration_start_date      = columns.Text(required=False, )
-
-    registration_end_date      = columns.Text(required=False, )
-
-    class_schedule      = columns.Text(required=False, )
-
-    bad_weather_arrangement      = columns.Text(required=False, )
-
-    remarks      = columns.Text(required=False, )
-
-    photos      = columns.Text(required=False, )
-
-    tags      = columns.Text(required=False, )
+    name = columns.Text(required=True, )
+    category_id = columns.Text(required=True, )
+    level = columns.Text(required=True, )
+    start_date = columns.DateTime(required=True, )
+    end_date = columns.DateTime(required=True, )
+    description = columns.Text(required=False, )
+    group_size = columns.Integer(required=True, )
+    gender = columns.Text(required=False, )
+    age_range = columns.List(columns.Integer, required=False, )
+    hours = columns.Integer(required=True, )
+    language = columns.Text(required=True, )
+    instructor_photo = columns.Text(required=False, )
+    instructor_info = columns.Text(required=False, )
+    issue_certificate = columns.Boolean(required=True, )
+    certificate = columns.Text(required=False, )
+    address = columns.Text(required=True, )
+    city = columns.Text(required=True, )
+    country = columns.Text(required=True, )
+    api_key = columns.Text(required=True, )
+    location_description = columns.Text(required=False, )
+    how_to_get_there = columns.Text(required=False, )
+    where_to_meet = columns.Text(required=False, )
+    schedule = columns.Text(required=True, )
+    meals_included = columns.Boolean(required=True, )
+    meals = columns.List(columns.Text, required=False, )
+    meals_info = columns.Text(required=False, )
+    provide = columns.Text(required=False, )
+    guest_needs_to_bring = columns.Text(required=False, )
+    guest_requirement = columns.Text(required=False, )
+    request_form_existed = columns.Boolean(required=True, )
+    request_form = columns.List(columns.Text, required=False, )
+    tags = columns.List(columns.Text, required=False, )
+    cover = columns.Text(required=True, )
+    photos = columns.List(columns.Text, required=True, )
+    notes = columns.Text(required=False, )
+    seats = columns.Integer(required=True, )
+    price = columns.Decimal(required=True, )
+    registration_start_date = columns.DateTime(required=True, )
+    registration_end_date = columns.DateTime(required=True, )
+    early_bird_discount = columns.Boolean(required=False, )
+    discount_rate = columns.Text(required=False, )
+    quota = columns.Text(required=False, )
+    down_payment = columns.Boolean(required=False, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
 class accomodation_detail(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
-
+    id      = columns.UUID(required=True, primary_key=True)
     course_id      = columns.Text(required=False, )
 
-    type      = columns.Text(required=False, )
-
-    suggestion      = columns.Text(required=False, )
-
-    address1      = columns.Text(required=False, )
-
-    address2      = columns.Text(required=False, )
-
-    share_count      = columns.Text(required=False, )
-
-    bed_style      = columns.Text(required=False, )
-
-    meal_descriptions      = columns.Text(required=False, )
-
-    facilites      = columns.Text(required=False, )
-
-    other_facilites      = columns.Text(required=False, )
-
-    school_commute_time      = columns.Text(required=False, )
-
-    airport_commute_time      = columns.Text(required=False, )
-
-    price      = columns.Text(required=False, )
-
-    cancellation_policy      = columns.Text(required=False, )
-
-    message_to_student      = columns.Text(required=False, )
+    options = columns.List(columns.Text, required=False, )
+    other_options = columns.Text(required=False, )
+    location_description = columns.Text(required=False, )
+    facilities = columns.List(columns.Text, required=False, )
+    other_facilities = columns.Text(required=False, )
+    photos = columns.List(columns.Text, required=False, )
+    room1_enabled = columns.Boolean(required=False, )
+    room1_type = columns.Text(required=False, )
+    room1_quota = columns.Text(required=False, )
+    room1_price = columns.Text(required=False, )
+    room2_enabled = columns.Boolean(required=False, )
+    room2_type = columns.Text(required=False, )
+    room2_quota = columns.Text(required=False, )
+    room2_price = columns.Text(required=False, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
 class visa_detail(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     course_id      = columns.Text(required=False, )
 
@@ -227,7 +202,7 @@ class visa_detail(Model):
 
 class featured_course(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     course_id      = columns.Text(required=False, )
 
@@ -236,7 +211,7 @@ class featured_course(Model):
 
 class reviews(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     user_id      = columns.Text(required=False, )
 
@@ -253,13 +228,23 @@ class reviews(Model):
 
 class course_types(Model):
 
-    id      = columns.Text(required=True, primary_key=True)
+    id      = columns.UUID(required=True, primary_key=True)
 
     name      = columns.Text(required=False, )
 
     type      = columns.Text(required=False, )
 
     description      = columns.Text(required=False, )
+
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
+
+class test(Model):
+
+    id      = columns.UUID(required=True, primary_key=True)
+    ls      = columns.List(columns.Text, required=False, )
+    lsi      = columns.List(columns.Integer, required=False, )
+    dm      = columns.Decimal(required=False, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
@@ -287,3 +272,5 @@ def sync_tables():
   sync_table(reviews)
 
   sync_table(course_types)
+
+  sync_table(test)
