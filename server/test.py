@@ -25,3 +25,4 @@ models.sync_tables()
 # <class 'uuid.UUID'>
 # <class 'NoneType'>
 # datetime.datetime
+# print(isinstance((), (tuple, list)))

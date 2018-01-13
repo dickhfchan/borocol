@@ -137,7 +137,7 @@ class course_detail(Model):
     guest_needs_to_bring = columns.Text(required=False, )
     guest_requirement = columns.Text(required=False, )
     request_form_existed = columns.Boolean(required=True, )
-    request_form = columns.List(columns.Text, required=False, )
+    request_form = columns.Text(required=False, )
     tags = columns.List(columns.Text, required=False, )
     cover = columns.Text(required=True, )
     photos = columns.List(columns.Text, required=True, )

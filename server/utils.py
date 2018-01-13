@@ -1,5 +1,4 @@
 import datetime,time,decimal,uuid, os, json
-from flask import current_app as ap
 
 # quick read, write file
 def file_get_contents(filename):
@@ -78,19 +77,22 @@ def before_write(data0, model):
     return data
 
 # tmp files
-tmpPath = app.config['file_uploadDir'] + '/tmp.json'
 def addTmpFiles(files):
+    from flask import current_app as app
+    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
     tmp = {}
     if os.path.exists(tmpPath):
         f = open(tmpPath, 'r')
         tmp = json.load(f)
         f.close()
     f = open(tmpPath, 'w')
-    for each in files:
+    for fn in files:
         tmp[fn] = int(time.time())
     json.dump(tmp,f)
     f.close()
 def deleteTmpFiles(files):
+    from flask import current_app as app
+    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
     tmp = {}
     if os.path.exists(tmpPath):
         f = open(tmpPath, 'r')
