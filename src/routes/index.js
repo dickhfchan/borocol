@@ -1,4 +1,4 @@
-import {steps} from '@/store/createCourse'
+import {steps} from '@/initialData'
 export const createCourse = [
   { path: '', name: 'createCourse', component: resolve => require(['../views/CreateCourse/index.vue'], resolve), meta: {title: 'Create Course'}},
   { path: '/CreateCourse/Page1', name: 'createCoursePage1', component: resolve => require(['../views/CreateCourse/Page1.vue'], resolve), meta: {}},

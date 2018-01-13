@@ -10,17 +10,16 @@ export default {
       next()
       return
     }
-    const key = state.pageOrder[state.getRouteIndex(to) - 1]
-    if (key) {
-      state.checkIsValidTillKey(key).then(() => {
-        next()
-      }, e => {
-        const invalidRoute = state.routes[e.index]
-        next(invalidRoute)
-      })
-    } else {
+    state.checkIsValidTillIndex(state.getRouteIndex(to)).then(() => {
       next()
-    }
+    }, e => {
+      const invalidRoute = state.routes[e.index]
+      if (invalidRoute.name === to.name) {
+        next()
+      } else {
+        next(invalidRoute)
+      }
+    })
   },
   data() {
     const state = this.$state.createCourse

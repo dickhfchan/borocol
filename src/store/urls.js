@@ -4,6 +4,7 @@ import routes from '../routes/index'
 const urls = {
   clientBase: initialData.clientBase,
   serverBase: `${initialData.serverRoot}/api/v1`,
+  api: `${initialData.serverRoot}/api/v1`,
 }
 // ''.split(',').forEach(uri => {
 //   urls[uri] = `${initialData.serverRoot}/${uri}`

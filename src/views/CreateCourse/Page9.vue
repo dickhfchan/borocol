@@ -24,7 +24,7 @@ include ../../common.pug
         .line
       .line1
         Checkbox(v-model="fields.earlyBirdDiscount.value")
-        label.mls Early Bird Discount copy
+        label.mls Early Bird Discount
         span.icon.icon-question-circle.mlm
         label.mll Discount Rate
         +select.mls(v-model="fields.discountRate.value")

@@ -1,25 +1,17 @@
 import Vue from 'vue'
+import {snakeCase} from 'helper-js'
 import store from './index'
 import {createCourse as routes} from '@/routes/index'
-
-export const steps = [
-  {index: 1, pageRange: [1,2], title: 'Start with the basic'},
-  {index: 2, pageRange: [3, 3], title: 'Location'},
-  {index: 3, pageRange: [4, 5], title: 'General Details'},
-  {index: 4, pageRange: [6, 6], title: 'Request Form'},
-  {index: 5, pageRange: [7, 7], title: 'Make your program looks more attractive'},
-  {index: 6, pageRange: [8, 8], title: 'Accomodation'},
-  {index: 7, pageRange: [9, 9], title: 'Pricing & Quota'},
-]
-
+import {steps} from '@/initialData'
+import {newDate} from '@/utils'
 
 const priceRegex = /^[1-9]\d*(\.\d{1,2})?$/
 const requiredIfRoomEnabled1 = ({fields}) => fields.room1Enabled.value
 const requiredIfRoomEnabled2 = ({fields}) => fields.room2Enabled.value
 
-export default {
+const state = {
   routes,
-  ignoreValidation: true, // only when developing
+  ignoreValidation: false, // only when developing
   steps,
   fields: [
     // 0
@@ -166,6 +158,7 @@ export default {
       },
       requestForm: {
         value: [{enabled: false, value: null}, {enabled: false, value: null}],
+        type: 'json',
       },
     },
     // 7
@@ -365,4 +358,53 @@ export default {
     const index = this.getRouteIndex()
     return this.checkIsValidByIndex(index)
   },
+  submitting: false,
+  submit() {
+    const vm = store.state.appVm
+    if (this.submitting) {
+      return
+    }
+    this.submitting = true
+    this.checkIsValidTillIndex(this.fields.length - 1).then(() => {
+      const data = {
+        accomodation_detail: {},
+      }
+      this.validations.forEach((vl, i) => {
+        if (i !== 0) {
+          const {fields} = vl
+          const values = {}
+          // process value
+          for (var key0 in fields) {
+            const key = snakeCase(key0)
+            const fld = fields[key0]
+            if (key.endsWith('date')) {
+              values[key] = parseInt(newDate(fld.value).getTime() / 1000)
+            } else {
+              values[key] = fld.type === 'json' ? JSON.stringify(fld.value) : fld.value
+            }
+          }
+          //
+          if (i === 8) {
+            Object.assign(data.accomodation_detail, values)
+          } else {
+            Object.assign(data, values)
+          }
+        }
+      })
+      return vm.$http.post(`${vm.$state.urls.api}/course_detail`, data).then(({data}) => {
+        vm.$alert(`Saved Successfully`)
+      }, (e) => {
+        console.log(e);
+        vm.$alert(`Save Failed. ${e.response.data.message || ''}`)
+      })
+    }, e => {
+      if (e.index != null) {
+        const invalidRoute = this.routes[e.index]
+        vm.$router.push(invalidRoute)
+      }
+    }).then(() => {
+      this.submitting = false
+    })
+  },
 }
+export default state

@@ -15,10 +15,13 @@
     a.btn.btn-link.btn-lg.back-btn(@click="state.goPrevPage()")
       span.icon.icon-arrow-left.mrs
       | Back
-    a.btn.btn-primary.btn-lg.pull-right(@click="state.checkAndGoNextPage()") Next
+    a.btn.btn-primary.btn-lg.pull-right(v-if="isLastPage" @click="state.submit()") Finish
+    a.btn.btn-primary.btn-lg.pull-right(v-else @click="state.checkAndGoNextPage()") Next
 </template>
 
 <script>
+import {arrayLast} from 'helper-js'
+
 export default {
   components: {},
   data() {
@@ -26,7 +29,11 @@ export default {
       state: this.$state.createCourse,
     }
   },
-  // computed: {},
+  computed: {
+    isLastPage() {
+      return this.state.getRouteIndex() === arrayLast(this.state.steps).pageRange[1]
+    },
+  },
   // watch: {},
   // methods: {},
   // created() {},

@@ -94,7 +94,7 @@ export default {
           if (newFile.error) {
             console.log('upload failed');
             this.remove(newFile)
-            this.$alert(`Upload Failed. ${newFile.response.message}`)
+            this.$alert(`Upload Failed. ${newFile.response.data.message || ''}`)
           } else if (newFile.success && newFile.progress == 100) {
             console.log('upload succeeded')
             this.$notification.success(`The file was uploaded successfully`)
