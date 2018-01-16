@@ -6,7 +6,7 @@
       ._1
         .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
         .or OR
-        .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
+        .text-box A Program<br><b>"Without"</b> Accomodation <span class="icon icon-question-circle"></span>
       ._2
         .item
           Radio(v-model="fields.declared.value")
