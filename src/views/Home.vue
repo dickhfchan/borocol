@@ -1,10 +1,6 @@
 <template lang="pug">
 .Home.container
   .content-card
-    div
-      router-link(:to="{name: 'createCourse'}") Create Course 
-      br
-      router-link(:to="{name: 'orders'}") Orders
 </template>
 
 <script>

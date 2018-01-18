@@ -5,7 +5,7 @@ include ../common.pug
   .container
     .menu
       template(v-for="(item, index) in children")
-        a.item
+        a.item(:href="getHref(item)" @click.prevent="clickItem(item)")
           span.icon.item-icon(:class="'icon-' + item.icon")
             .notification-count(v-if="item.notificationCount") {{item.notificationCount}}
           .text {{item.text}}
@@ -21,8 +21,8 @@ export default {
         { icon: 'user-o', text: 'Profile', },
         { icon: 'like', text: 'School Reviews', },
         { icon: 'house', text: 'My Courses', },
-        { icon: 'paper', text: 'Orders', notificationCount: 2},
-        { icon: 'plus', text: 'Create Course', },
+        { icon: 'paper', text: 'Orders', notificationCount: 2, route: {name: 'orders'}},
+        { icon: 'plus', text: 'Create Course', route: {name: 'createCourse'}},
         { icon: 'talk', text: 'Message', },
         { icon: 'cog', text: 'Settings', },
         { icon: 'question-book', text: 'Inquiry', },
@@ -31,7 +31,20 @@ export default {
   },
   // computed: {},
   // watch: {},
-  // methods: {},
+  methods: {
+    getHref(item) {
+      if (item.route) {
+        return this.$router.resolve(item.route).href
+      } else {
+        return ''
+      }
+    },
+    clickItem(item) {
+      if (item.route) {
+        this.$router.push(item.route)
+      }
+    },
+  },
   // created() {},
   // mounted() {},
 }
