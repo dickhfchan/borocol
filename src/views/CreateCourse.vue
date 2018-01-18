@@ -63,6 +63,9 @@ export default {
 <style lang="scss">
 @import "~@/assets/css/global.scss";
 .CreateCourse{
+  .content-card{
+    padding: 0;
+  }
   .content-card-body.has-tips{
     display: flex;
     justify-content: space-between;
@@ -74,6 +77,41 @@ export default {
       flex-shrink: 0;
       margin-bottom: 15px;
     }
+  }
+
+  .content-card-header{
+    font-size: $fs-title;
+    $h: 80px;
+    height: $h;
+    line-height: $h;
+    .step{
+      display: inline-block;
+      font-weight: bold;
+      width: 170px;
+      text-align: center;
+      color: #1aa7ac;
+      border-right: 2px solid $bd1;
+    }
+    .title{
+      display: inline-block;
+      padding-left: 30px;
+    }
+  }
+  .content-card-progress-bar{
+    background-color: #dbdbdb;
+    box-shadow: none;
+    border-radius: 0;
+    .progress-bar-warning{
+      box-shadow: none;
+      font-size: 14px;
+      color: $color1;
+      font-weight: 500;
+      background-color: #ffcc00;
+    }
+  }
+  .content-card-body{
+    padding: 50px 100px 120px 100px;
+    box-sizing: content-box;
   }
   .dividing-line-title{
     .title{
