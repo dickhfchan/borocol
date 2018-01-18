@@ -71,39 +71,10 @@ a{
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 3px 20.37px 0.63px rgba(136, 136, 136, 0.31);
   margin: 50px 0 200px 0;
+  padding: 60px;
 }
-
-.content-card-header{
-  font-size: $fs-title;
-  $h: 80px;
-  height: $h;
-  line-height: $h;
-  .step{
-    display: inline-block;
-    font-weight: bold;
-    width: 170px;
-    text-align: center;
-    color: #1aa7ac;
-    border-right: 2px solid $bd1;
-  }
-  .title{
-    display: inline-block;
-    padding-left: 30px;
-  }
-}
-.content-card-progress-bar{
-  background-color: #dbdbdb;
-  box-shadow: none;
-  border-radius: 0;
-  .progress-bar-warning{
-    box-shadow: none;
-    font-size: 14px;
-    color: $color1;
-    font-weight: 500;
-    background-color: #ffcc00;
-  }
-}
-.content-card-body{
-  padding: 50px 100px 120px 100px;
-  box-sizing: content-box;
+.content-card-title {
+  font-size: 70px;
+  font-weight: $fw-light;
+  margin: 20px 0 50px 0;
 }

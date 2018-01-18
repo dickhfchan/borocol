@@ -2,6 +2,7 @@
 .ImageUploader
   .box
     .icon.icon-plus-thin
+    span.title.mtm(v-if="title") {{title}}
   VueUploadComponent.VueUploadComponent(
     ref="upload"
     v-model="files"
@@ -24,7 +25,7 @@
     :options="modalOptions",
     @close="modalClose", @ok="modalOk"
   )
-    h4.modal-title(slot="title") {{title}}
+    h4.modal-title(slot="title") {{modalTitle}}
     div
       img.editing-img(ref="editingImage" :src="files[0].url")
 </template>
@@ -44,6 +45,7 @@ export default {
     name: {default: 'file'},
     extensions: {default: is => ["gif", "jpg", "jpeg", "png", "webp"]},
     aspectRatio: {},
+    title: {},
   },
   data() {
     return {
@@ -56,7 +58,7 @@ export default {
       progress: 0,
       // modal
       modalVisible: false,
-      title: '',
+      modalTitle: '',
       modalOptions: {
         size: 'lg',
         closeWhenClickBack: false,
@@ -84,7 +86,7 @@ export default {
               viewMode: 1,
               crop: (e) => {
                 const {width, height} = e.detail
-                this.title = `Crop ${Math.ceil(width)}x${Math.ceil(height)}`
+                this.modalTitle = `Crop ${Math.ceil(width)}x${Math.ceil(height)}`
               }
             })
             this.cropper = cropper
@@ -193,10 +195,19 @@ export default {
   .box{
     width: $side;
     height: $side;
-    line-height: $side;
     display: inline-block;
     border: $bd1 dashed 2px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .title{
+      color: #888888;
+    }
+  }
+  .icon-plus-thin{
+    font-size: 40px;
+    color: $bd1;
   }
   .preview{
     @extend %mask;
@@ -225,10 +236,6 @@ export default {
         display: block;
       }
     }
-  }
-  .icon-plus-thin{
-    font-size: 30px;
-    color: $bd1;
   }
   .VueUploadComponent{
     @extend %mask;

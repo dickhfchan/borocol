@@ -9,8 +9,11 @@
 .flex{
   display: flex;
 }
+.flex-0{
+  flex-shrink: 0;
+}
 .flex-1{
-  flex: 1;
+  flex-shrink: 1;
 }
 .flex-col{
   flex-direction: column;
@@ -81,4 +84,13 @@
 }
 .display-ib{
   display: inline-block;
+}
+
+.space{
+  display: inline;
+  // width: 1em;
+  &::after{
+    content: "    ";
+    white-space: pre;
+  }
 }

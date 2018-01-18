@@ -5,7 +5,7 @@ include ../common.pug
   .container
     .menu
       template(v-for="(item, index) in children")
-        a.item(:href="getHref(item)" @click.prevent="clickItem(item)")
+        a.item(:href="getHref(item)" @click.prevent="clickItem(item)" :class="{active: activeIndex===index}")
           span.icon.item-icon(:class="'icon-' + item.icon")
             .notification-count(v-if="item.notificationCount") {{item.notificationCount}}
           .text {{item.text}}
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       children: [
-        { icon: 'user-o', text: 'Profile', },
+        { icon: 'user-o', text: 'Profile', route: {name: 'profile'}},
         { icon: 'like', text: 'School Reviews', },
         { icon: 'house', text: 'My Courses', },
         { icon: 'paper', text: 'Orders', notificationCount: 2, route: {name: 'orders'}},
@@ -29,7 +29,16 @@ export default {
       ],
     }
   },
-  // computed: {},
+  computed: {
+    activeIndex() {
+      for (let i = 0; i < this.children.length; i++) {
+        const item = this.children[i]
+        if (item.route && this.$route.name && this.$route.name.startsWith(item.route.name)) {
+          return i
+        }
+      }
+    },
+  },
   // watch: {},
   methods: {
     getHref(item) {
@@ -72,7 +81,7 @@ export default {
     &.active{
       cursor: pointer;
       background: $bg2;
-      .icon{
+      .item-icon, .text{
         color: #fff;
       }
     }
@@ -85,7 +94,6 @@ export default {
   .text{
     margin-top: 10px;
     font-size: 15px;
-    font-weight: 300;
     color: lighten($color1, 15%);
   }
   .notification-count{

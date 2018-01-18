@@ -1,6 +1,6 @@
 <template lang="pug">
 .DatePicker.date-picker.form-group.has-feedback
-  input.form-control.input-lg(type='text' :value="displayValue")
+  input.form-control.input-lg(type='text' :value="displayValue" :placeholder="placeholder")
   span.icon.icon-calendar.form-control-feedback
   .mask(@click='togglePanel')
   //- .input-wrapper(@mouseenter='showCancel = true', @mouseleave='showCancel = false')
@@ -49,6 +49,7 @@ export default {
   extends: datepicker,
   props: {
     format: {default: 'yyyy-MM-dd'},
+    placeholder: {},
   },
   // components: {},
   // data() {
