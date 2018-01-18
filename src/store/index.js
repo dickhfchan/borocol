@@ -32,6 +32,12 @@ const state = {
   authenticated: false,
   user: null,
   //
+  //
+  genderOptions: [
+    {value: 'male', text: 'Male'},
+    {value: 'female', text: 'Female'},
+  ],
+  //
   // noImg,
 }
 Object.assign(state, initialData)
