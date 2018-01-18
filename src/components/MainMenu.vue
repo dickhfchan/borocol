@@ -6,7 +6,8 @@ include ../common.pug
     .menu
       template(v-for="(item, index) in children")
         a.item
-          span.icon(:class="'icon-' + item.icon")
+          span.icon.item-icon(:class="'icon-' + item.icon")
+            .notification-count(v-if="item.notificationCount") {{item.notificationCount}}
           .text {{item.text}}
         .divider(v-if="index < children.length - 1")
 </template>
@@ -20,7 +21,7 @@ export default {
         { icon: 'user-o', text: 'Profile', },
         { icon: 'like', text: 'School Reviews', },
         { icon: 'house', text: 'My Courses', },
-        { icon: 'paper', text: 'Orders', },
+        { icon: 'paper', text: 'Orders', notificationCount: 2},
         { icon: 'plus', text: 'Create Course', },
         { icon: 'talk', text: 'Message', },
         { icon: 'cog', text: 'Settings', },
@@ -61,9 +62,10 @@ export default {
       }
     }
   }
-  .icon{
-    font-size: 30px;
+  .item-icon{
+    font-size: 35px;
     color: #b9b9b9;
+    position: relative;
   }
   .text{
     margin-top: 10px;
@@ -71,6 +73,22 @@ export default {
     font-weight: 300;
     color: lighten($color1, 15%);
   }
+  .notification-count{
+    border-radius: 50%;
+    background-color: rgb(224, 79, 79);
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: serif;
+    $side: 17px;
+    width: $side;
+    height: $side;
+    line-height: $side;
+    position: absolute;
+    right: -10px;
+    top: 0px;
+  }
+
   .divider{
     display: inline-block;
     width: 1px;
