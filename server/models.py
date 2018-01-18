@@ -76,28 +76,25 @@ class school_profile(Model):
 class student_profile(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
-
     user_id      = columns.Text(required=False, )
-
     status      = columns.Text(required=False, )
-
-    frist_name      = columns.Text(required=False, )
-
-    last_name      = columns.Text(required=False, )
-
-    phone_number      = columns.Text(required=False, )
-
-    gender      = columns.Text(required=False, )
-
-    country      = columns.Text(required=False, )
-
     currency      = columns.Text(required=False, )
-
     language      = columns.Text(required=False, )
-
-    passport_information      = columns.Text(required=False, )
-
     liked_courses      = columns.Text(required=False, )
+
+    # in student profile form
+    avatar = columns.Text(required=True, )
+    first_name = columns.Text(required=True, )
+    middle_name = columns.Text(required=False, )
+    last_name = columns.Text(required=True, )
+    gender = columns.Text(required=True, )
+    birthday = columns.DateTime(required=True, )
+    nationality = columns.Text(required=True, )
+    country_of_residence = columns.Text(required=True, )
+    email = columns.Text(required=True, )
+    phone = columns.Text(required=True, )
+    passport_info = columns.Text(required=True, )
+    emergency_contact_person = columns.Text(required=True, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()

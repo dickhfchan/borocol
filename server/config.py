@@ -14,3 +14,9 @@ request_maxContentLength = 16 * 1024 * 1024 # 16m MAX_CONTENT_LENGTH
 # file
 file_uploadDir = path.join(app_path, 'uploads')
 file_allowedExtensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp'])
+#
+file_fields = {
+    'course_detail': ['photos'],
+    'accomodation_detail': ['instructor_photo', 'cover', 'photos'],
+    'student_profile': ['avatar']
+}

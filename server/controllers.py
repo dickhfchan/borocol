@@ -46,6 +46,15 @@ class ResourceController(Resource):
         # save
         try:
             item = model.create(**data)
+            if model_name in app.config['file_fields']:
+                fields = app.config['file_fields'][model_name]
+                files = [] # not empty
+                for fld in fields:
+                    if isinstance(data[fld], (list, tuple)):
+                        files = files + data[fld]
+                    else:
+                        files.append(data[fld])
+                deleteTmpFiles(files)
         except Exception as e:
             print(e)
             errorMsg = str(e)
