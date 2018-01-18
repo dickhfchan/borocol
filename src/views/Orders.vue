@@ -1,10 +1,5 @@
 <template lang="pug">
-.Home.container
-  .content-card
-    div
-      router-link(:to="{name: 'createCourse'}") Create Course 
-      br
-      router-link(:to="{name: 'orders'}") Orders
+.Orders
 </template>
 
 <script>
@@ -22,5 +17,5 @@ export default {
 </script>
 
 <style lang="scss">
-.Home{}
+.Orders{}
 </style>

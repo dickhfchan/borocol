@@ -20,8 +20,7 @@ createCourse.forEach((item, index) => {
 
 const routes = [
   { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol'}},
-  // { path: '/CreateCourse9a', name: 'createCourse9a', component: resolve => require(['../views/CreateCourse9a.vue'], resolve), meta: {title: 'Create Course 9a'}},
-  // { path: '/CreateCourse9b', name: 'createCourse9b', component: resolve => require(['../views/CreateCourse9b.vue'], resolve), meta: {title: 'Create Course 9b'}},
+  { path: '/Orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {title: 'Orders'}},
   { path: '/CreateCourse', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
   },
