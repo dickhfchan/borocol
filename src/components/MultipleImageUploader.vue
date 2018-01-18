@@ -8,7 +8,7 @@
         span.icon.icon-trash-o.mls(title="Remove" @click="remove(item, index)")
       span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
   .box
-    .icon.icon-plus
+    .icon.icon-plus-thin
     VueUploadComponent.VueUploadComponent(
       ref="upload"
       v-model="files"
@@ -156,7 +156,7 @@ export default {
     text-align: center;
     position: relative;
   }
-  .icon-plus{
+  .icon-plus-thin{
     font-size: 30px;
     color: $bd1;
   }

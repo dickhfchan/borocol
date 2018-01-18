@@ -1,7 +1,7 @@
 <template lang="pug">
 .ImageUploader
   .box
-    .icon.icon-plus
+    .icon.icon-plus-thin
   VueUploadComponent.VueUploadComponent(
     ref="upload"
     v-model="files"
@@ -226,7 +226,7 @@ export default {
       }
     }
   }
-  .icon-plus{
+  .icon-plus-thin{
     font-size: 30px;
     color: $bd1;
   }

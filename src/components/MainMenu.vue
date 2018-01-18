@@ -22,7 +22,7 @@ export default {
         { icon: 'like', text: 'School Reviews', },
         { icon: 'house', text: 'My Courses', },
         { icon: 'paper', text: 'Orders', notificationCount: 2, route: {name: 'orders'}},
-        { icon: 'plus', text: 'Create Course', route: {name: 'createCourse'}},
+        { icon: 'plus-thin', text: 'Create Course', route: {name: 'createCourse'}},
         { icon: 'talk', text: 'Message', },
         { icon: 'cog', text: 'Settings', },
         { icon: 'question-book', text: 'Inquiry', },
@@ -63,9 +63,11 @@ export default {
     text-align: center;
     padding: 20px 0;
     width: 150px;
+    &:focus, &:visited, &:hover{
+      text-decoration: none;
+    }
     &:hover{
       background: #e4e4e4;
-      text-decoration: none;
     }
     &.active{
       cursor: pointer;
