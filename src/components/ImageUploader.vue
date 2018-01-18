@@ -191,10 +191,11 @@ export default {
   display: inline-block;
   position: relative;
   flex-shrink: 0;
-  $side: 100px;
+  width: 100px;
+  height: 100px;
   .box{
-    width: $side;
-    height: $side;
+    width: 100%;
+    height: 100%;
     display: inline-block;
     border: $bd1 dashed 2px;
     text-align: center;
@@ -213,8 +214,8 @@ export default {
     @extend %mask;
   }
   .preview-img{
-    width: $side;
-    height: $side;
+    width: 100%;
+    height: 100%;
   }
   .black-mask{
     @extend %mask;

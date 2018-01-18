@@ -27,9 +27,11 @@ include ../common.pug
                 .space
                 +formGroup('fields.nationality')
                   +selectLg(v-model="fields.nationality.value")
+                    option(value="USA") USA
         .flex
           +formGroup('fields.countryOfResidence')
             +selectLg(v-model="fields.countryOfResidence.value")
+              option(value="USA") USA
           .space
           +formGroup('fields.email').flex-1
             +inputLg(v-model="fields.email.value")
@@ -72,6 +74,8 @@ include ../common.pug
 <script>
 import ImageUploader from '@/components/ImageUploader';
 import DatePicker from '@/components/DatePicker';
+import {newDate} from '@/utils'
+import {snakeCase} from 'helper-js'
 export default {
   components: {ImageUploader, DatePicker},
   data() {
@@ -83,11 +87,13 @@ export default {
         },
         firstName: {
           rules: 'required',
+          text: 'First Name',
         },
         middleName: {
         },
         lastName: {
           rules: 'required',
+          text: 'Last Name',
         },
         gender: {
           rules: 'required',
@@ -124,13 +130,6 @@ export default {
             expiryDate: null,
           },
         },
-        issuedCountry: {
-          rules: 'required',
-        },
-        expiryDate: {
-          rules: 'required',
-          type: 'date',
-        },
         emergencyContactPerson: {
           rules: 'required',
           type: 'json',
@@ -151,6 +150,8 @@ export default {
           rules: 'required|accepted',
         },
       },
+      validation: {},
+      saving: false,
     }
   },
   computed: {
@@ -164,11 +165,72 @@ export default {
   // watch: {},
   methods: {
     save() {
-
+      if (this.saving) {
+        return
+      }
+      this.saving = true
+      this.validation.check().then(data => {
+        if (Object.values(this.fields.passportInfo.value).some(v => !v)) {
+          this.$alert(`Passport info is required`);
+        } else if (Object.values(this.fields.emergencyContactPerson.value[0]).some(v => !v)) {
+          this.$alert(`Emergency contact person 1 is required`);
+        } else {
+          Object.values(this.fields).forEach(fld => {
+            switch (fld.type) {
+              case 'date':
+                  data[fld.name] = parseInt(newDate(data[fld.name]).getTime() / 1000)
+                break;
+              case 'json':
+                  data[fld.name] = JSON.stringify(data[fld.name])
+                break;
+            }
+          })
+          const requestData = {}
+          for (const key in data) {
+            requestData[snakeCase(key)] = data[key]
+          }
+          return this.$http.post(`${this.$state.urls.api}/student_profile`, requestData).then(({data}) => {
+            this.$alert(`Saved Successfully`)
+          }, (e) => {
+            console.log(e);
+            this.$alert(`Save Failed. ${e.response.data.message || ''}`)
+          })
+        }
+      }, e => {
+        this.$alert(this.validation.getFirstError().message);
+      }).then(() => {
+        this.saving = false
+      })
     }
   },
   // created() {},
-  // mounted() {},
+  mounted() {
+    this.$validate(this.validation, this.fields)
+    window.StudentProfile  = {
+      fill: () => {
+        Object.values(this.fields).forEach(fld => {
+          if (fld.type === 'date') {
+            fld.value = '2018-01-01'
+          } else if (fld.name === 'declared') {
+            fld.value = true
+          } else if (fld.name === 'passportInfo') {
+            fld.value =  {
+              number: 'safsagsa',
+              issuedCountry: 'asfgasg',
+              expiryDate: '2018-01-01',
+            }
+          } else if (fld.type === 'json') {
+            // emergencyContactPerson
+            for (const key in fld.value[0]) {
+              fld.value[0][key] = 'anything'
+            }
+          } else {
+            fld.value = 'anything'
+          }
+        })
+      }
+    }
+  },
 }
 </script>
 
@@ -183,7 +245,7 @@ export default {
     display: flex;
   }
   .avatar{
-    .ImageUploader .box{
+    .ImageUploader{
       $side: 160px;
       width: $side;
       height: $side;
