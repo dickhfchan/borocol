@@ -19,8 +19,7 @@ import CheckboxGroup from '@/components/CheckboxGroup'
 import Radio from '@/components/Radio'
 // style
 import '../node_modules/css-spacing/css/css-spacing.min.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import './assets/css/bootstrap-custom.scss'
+import './assets/css/bootstrap.scss'
 import '@/assets/css/helper.scss'
 import '@/assets/css/common.scss'
 

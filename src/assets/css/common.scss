@@ -1,5 +1,4 @@
 @import "global.scss";
-@import "bootstrap-custom.scss";
 
 .icon:before {
   vertical-align: middle;
@@ -76,5 +75,5 @@ a{
 .content-card-title {
   font-size: 70px;
   font-weight: $fw-light;
-  margin: 20px 0 50px 0;
+  margin: 20px 0;
 }
