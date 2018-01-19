@@ -1,64 +1,65 @@
 <template lang="pug">
 include ../common.pug
-.Orders.container
-  .content-card
-    h1.content-card-title Orders
-    .content-card-body
-      Tabs(v-model="activeTab")
-        ._1
-          a.print(href="javascript:void(0)" @click="print")
-            span.icon.icon-printer-1
-          .search
-            +inputLg(placeholder="Search")
-            span.icon.icon-search
-        Tab.mtl(name="All")
-          Datatable(:cols="cols" :rows="rows")
-            span(slot="appendHeadCell" slot-scope="props")
-              template(v-if="props.col.name === 'paid'")
-                span.mls.icon.icon-question-circle
-            span(slot="appendCell" slot-scope="props")
-              template(v-if="props.col.name === 'course_fee'")
-                .fee-detail
-                  Tooltip(title="10000")
-                    span.accomodation.icon.icon-accommodation
-                  Tooltip(title="10000")
-                    span.insurance.icon.icon-insurance
-                  Tooltip(title="10000")
-                    span.downpayment.icon.icon-downpayment
-            .refund-request(slot="cell" slot-scope="props")
-              span(v-if="props.col.name === 'refund_request'")
-                template(v-if="props.value==='pending'")
-                  button.btn.btn-primary.btn-sm(type="button") Refund
-                  .space
-                  button.btn.btn-danger.btn-sm(type="button") Reject
-                template(v-else-if="props.value==='refunded'") ${{props.row.paid}} Refunded
-                span.text-danger.bold(v-else) Rejected
-              span(v-else) {{props.value}}
-            th(slot="appendHead")
-            td.actions(slot="appendRow"  slot-scope="props")
-              .dropdown.left
-                //- button(type='button')
-                .actions-btn
-                  | Actions
-                  span.caret.mls
-                ul.dropdown-menu
-                  li
-                    a(href="javascript:void(0)")
-                      span.icon.icon-talk
-                      | Message
-                  li.divider
-                  li
-                    a(href="javascript:void(0)")
-                      span.icon.icon-refund
-                      | Refund
-                  li.divider
-                  li
-                    a(href="javascript:void(0)")
-                      span.icon.icon-trash-o
-                      | Delete
-        Tab(name="Paid") Paid
-        Tab(name="Refund Request") Refund Request
-        Tab(name="Cancelled") Cancelled
+.Orders
+  .container
+    .content-card
+      h1.content-card-title Orders
+      .content-card-body
+        Tabs(v-model="activeTab")
+          ._1
+            a.print(href="javascript:void(0)" @click="print")
+              span.icon.icon-printer-1
+            .search
+              +inputLg(placeholder="Search")
+              span.icon.icon-search
+          Tab.mtl(name="All")
+            Datatable(:cols="cols" :rows="rows")
+              span(slot="appendHeadCell" slot-scope="props")
+                template(v-if="props.col.name === 'paid'")
+                  span.mls.icon.icon-question-circle
+              span(slot="appendCell" slot-scope="props")
+                template(v-if="props.col.name === 'course_fee'")
+                  .fee-detail
+                    Tooltip(title="10000")
+                      span.accomodation.icon.icon-accommodation
+                    Tooltip(title="10000")
+                      span.insurance.icon.icon-insurance
+                    Tooltip(title="10000")
+                      span.downpayment.icon.icon-downpayment
+              .refund-request(slot="cell" slot-scope="props")
+                span(v-if="props.col.name === 'refund_request'")
+                  template(v-if="props.value==='pending'")
+                    button.btn.btn-primary.btn-sm(type="button") Refund
+                    .space
+                    button.btn.btn-danger.btn-sm(type="button") Reject
+                  template(v-else-if="props.value==='refunded'") ${{props.row.paid}} Refunded
+                  span.text-danger.bold(v-else) Rejected
+                span(v-else) {{props.value}}
+              th(slot="appendHead")
+              td.actions(slot="appendRow"  slot-scope="props")
+                .dropdown.left
+                  //- button(type='button')
+                  .actions-btn
+                    | Actions
+                    span.caret.mls
+                  ul.dropdown-menu
+                    li
+                      a(href="javascript:void(0)")
+                        span.icon.icon-talk
+                        | Message
+                    li.divider
+                    li
+                      a(href="javascript:void(0)")
+                        span.icon.icon-refund
+                        | Refund
+                    li.divider
+                    li
+                      a(href="javascript:void(0)")
+                        span.icon.icon-trash-o
+                        | Delete
+          Tab(name="Paid") Paid
+          Tab(name="Refund Request") Refund Request
+          Tab(name="Cancelled") Cancelled
 </template>
 
 <script>
@@ -225,7 +226,12 @@ export default {
 
 <style lang="scss">
 .Orders{
-  &.container{
+  background-image: url(~@/assets/img/orders-bg.jpg);
+  background-size: 100%;
+  @media(max-width: 1920px) {
+    background-size: 1920px;
+  }
+  .container{
     width: 1400px;
     padding: 0;
   }

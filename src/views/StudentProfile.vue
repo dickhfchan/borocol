@@ -1,74 +1,75 @@
 <template lang="pug">
 include ../common.pug
-.StudentProfile.container
-  .content-card
-    h1.content-card-title Profile
-    form.content-card-body.flex(@submit.prevent="save")
-      .form-left
-        ._1
-          .avatar.mrm
-            ImageUploader.mrl(:aspectRatio="1/1" v-model="fields.avatar.value" title="Upload Photo")
-          .avatar-right
-            .form-group
-              label Name on Passport
-              .flex
-                +inputLg(placeholder="* First Name" v-model="fields.firstName.value")
-                .space
-                +inputLg(placeholder="Middle Name" v-model="fields.middleName.value")
-                .space
-                +inputLg(placeholder="* Last Name" v-model="fields.lastName.value")
-              .flex.mtm
-                +formGroup('fields.gender')
-                  +selectLg(v-model="fields.gender.value")
-                    option(v-for="item in $state.genderOptions" :value="item.value") {{item.text}}
-                .space
-                +formGroup('fields.birthday')
-                  DatePicker(v-model="fields.birthday.value" :format="dateFormat")
-                .space
-                +formGroup('fields.nationality')
-                  +selectLg(v-model="fields.nationality.value")
-                    option(value="USA") USA
-        .flex
-          +formGroup('fields.countryOfResidence')
-            +selectLg(v-model="fields.countryOfResidence.value")
-              option(value="USA") USA
-          .space
-          +formGroup('fields.email').flex-1
-            +inputLg(v-model="fields.email.value")
-          .space
-          +formGroup('fields.phone').phone
-            .input-group
-              .input-group-addon +1(917)
-              +inputLg(v-model="fields.phone.value")
-        +formGroup('fields.passportInfo').passport
+.StudentProfile
+  .container
+    .content-card
+      h1.content-card-title Profile
+      form.content-card-body.flex(@submit.prevent="save")
+        .form-left
+          ._1
+            .avatar.mrm
+              ImageUploader.mrl(:aspectRatio="1/1" v-model="fields.avatar.value" title="Upload Photo")
+            .avatar-right
+              .form-group
+                label Name on Passport
+                .flex
+                  +inputLg(placeholder="* First Name" v-model="fields.firstName.value")
+                  .space
+                  +inputLg(placeholder="Middle Name" v-model="fields.middleName.value")
+                  .space
+                  +inputLg(placeholder="* Last Name" v-model="fields.lastName.value")
+                .flex.mtm
+                  +formGroup('fields.gender')
+                    +selectLg(v-model="fields.gender.value")
+                      option(v-for="item in $state.genderOptions" :value="item.value") {{item.text}}
+                  .space
+                  +formGroup('fields.birthday')
+                    DatePicker(v-model="fields.birthday.value" :format="dateFormat")
+                  .space
+                  +formGroup('fields.nationality')
+                    +selectLg(v-model="fields.nationality.value")
+                      option(value="USA") USA
           .flex
-            +inputLg(placeholder="Passport Number" v-model="fields.passportInfo.value.number")
+            +formGroup('fields.countryOfResidence')
+              +selectLg(v-model="fields.countryOfResidence.value")
+                option(value="USA") USA
             .space
-            +inputLg(placeholder="Issued Country" v-model="fields.passportInfo.value.issuedCountry")
+            +formGroup('fields.email').flex-1
+              +inputLg(v-model="fields.email.value")
             .space
-            DatePicker.expiry-date(placeholder="Expiry Date" :format="dateFormat" v-model="fields.passportInfo.value.expiryDate")
-      .form-right
-        .form-group
-          label * Emergency Contact Person 1
-          +inputLg(placeholder="Name" v-model="ecp[0].name")
-          .flex.mtm
-            +inputLg(placeholder="Relationship" v-model="ecp[0].relationship")
-            .space
-            +inputLg(placeholder="Tel" v-model="ecp[0].tel")
-        .form-group.mtm
-          label Emergency Contact Person 2
-          +inputLg(placeholder="Name" v-model="ecp[1].name")
-          .flex.mtm
-            +inputLg(placeholder="Relationship" v-model="ecp[1].relationship")
-            .space
-            +inputLg(placeholder="Tel" v-model="ecp[1].tel")
-        .declare.mtm.flex
-          Checkbox.flex-0(v-model="fields.declared.value")
-          .mlm
-            p I hereby declare that all information provided above is true and accurate.
-            p I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
-        .mtm
-          button.btn.btn-primary.btn-lg.btn-block Save
+            +formGroup('fields.phone').phone
+              .input-group
+                .input-group-addon +1(917)
+                +inputLg(v-model="fields.phone.value")
+          +formGroup('fields.passportInfo').passport
+            .flex
+              +inputLg(placeholder="Passport Number" v-model="fields.passportInfo.value.number")
+              .space
+              +inputLg(placeholder="Issued Country" v-model="fields.passportInfo.value.issuedCountry")
+              .space
+              DatePicker.expiry-date(placeholder="Expiry Date" :format="dateFormat" v-model="fields.passportInfo.value.expiryDate")
+        .form-right
+          .form-group
+            label * Emergency Contact Person 1
+            +inputLg(placeholder="Name" v-model="ecp[0].name")
+            .flex.mtm
+              +inputLg(placeholder="Relationship" v-model="ecp[0].relationship")
+              .space
+              +inputLg(placeholder="Tel" v-model="ecp[0].tel")
+          .form-group.mtm
+            label Emergency Contact Person 2
+            +inputLg(placeholder="Name" v-model="ecp[1].name")
+            .flex.mtm
+              +inputLg(placeholder="Relationship" v-model="ecp[1].relationship")
+              .space
+              +inputLg(placeholder="Tel" v-model="ecp[1].tel")
+          .declare.mtm.flex
+            Checkbox.flex-0(v-model="fields.declared.value")
+            .mlm
+              p I hereby declare that all information provided above is true and accurate.
+              p I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.
+          .mtm
+            button.btn.btn-primary.btn-lg.btn-block Save
 </template>
 
 <script>
@@ -236,7 +237,12 @@ export default {
 
 <style lang="scss">
 .StudentProfile{
-  &.container{
+  background-image: url(~@/assets/img/profile-bg.jpg);
+  background-size: 100%;
+  @media(max-width: 1920px) {
+    background-size: 1920px;
+  }
+  .container{
     width: 1400px;
     padding: 0;
   }

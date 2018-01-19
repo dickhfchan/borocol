@@ -1,6 +1,7 @@
 <template lang="pug">
-.CreateCourse.container
-  router-view
+.CreateCourse
+  .container
+    router-view
 </template>
 
 <script>
@@ -63,6 +64,11 @@ export default {
 <style lang="scss">
 @import "~@/assets/css/global.scss";
 .CreateCourse{
+  background-image: url(~@/assets/img/school-bg.jpg);
+  background-size: 100%;
+  @media(max-width: 1920px) {
+    background-size: 1920px;
+  }
   .content-card{
     padding: 0;
   }
