@@ -1,0 +1,2 @@
+webpackJsonp([8],{j7e0:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var s={render:function(){this.$createElement;this._self._c;return this._m(0)},staticRenderFns:[function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"Home container"},[e("div",{staticClass:"content-card"})])}]},a=n("8AGX")({components:{},data:function(){return{}}},s,!1,function(t){n("ouaa")},null,null);e.default=a.exports},ouaa:function(t,e){}});
+//# sourceMappingURL=8.af57fb1150390afadae9.js.map
