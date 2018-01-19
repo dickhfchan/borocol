@@ -225,8 +225,10 @@ export default {
 
 <style lang="scss">
 .Orders{
-  width: 1400px;
-  padding: 0;
+  &.container{
+    width: 1400px;
+    padding: 0;
+  }
   .Tabs{
     position: relative;
   }

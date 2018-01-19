@@ -236,7 +236,10 @@ export default {
 
 <style lang="scss">
 .StudentProfile{
-  width: 1400px;
+  &.container{
+    width: 1400px;
+    padding: 0;
+  }
   .form-right{
     width: 380px;
     margin-left: 70px;
