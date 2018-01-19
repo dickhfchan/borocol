@@ -17,6 +17,7 @@ def index():
 @app.route('/user-admin/<t1>')
 @app.route('/user-admin/<t1>/')
 @app.route('/user-admin/<t1>/<t2>')
+@app.route('/user-admin/<t1>/<t2>/')
 def userAdmin(t1 = None, t2 = None):
     html = render_template('user-admin.html')
     initialData = {'serverRoot': '', 'clientBase': '/user-admin/'} # serverRoot cant end with /
