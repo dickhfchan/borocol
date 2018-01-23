@@ -137,3 +137,21 @@ select.input-lg{
     }
   }
 }
+
+// .b is borocol
+.pagination.b{
+  a{
+    border: none;
+    background: inherit;
+    color: #444;
+    font-weight: 500;
+    &:hover, &:focus{
+      color: #444;
+    }
+  }
+  li.active{
+    a{
+      background-color: #ebebeb;
+    }
+  }
+}

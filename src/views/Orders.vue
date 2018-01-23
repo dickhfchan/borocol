@@ -38,7 +38,6 @@ include ../common.pug
               th(slot="appendHead")
               td.actions(slot="appendRow"  slot-scope="props")
                 .dropdown.left
-                  //- button(type='button')
                   .actions-btn
                     | Actions
                     span.caret.mls

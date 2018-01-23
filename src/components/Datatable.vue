@@ -28,7 +28,7 @@
           slot(name="appendCell" :row="row" :col="col" :value="row[col.name]")
         slot(name="appendRow" :row="row")
       slot(name="appendBody")
-  ul.pagination.pull-right
+  ul.pagination.b.pull-right
     li.disabled
       a(href='#', aria-label='Previous')
         span(aria-hidden='true') «
@@ -95,22 +95,6 @@ export default {
   thead{
     color: #fff;
     background: #434343;
-  }
-  .pagination{
-    a{
-      border: none;
-      background: inherit;
-      color: #444;
-      font-weight: 500;
-      &:hover, &:focus{
-        color: #444;
-      }
-    }
-    li.active{
-      a{
-        background-color: #ebebeb;
-      }
-    }
   }
 }
 </style>
