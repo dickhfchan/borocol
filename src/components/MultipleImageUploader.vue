@@ -60,6 +60,9 @@ const ui = {
       }
     },
     space() {
+      if (this.boxSpace != null) {
+        return this.boxSpace
+      }
       const {boxesWidth, boxWidth, visibleBlockCount} = this
       return Math.floor((boxesWidth - boxWidth * visibleBlockCount) / (visibleBlockCount - 1))
     },
@@ -70,7 +73,8 @@ const ui = {
       }
     },
     boxesInnerWidth() {
-      return (this.boxWidth + this.space) * this.files.length - this.space
+      const n = (this.boxWidth + this.space) * this.files.length - this.space
+      return n < this.boxesWidth ? this.boxesWidth : n
     },
     boxesInnerStyle() {
       return {
