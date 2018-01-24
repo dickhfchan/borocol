@@ -8,7 +8,7 @@ include ../common.pug
         Tabs(v-model="activeTab")
           ._1
             a.print(href="javascript:void(0)" @click="print")
-              span.icon.icon-printer-1
+              span.icon.icon-printer
             .search
               +inputLg(placeholder="Search")
               span.icon.icon-search
@@ -20,11 +20,11 @@ include ../common.pug
               span(slot="appendCell" slot-scope="props")
                 template(v-if="props.col.name === 'course_fee'")
                   .fee-detail
-                    Tooltip(title="10000")
+                    Tooltip(title="Accomodation: 10000")
                       span.accomodation.icon.icon-accommodation
-                    Tooltip(title="10000")
+                    Tooltip(title="Insurance: 10000")
                       span.insurance.icon.icon-insurance
-                    Tooltip(title="10000")
+                    Tooltip(title="Down Payment: 10000")
                       span.downpayment.icon.icon-downpayment
               .refund-request(slot="cell" slot-scope="props")
                 span(v-if="props.col.name === 'refund_request'")
