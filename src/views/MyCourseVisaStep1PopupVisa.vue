@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../common.pug
-.MyCourseVisa
+.MyCourseVisaStep1PopupVisa
   .container
     .content-card.has-close
       .title Upload Files
@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.MyCourseVisa{
+.MyCourseVisaStep1PopupVisa{
   background: $bg3;
   // common
   .submit-btn{
