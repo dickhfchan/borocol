@@ -8,7 +8,7 @@ include ../../common.pug
       +formGroup('fields.cover').cover
         ImageUploader(v-model="fields.cover.value")
       +formGroup('fields.photos').photos.mll
-        MultipleImageUploader(v-model="fields.photos.value")
+        MultipleImageUploader.w-100(v-model="fields.photos.value" :visibleBlockCount="4" :boxSpace="15")
 
     +formGroup('fields.notes')
       +textarea(v-model="fields.notes.value" rows='3')

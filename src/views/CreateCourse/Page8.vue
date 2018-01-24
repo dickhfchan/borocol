@@ -49,7 +49,7 @@ include ../../common.pug
         label.mls Others:
         +input.mll.other-facilities(v-model="fields.otherFacilities.value" placeholder='e.g. Other facilities')
     +formGroup('fields.photos')
-      MultipleImageUploader(v-model="fields.photos.value")
+      MultipleImageUploader(v-model="fields.photos.value" :visibleBlockCount="5" :boxSpace="15")
     ._2.mtl
       .dividing-line-title
         .title
