@@ -1,39 +1,137 @@
 <template lang="pug">
 .MultipleImageUploader
-  .preview(v-for="(item, index) in files" :index="index")
-    img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
-    .black-mask
-      .edit(v-show="!item.active")
-        span.icon.icon-search(title="Preview" @click="preview(item, index)")
-        span.icon.icon-trash-o.mls(title="Remove" @click="remove(item, index)")
-      span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
-  .box
-    .icon.icon-plus-thin
-    VueUploadComponent.VueUploadComponent(
-      ref="upload"
-      v-model="files"
-      :accept="accept"
-      :name="name"
-      :post-action="$state.urls.serverBase + '/file'"
-      :drop="true"
-      @input-file="inputFile"
-      @input-filter="inputFilter"
-      :maximum="maximum"
-      :thread="thread"
-      :multiple="true"
-    )
-  .clearfix
+  .flex
+    .left-arrow(:style="arrowStyle")
+      span.icon.icon-left-open-big(:class="{disabled: boxesInnerLeft >= 0 }" @click="showLeft")
+    .boxes(ref="boxes" :style="boxesStyle")
+      .boxes-inner(:style="boxesInnerStyle")
+        VueUploadComponent.VueUploadComponent(
+          ref="upload"
+          v-model="files"
+          :accept="accept"
+          :name="name"
+          :post-action="$state.urls.serverBase + '/file'"
+          :drop="true"
+          @input-file="inputFile"
+          @input-filter="inputFilter"
+          :maximum="maximum"
+          :thread="thread"
+          :multiple="true"
+        )
+        .preview(v-for="(item, index) in files" :index="index"  :style="getBoxStyle()")
+          img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
+          .black-mask
+            .edit(v-show="!item.active")
+              span.icon.icon-search(title="Preview" @click="preview(item, index)")
+              span.icon.icon-trash-o.mls(title="Remove" @click="remove(item, index)")
+            span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
+        .box(v-for="i in uploadBoxCount" :style="getBoxStyle(i)")
+          .icon.icon-plus-thin
+    .right-arrow(:style="arrowStyle")
+      span.icon.icon-right-open-big(:class="{disabled: boxesInnerLeft <= minBoxesInnerLeft }"  @click="showRight")
 </template>
 
 <script>
 import VueUploadComponent from 'vue-upload-component'
 import valueDetails from './valueDetails'
+import mounted from './mounted'
+
+const ui = {
+  props: {
+    visibleBlockCount: {default: 3},
+    boxWidth: {default: 100},
+    boxHeight: {default: 100},
+    boxSpace: {}, // if boxSpace != null, boxesWidth will be assigned by computed, else boxes' initial width
+  },
+  data() {
+    return {
+      boxesWidth: null,
+      boxesInnerLeft: 0,
+      boxesStyle: {width: null},
+    }
+  },
+  computed: {
+    uploadBoxCount() {
+      const r =  this.visibleBlockCount - this.files.length
+      if (r > 0) {
+        return  r
+      } else {
+        return 1
+      }
+    },
+    space() {
+      const {boxesWidth, boxWidth, visibleBlockCount} = this
+      return Math.floor((boxesWidth - boxWidth * visibleBlockCount) / (visibleBlockCount - 1))
+    },
+    arrowStyle() {
+      return {
+        height: this.boxHeight + 'px',
+        lineHeight: this.boxHeight + 'px',
+      }
+    },
+    boxesInnerWidth() {
+      return (this.boxWidth + this.space) * this.files.length - this.space
+    },
+    boxesInnerStyle() {
+      return {
+        left: this.boxesInnerLeft + 'px'
+      }
+    },
+    minBoxesInnerLeft() {
+      return -(this.boxesInnerWidth - this.boxesWidth)
+    },
+  },
+  watch: {
+    // if boxSpace != null, boxesWidth will be assigned by computed, else boxes' initial width
+    boxSpace: {
+      immediate: true,
+      handler(value) {
+        this.mounted.then(() => {
+          if (value) {
+            this.boxesWidth = (this.boxWidth + value) * this.visibleBlockCount - value
+            console.log(this.boxesWidth);
+            this.boxesStyle = {
+              width: this.boxesWidth + 'px',
+            }
+          } else {
+            this.boxesStyle = {
+              width: 'auto',
+              flexGrow: '1',
+            }
+            this.$nextTick(() => {
+              this.boxesWidth = this.$refs.boxes.offsetWidth
+            })
+          }
+        })
+      }
+    }
+  },
+  methods: {
+    getBoxStyle(index) {
+      return {
+        width: this.boxWidth + 'px',
+        height: this.boxHeight + 'px',
+        lineHeight: this.boxHeight + 'px',
+        marginRight: index === this.uploadBoxCount ? 0 : (this.space + 'px')
+      }
+    },
+    showLeft() {
+      const n = this.boxesInnerLeft + this.boxesWidth + this.space
+      this.boxesInnerLeft = n >= 0 ? 0 : n
+    },
+    showRight() {
+      const n = this.boxesInnerLeft - (this.boxesWidth + this.space)
+      this.boxesInnerLeft = n <= this.minBoxesInnerLeft ? this.minBoxesInnerLeft : n
+    },
+  },
+}
+
 export default {
-  extends: valueDetails,
+  mixins: [valueDetails, mounted, ui],
   components: {VueUploadComponent},
   props: {
     name: {default: 'file'},
-    value: {},
+    value: {required: true, type: Array},
     extensions: {default: is => ["gif", "jpg", "jpeg", "png", "webp"]},
     maximum: {default: 20},
     thread: {default: 3},
@@ -46,14 +144,6 @@ export default {
   computed: {
     accept() {
       return this.extensions.map(v => `image/${v}`).join(',')
-    },
-    boxCount() {
-      const r =  4 - this.files.length
-      if (r > 0) {
-        return  r
-      } else {
-        return 1
-      }
     },
   },
   methods: {
@@ -94,7 +184,8 @@ export default {
           if (newFile.error) {
             console.log('upload failed');
             this.remove(newFile)
-            this.$alert(`Upload Failed. ${newFile.response.data.message || ''}`)
+            const message = newFile.response.data && newFile.response.data.message || newFile.response.toString() || ''
+            this.$alert(`Upload Failed. ${message}`)
           } else if (newFile.success && newFile.progress == 100) {
             console.log('upload succeeded')
             this.$notification.success(`The file was uploaded successfully`)
@@ -122,9 +213,11 @@ export default {
     },
     imgLoaded(item, index) {
       const img = this.$el.querySelector(`.preview[index='${index}'] .preview-img`)
-      this.$set(item, 'imgStyle', {
-        [img.naturalWidth > img.naturalHeight ? 'height' : 'width']: '100%'
-      })
+      if (img) {
+        this.$set(item, 'imgStyle', {
+          [img.naturalWidth > img.naturalHeight ? 'height' : 'width']: '100%'
+        })
+      }
     },
     preview(item, index) {
       window.open(item.url)
@@ -139,22 +232,29 @@ export default {
     },
   },
   // created() {},
-  // mounted() {},
 }
 </script>
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
 .MultipleImageUploader{
-  $side: 100px;
+  .boxes{
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+  .boxes-inner{
+    position: absolute;
+    transition: left .5s;
+  }
   .box{
-    width: $side;
-    height: $side;
-    line-height: $side;
     display: inline-block;
     border: $bd1 dashed 2px;
     text-align: center;
     position: relative;
+    pointer-events: none;
   }
   .icon-plus-thin{
     font-size: 30px;
@@ -169,10 +269,9 @@ export default {
   //
   .preview{
     position: relative;
-    width: $side;
-    height: $side;
     display: inline-block;
     overflow: hidden;
+    border: 1px solid $bd1;
     &:hover{
       .black-mask{
         display: flex;
@@ -198,16 +297,28 @@ export default {
     }
   }
   //
-  $space: .5em;
   .box, .preview{
     vertical-align: top;
-    margin-right: $space;
-    margin-bottom: $space;
   }
-  margin-right: $space;
-  margin-bottom: -$space;
   .box.last{
     margin-right: 0;
+  }
+  // arrow
+  .left-arrow, .right-arrow{
+    width: 30px;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 18px;
+    .icon{
+      cursor: pointer;
+      color: #909090;
+      &:hover{
+        color: #000;
+      }
+      &.disabled{
+        cursor: not-allowed;
+      }
+    }
   }
 }
 </style>

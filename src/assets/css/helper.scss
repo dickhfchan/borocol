@@ -11,9 +11,10 @@
 }
 .flex-0{
   flex-shrink: 0;
+  flex-grow: 0;
 }
 .flex-1{
-  flex-shrink: 1;
+  flex: 1;
 }
 .flex-col{
   flex-direction: column;
@@ -93,4 +94,8 @@
     content: "    ";
     white-space: pre;
   }
+}
+
+.disabled{
+  cursor: not-allowed;
 }
