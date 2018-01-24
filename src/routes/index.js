@@ -23,6 +23,7 @@ const routes = [
   { path: '/profile', name: 'profile', component: resolve => require(['../views/StudentProfile.vue'], resolve), meta: {title: 'Profile'}},
   { path: '/my-courses', name: 'myCourses', component: resolve => require(['../views/MyCourses.vue'], resolve), meta: {title: 'My Courses'}},
   { path: '/liked-courses', name: 'likedCourses', component: resolve => require(['../views/LikedCourses.vue'], resolve), meta: {title: 'Liked Courses'}},
+  { path: '/my-course-visa', name: 'myCourseVisa', component: resolve => require(['../views/MyCourseVisa.vue'], resolve), meta: {title: 'My Course Visa'}},
   { path: '/orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {title: 'Orders'}},
   { path: '/create-course', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
