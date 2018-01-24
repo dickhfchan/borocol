@@ -213,6 +213,7 @@ export default {
   }
   .preview{
     @extend %mask;
+    border: 1px solid $bd1;
   }
   .preview-img{
     width: 100%;
