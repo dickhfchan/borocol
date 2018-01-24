@@ -26,6 +26,7 @@ const routes = [
   { path: '/my-course-visa', name: 'myCourseVisa', component: resolve => require(['../views/MyCourseVisa.vue'], resolve), meta: {title: 'My Course Visa'}},
   { path: '/my-course-visa-step1-popup-visa', name: 'unnamed1', component: resolve => require(['../views/MyCourseVisaStep1PopupVisa.vue'], resolve), meta: {}},
   { path: '/my-course-classmate', name: 'unnamed2', component: resolve => require(['../views/MyCourseClassmate.vue'], resolve), meta: {}},
+  { path: '/request-refund', name: 'unnamed3', component: resolve => require(['../views/RequestRefund.vue'], resolve), meta: {}},
   { path: '/orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {title: 'Orders'}},
   { path: '/create-course', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
