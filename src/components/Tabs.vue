@@ -67,7 +67,7 @@ export default {
       border-top-right-radius: 5px;
       &.active{
         background-color: $bg2;
-        a, a:hover{
+        a, a:hover, a:focus, a:visited{
           @extend %aHover;
         }
       }
@@ -78,7 +78,7 @@ export default {
         font-weight: $fw-md;
         padding: 9px 20px 3px 20px;
         background-color: transparent;
-        &:hover{
+        &:hover, &:focus, &:visited{
           @extend %aHover;
         }
       }
