@@ -37,5 +37,8 @@ export default {
       display: block;
     }
   }
+  .tooltip-inner{
+    white-space: nowrap;
+  }
 }
 </style>
