@@ -11,7 +11,7 @@ const requiredIfRoomEnabled2 = ({fields}) => fields.room2Enabled.value
 
 const state = {
   routes,
-  ignoreValidation: false, // only when developing
+  ignoreValidation: true, // only when developing
   steps,
   fields: [
     // 0
