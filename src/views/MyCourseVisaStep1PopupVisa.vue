@@ -32,7 +32,6 @@ export default {
 @import "~@/assets/css/global.scss";
 .MyCourseVisaStep1PopupVisa{
   background: $bg3;
-  // common
   .submit-btn{
     width: 420px;
     margin-top: 100px;
