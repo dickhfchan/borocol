@@ -131,7 +131,8 @@ export default {
             this.$notification.success(`The file was uploaded successfully`)
             this.$emit('input', newFile.response.data)
           } else {
-            this.$alert(`Upload Failed. ${newFile.response.data.message || ''}`)
+            const message = newFile.response.data && newFile.response.data.message || newFile.response.toString() || ''
+            this.$alert(`Upload Failed. ${message}`)
             this.src = this.getAbsUrl(this.value) // restore src
           }
         }
