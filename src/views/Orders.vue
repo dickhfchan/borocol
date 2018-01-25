@@ -9,8 +9,8 @@ include ../common.pug
           ._1
             a.print(href="javascript:void(0)" @click="print")
               span.icon.icon-printer
-            .search
-              +inputLg(placeholder="Search")
+            .search.input-with-icon
+              +input(placeholder="Search")
               span.icon.icon-search
           Tab.mtl(name="All")
             Datatable(:cols="cols" :rows="rows")
@@ -252,17 +252,6 @@ export default {
     }
     .search{
       margin-left: 1em;
-      position: relative;
-      input{
-        padding-right: 35px;
-      }
-      .icon{
-        font-size: 18px;
-        position: absolute;
-        right: 18px;
-        top: 13px;
-        color: #888888;
-      }
     }
   }
   .bold{

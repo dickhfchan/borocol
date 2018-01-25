@@ -64,6 +64,10 @@
   padding:$formControlVerticalPadding-lg 35px;
   font-size: $fs-md;
 }
+.btn-md{
+  @extend .btn-lg;
+  padding: 10px 25px;
+}
 
 .form-control{
   border-width: 1px;
@@ -153,5 +157,19 @@ select.input-lg{
     a{
       background-color: #ebebeb;
     }
+  }
+}
+
+.input-with-icon{
+  position: relative;
+  input{
+    padding-right: 35px;
+  }
+  .icon{
+    font-size: 18px;
+    position: absolute;
+    right: 18px;
+    top: 13px;
+    color: #888888;
   }
 }
