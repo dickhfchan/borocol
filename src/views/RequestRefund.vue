@@ -14,12 +14,10 @@ include ../common.pug
 </template>
 
 <script>
-import Popover from '@/components/Popover'
 export default {
-  components: {Popover},
+  components: {},
   data() {
     return {
-      photos: [],
     }
   },
   // computed: {},
