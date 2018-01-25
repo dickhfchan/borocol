@@ -29,6 +29,7 @@ const routes = [
   { path: '/request-refund', name: 'unnamed3', component: resolve => require(['../views/RequestRefund.vue'], resolve), meta: {}},
   { path: '/orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {title: 'Orders'}},
   { path: '/settings', name: 'settings', component: resolve => require(['../views/Settings.vue'], resolve), meta: {title: 'Settings'}},
+  { path: '/message', name: 'message', component: resolve => require(['../views/Message.vue'], resolve), meta: {title: 'Message'}},
   { path: '/create-course', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
   },
