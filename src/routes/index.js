@@ -33,6 +33,8 @@ const routes = [
   { path: '/create-course', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
   },
+  { path: '/course', name: 'unnamed4', component: resolve => require(['../views/Course.vue'], resolve),},
+  { path: '/course-filter', name: 'unnamed5', component: resolve => require(['../views/CourseFilter.vue'], resolve),},
   //
 ]
 

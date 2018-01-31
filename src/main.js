@@ -7,6 +7,8 @@ import Router from 'vue-router'
 import axios from 'axios'
 // vue-data-validator
 import * as VueDataValidator from 'vue-data-validator'
+// element-ui
+import { Row, Col } from 'element-ui'
 // files
 import App from './App'
 import store from './store/index.js'
@@ -33,6 +35,10 @@ initAxios(axios, store, Vue)
 
 // VDV
 initVDV(VueDataValidator, store, Vue)
+// element-ui
+Vue.use(Row)
+Vue.use(Col)
+
 // router
 const router = initRouter(Router, Vue, store, routes, () => {
   // unauthorized

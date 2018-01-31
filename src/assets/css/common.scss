@@ -85,3 +85,122 @@ a{
   font-weight: $fw-light;
   margin: 20px 0;
 }
+
+.question-circle{
+  color: #909090;
+  font-size: 18px;
+}
+
+.slick-dots {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  li {
+    display: inline-block;
+    $side: 8px;
+    width: $side;
+    height: $side;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #6f6f6f;
+    margin-right: 8px;
+    &.slick-active {
+      background: #48ccce;
+    }
+  }
+
+  button {
+    visibility: hidden;
+  }
+}
+
+
+.related-title{
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+}
+.course-card{
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 25px;
+  .instructor-avatar{
+    border: 3px solid #fff;
+    $side: 45px;
+    width: $side;
+    height: $side;
+    border-radius: 100%;
+    margin-right: -10px;
+  }
+  .share-btn{
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    padding: 2px 3px;
+    text-transform: none;
+    background: grey;
+    border-color: grey;
+    &:hover{
+      background: darken(grey, 10%);
+    }
+  }
+}
+.course-card__img-area{
+  height: 47.333%;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  .img{
+    width: 100%;
+  }
+  .mark{
+    background-color: #ffb200;
+    position: absolute;
+    left: 0;
+    top: 10%;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 5px;
+  }
+}
+.course-card__collect{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #fff;
+  font-size: 38px;
+  text-shadow: 0px 0px 10px #000;
+  &.collected{
+    color: rgb(255, 91, 90);
+  }
+}
+.course-card__meta{
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  color: #fff;
+  font-weight: bold;
+  padding: 0 20px;
+}
+.instructor-more{
+  margin-left: 20px;
+}
+.course-card__text-area {
+  padding: 20px 15px;
+}
+.course-card__title {
+  font-weight: bold;
+  font-size: 20px;
+}
+.course-card__address {
+
+}
+.course-card__date {
+
+}
+.course-card__price {
+  color: rgb(99,202,206);
+  font-weight: bold;
+  font-size: 16px;
+}

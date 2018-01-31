@@ -243,7 +243,8 @@ export default {
     right: 0;
     display: flex;
     align-items: center;
-    .print{
+    a.print{
+      text-decoration: none;
       font-size: 25px;
       color: #000;
       .icon {
@@ -252,6 +253,9 @@ export default {
     }
     .search{
       margin-left: 1em;
+      .icon{
+        top: 7px;
+      }
     }
   }
   .bold{

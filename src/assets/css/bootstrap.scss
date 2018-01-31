@@ -129,6 +129,7 @@ select.input-lg{
 
 
 .dropdown{
+  display: inline-block;
   &.left{
     .dropdown-menu{
       right: 0;
@@ -172,4 +173,8 @@ select.input-lg{
     top: 13px;
     color: #888888;
   }
+}
+
+.breadcrumb {
+  background-color: initial;
 }

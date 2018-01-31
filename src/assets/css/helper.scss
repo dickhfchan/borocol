@@ -19,6 +19,16 @@
 .flex-col{
   flex-direction: column;
 }
+.justify-sb {
+  justify-content: space-between;
+}
+
+.justify-c {
+  justify-content: center;
+}
+.align-c{
+  align-items: center;
+}
 .center-wrapper{
   display: flex;
   justify-content: center;

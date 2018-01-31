@@ -1,5 +1,5 @@
 <template lang="pug">
-.Tab.tab-pane.active(role='tabpanel' v-if="$parent.value===name")
+.Tab.tab-pane.active(role='tabpanel' v-if="!$parent.lazy || $parent.value===name" v-show="$parent.lazy || $parent.value===name")
   slot
 </template>
 
@@ -12,7 +12,8 @@ export default {
   data() {
     return {}
   },
-  // computed: {},
+  // computed: {
+  // },
   // watch: {},
   // methods: {},
   // created() {},
