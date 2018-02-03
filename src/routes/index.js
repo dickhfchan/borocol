@@ -35,6 +35,10 @@ const routes = [
   },
   { path: '/course', name: 'unnamed4', component: resolve => require(['../views/Course.vue'], resolve),},
   { path: '/course-filter', name: 'unnamed5', component: resolve => require(['../views/CourseFilter.vue'], resolve),},
+  { path: '/school-profile', component: resolve => require(['../views/SchoolProfile.vue'], resolve),},
+  { path: '/SchoolMyCourse', component: resolve => require(['../views/SchoolMyCourse.vue'], resolve),},
+  { path: '/SchoolMyCourseStudent', component: resolve => require(['../views/SchoolMyCourseStudent.vue'], resolve),},
+  { path: '/SchoolReviews', component: resolve => require(['../views/SchoolReviews.vue'], resolve),},
   //
 ]
 

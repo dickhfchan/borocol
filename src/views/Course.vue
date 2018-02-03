@@ -384,7 +384,7 @@ export default {
 @import "~@/assets/css/global.scss";
 .Course{
   .container {
-    width: 1385px;
+    width: 1400px;
     margin: 40px auto 140px auto;
   }
   .card2 {

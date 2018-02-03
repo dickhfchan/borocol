@@ -21,11 +21,14 @@ include ../common.pug
                 template(v-if="props.col.name === 'course_fee'")
                   .fee-detail
                     Tooltip(title="Accomodation: 10000")
-                      span.accomodation.icon.icon-accommodation
+                      .btn2.accomodation
+                        span.icon.icon-accommodation
                     Tooltip(title="Insurance: 10000")
-                      span.insurance.icon.icon-insurance
+                      .btn2.insurance
+                        span.icon.icon-insurance
                     Tooltip(title="Down Payment: 10000")
-                      span.downpayment.icon.icon-downpayment
+                      .btn2.down-payment
+                        span.icon.icon-downpayment
               .refund-request(slot="cell" slot-scope="props")
                 span(v-if="props.col.name === 'refund_request'")
                   template(v-if="props.value==='pending'")
@@ -275,29 +278,6 @@ export default {
     margin-left: 20px;
     .Tooltip{
       margin-left: .25em;
-    }
-    span{
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      line-height: 25px;
-      text-align: center;
-      font-size: 18px;
-      color: #fff;
-      border-radius: 3px;
-    }
-  }
-  .accomodation{
-    background: #968ecb;
-  }
-  .insurance{
-    background: #63cace;
-  }
-  .downpayment{
-    background: #a6c875;
-    &:before{
-      position: relative;
-      top: -2px;
     }
   }
   .refund-request{

@@ -13,7 +13,7 @@ export default {
   components: {},
   data() {
     return {
-      routes: routes.filter(v => v.name || v.children),
+      routes: routes,
     }
   },
   // computed: {},

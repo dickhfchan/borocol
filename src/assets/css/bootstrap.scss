@@ -46,9 +46,10 @@
 @import "~@/../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
 .btn {
-  text-transform: uppercase;
   border-radius: 4px;
-
+}
+.btn-lg{
+  text-transform: uppercase;
 }
 .btn-primary{
   background: $bg2;

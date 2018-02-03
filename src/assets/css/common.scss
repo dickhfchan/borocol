@@ -27,6 +27,14 @@ a{
 }
 .container{
   min-width: $small;
+  width: 1430px;
+}
+
+.f12{
+  font-size: 12px;
+}
+.f13{
+  font-size: 13px;
 }
 
 // components
@@ -203,4 +211,28 @@ a{
   color: rgb(99,202,206);
   font-weight: bold;
   font-size: 16px;
+}
+
+.btn2 {
+  $side: 25px;;
+  width: $side;
+  height: $side;
+  border-radius: 3px;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+}
+.review-visa {
+  background: rgb(105, 162, 221);
+}
+.accomodation {
+  background: rgb(150, 142, 203);
+}
+.insurance {
+  background: rgb(99,202,206);
+}
+.down-payment {
+  background: rgb(166, 200, 117);
 }
