@@ -127,7 +127,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       // 编译后的html需要存放的路径
       path.join(__dirname, '../dist'),
       // 列出哪些路由需要预渲染
-      [ '/']
+      config.build.prerenderPaths,
     ),
   ]
 })

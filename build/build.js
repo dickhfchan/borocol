@@ -10,6 +10,10 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
+const {execSync} = require('child_process');
+const dirTree = require('directory-tree');
+const {forIn} = require('tree-helper');
+const fs = require('fs');
 
 const spinner = ora('building for production...')
 spinner.start()
@@ -37,5 +41,31 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       '  Tip: built files are meant to be served over an HTTP server.\n' +
       '  Opening index.html over file:// won\'t work.\n'
     ))
+    // start move files to server
+    execSync(`rm server/static -r`)
+    execSync(`cp dist/static server/static -r`)
+    dirTree('./dist', {extensions:/\.html$/}, tree => {
+      forIn(tree, item => {
+        let name = path.basename(path.dirname(item.path))
+        if (name !== 'dist') {
+          // move splited scripts append to body
+          const str = fs.readFileSync(item.path).toString()
+          const head = str.match(/<head[\s\S]*?<\/head>/)[0]
+          let scriptsPlaceholderFollow = head.match(/<meta name="scriptsPlaceholder"[\s\S]*$/)[0]
+          let scripts = scriptsPlaceholderFollow.match(/<script[\s\S]*?<\/script>/g)
+          let head2 = head
+          scripts.forEach(s => {
+            head2 = head2.replace(s, '')
+          })
+          const html = str.replace(head, head2).replace(/(<\/body>)/, scripts.join('') + '$1')
+          fs.writeFileSync(item.path, html)
+          // move to server dir
+          name += '.html'
+          execSync(`cp ${item.path} server/templates/${name}`)
+        }
+      })
+    })
+    execSync(`cp dist/index.html server/templates/spa.html`)
+    console.log('successfully moved to server dir');
   })
 })

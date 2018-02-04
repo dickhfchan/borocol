@@ -10,20 +10,23 @@ from utils import file_get_contents
 # cors
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-@app.route('/user-admin')
-@app.route('/user-admin/<t1>')
-@app.route('/user-admin/<t1>/')
-@app.route('/user-admin/<t1>/<t2>')
-@app.route('/user-admin/<t1>/<t2>/')
-def userAdmin(t1 = None, t2 = None):
-    html = render_template('user-admin.html')
-    initialData = {'serverRoot': '', 'clientBase': '/user-admin/'} # serverRoot cant end with /
+# spa
+def renderSpa(fp):
+    html = render_template(fp)
+    initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
     html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
     return html
+@app.route('/')
+def index():
+    return renderSpa('index.html')
+@app.route('/<t1>')
+@app.route('/<t1>/')
+@app.route('/<t1>/<t2>')
+@app.route('/<t1>/<t2>/')
+def userAdmin(t1 = None, t2 = None):
+    return renderSpa('spa.html')
 
+# api
 api = Api(app, prefix='/api/v1')
 api.add_resource(ResourceController, '/<string:model_name>', '/<string:model_name>/<string:id>')
 api.add_resource(QueryController, '/<string:model_name>/query')

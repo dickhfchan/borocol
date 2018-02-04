@@ -55,5 +55,6 @@ for (const item of authRoutes) {
 export default [
   ...routes,
   ...authRoutes,
+  { path: '/index', redirect: {name: 'home'} }, // for prerender
   { path: '*', redirect: {name: 'home'} },
 ]

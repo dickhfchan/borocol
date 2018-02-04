@@ -50,19 +50,23 @@ module.exports = {
   },
 
   build: {
+
     // Template for index.html
-    index: path.resolve(__dirname, '../server/templates/user-admin.html'),
+    index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../server/static/user-admin'), // output to production directory; 直接输出到工作目录
-    assetsSubDirectory: '',
-    assetsPublicPath: '/static/user-admin/',
+    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+
+    // prerender (must start with slash)
+    prerenderPaths: ['/index'],
 
     /**
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
