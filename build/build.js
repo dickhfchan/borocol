@@ -53,12 +53,14 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
           const head = str.match(/<head[\s\S]*?<\/head>/)[0]
           let scriptsPlaceholderFollow = head.match(/<meta name="scriptsPlaceholder"[\s\S]*$/)[0]
           let scripts = scriptsPlaceholderFollow.match(/<script[\s\S]*?<\/script>/g)
-          let head2 = head
-          scripts.forEach(s => {
-            head2 = head2.replace(s, '')
-          })
-          const html = str.replace(head, head2).replace(/(<\/body>)/, scripts.join('') + '$1')
-          fs.writeFileSync(item.path, html)
+          if (scripts) {
+            let head2 = head
+            scripts.forEach(s => {
+              head2 = head2.replace(s, '')
+            })
+            const html = str.replace(head, head2).replace(/(<\/body>)/, scripts.join('') + '$1')
+            fs.writeFileSync(item.path, html)
+          }
           // move to server dir
           name += '.html'
           execSync(`cp ${item.path} server/templates/${name}`)

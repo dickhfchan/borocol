@@ -1,18 +1,19 @@
 <template lang="pug">
 include ../common.pug
 .MainHeader
-  .container
+  .container.relative
     .brand-bar
       .brand
-        img(src="~@/assets/img/brand.png")
+        img(v-lazy="brand")
       .tool-bar.pull-right
+        a
+          img.avatar(v-lazy="'https://picsum.photos/40/40?image=401'")
         a(href="#")
-          .avatar
-            img(src="~$static/avatar.jpg")
           span.mlm My Course
+        //- a(href="/user-admin/create-course/") partner with us
         .divider |
-        a(href="#")
-          +icon('talk')
+        +icon('user')
+        a.mlm(href="#") Login
         .divider |
         +icon('credit-card')
         a.mlm(href="#") USD
@@ -25,20 +26,60 @@ include ../common.pug
         a(href="#") Q&a
         button.mlm.no-bb.btn-black.search-btn(type="button")
           +icon('search')
+        button.no-bb.btn-black.menu-btn.hidden-md.hidden-lg(type="button" @click="onclickMenuBtn")
+          +icon('bars')
+    .menu-card.bg1.pull-right.hidden-lg.hidden-md(ref="menuCard")
+      .menu
+        .menu-item
+          a(href="#" @click="onclickMenuItem")
+            span HKD
+            +icon('caret-down')
+          .sub-menu
+            .menu-item
+              a(href="#" @click="onclickMenuItem") HKD
+            .menu-item
+              a(href="#" @click="onclickMenuItem") HKD
+            .menu-item
+              a(href="#" @click="onclickMenuItem") HKD
+        .menu-item
+          a(href="#" @click="onclickMenuItem") Login
+        .menu-item
+          a(href="#" @click="onclickMenuItem") Join us
 </template>
 
 <script>
+import brand from '@/assets/img/brand.png'
 
 export default {
   components: {},
   data() {
-    return {}
+    return {
+      brand,
+    }
   },
   // computed: {},
   // watch: {},
-  // methods: {},
+  methods: {
+    onclickMenuBtn() {
+      const menuCard = $(this.$refs.menuCard)
+      menuCard.toggleClass('active')
+      if (menuCard.hasClass('active')) {
+        menuCard.slideDown()
+      } else {
+        menuCard.slideUp()
+      }
+    },
+    onclickMenuItem(e) {
+      var el = e.target.tagName === 'A' ? $(e.target) : $(e.target).closest('a')
+      if (el.next().is('.sub-menu')) {
+        e.preventDefault()
+        el.next().slideToggle()
+      }
+    },
+  },
   // created() {},
-  // mounted() {},
+  mounted() {
+  },
 }
 </script>
 
@@ -46,9 +87,8 @@ export default {
 @import "~@/assets/css/global.scss";
 
 .MainHeader{
-
   .brand-bar {
-    padding: 30px 0 30px;
+    padding: 60px 0 30px;
 
     .brand {
       display: inline-block;
@@ -74,23 +114,6 @@ export default {
       padding: 0 1em;
     }
 
-    .avatar{
-      @extend %border-default;
-      $side: 45px;
-      width: $side;
-      height: $side;
-      border-radius: $side;
-      overflow: hidden;
-      display: inline-block;
-      vertical-align: middle;
-      img{
-        width: 100%;
-      }
-    }
-    .name{
-      vertical-align: middle;
-    }
-
     .btn-black {
       display: inline-block;
       width: $height;
@@ -111,6 +134,76 @@ export default {
     display: flex;
     align-items: center;
   }
+  .avatar{
+    $side: 50px;
+    width: $side;
+    height: $side;
+    border-radius: 100%;
+  }
 
+  .menu-card {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 300px;
+    padding: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    z-index: 1;
+
+    .menu-item {
+      a {
+        color: $color1;
+        display: block;
+        padding: 5px 10px;
+        border-bottom: 3px solid #fff;
+      }
+    }
+
+    .sub-menu {
+      padding-left: 20px;
+      display: none;
+    }
+  }
+  // xs extra small and small
+  @media(max-width: $medium) {
+    .brand-bar {
+      padding: 15px 0 15px 30px;
+    }
+
+    .tool-bar {
+      > :not(.language):not(.btn-black) {
+        display: none;
+      }
+
+      .search-btn {
+        background: inherit;
+        margin-left: 0;
+        color: inherit;
+
+        .icon {
+          position: relative;
+          top: -1px;
+        }
+      }
+
+      .menu-btn {
+        background: transparent;
+        color: inherit;
+
+        .icon {
+          position: relative;
+          top: -2px;
+        }
+
+        &.active {
+          background: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
 }
 </style>

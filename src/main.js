@@ -7,6 +7,8 @@ import Router from 'vue-router'
 import axios from 'axios'
 // vue-data-validator
 import * as VueDataValidator from 'vue-data-validator'
+//
+import VueLazyload from 'vue-lazyload'
 // element-ui
 import { Row, Col } from 'element-ui'
 // files
@@ -35,6 +37,10 @@ initAxios(axios, store, Vue)
 
 // VDV
 initVDV(VueDataValidator, store, Vue)
+
+//
+Vue.use(VueLazyload)
+
 // element-ui
 Vue.use(Row)
 Vue.use(Col)

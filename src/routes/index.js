@@ -19,7 +19,8 @@ createCourse.forEach((item, index) => {
 })
 
 const routes = [
-  { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol'}},
+  { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol', hasMenu: false}},
+  { path: '/routes', component: resolve => require(['../views/Routes.vue'], resolve)}, // for dev
   { path: '/profile', name: 'profile', component: resolve => require(['../views/StudentProfile.vue'], resolve), meta: {title: 'Profile'}},
   { path: '/my-courses', name: 'myCourses', component: resolve => require(['../views/MyCourses.vue'], resolve), meta: {title: 'My Courses'}},
   { path: '/liked-courses', name: 'likedCourses', component: resolve => require(['../views/LikedCourses.vue'], resolve), meta: {title: 'Liked Courses'}},

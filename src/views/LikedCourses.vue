@@ -7,7 +7,7 @@
         .list
           .item(v-for="i in 10")
             .img-area
-              img(src="~$static/course-cover.jpg")
+              img(v-lazy="'https://picsum.photos/400/300?image=409'")
               .mask
                 .title General Purpose<br />Immersion Program
                 span.close2.icon.icon-cancel

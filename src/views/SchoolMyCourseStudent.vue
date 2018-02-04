@@ -23,7 +23,7 @@
         .icon.icon-printer.mlm.print
       .title3.mtl Student List (24 / 30)
       el-row.list.mtl(:gutter="8")
-        el-col.item(v-for="i in 100" :span="3")
+        el-col.item(v-for="i in 100" :key="i" :span="3")
           img.student-avatar(src="https://picsum.photos/100/100?image=1")
           .new-mark NEW!
           .student-name Philadelphian typesetter

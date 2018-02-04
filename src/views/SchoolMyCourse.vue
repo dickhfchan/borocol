@@ -11,7 +11,7 @@
             .list
               .item(v-for="i in 10")
                 .img-area
-                  img(src="~$static/course-cover.jpg")
+                  img(src="'https://picsum.photos/400/300?image=409'")
                   .mask
                     .title General Purpose<br />Immersion Program
                   .student-number 34/45

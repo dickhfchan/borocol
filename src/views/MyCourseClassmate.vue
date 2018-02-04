@@ -12,7 +12,7 @@ include ../common.pug
                 img.avatar(src="~@/assets/img/anonymous.jpg")
                 .info(slot="content") A Mysterious Person
               template(v-else)
-                img.avatar(src="~$static/student-avatar2.jpg")
+                img.avatar(v-lazy="'https://picsum.photos/100/100?image=100'")
                 .info(slot="content")
                   .line
                     span.icon.icon-user-o

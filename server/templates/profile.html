@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet"><link href="https://file.myfontastic.com/DhuomFVWA52VBraDyGBsZ/icons.css" rel="stylesheet"><title>Borocol</title><meta name="scriptsPlaceholder" content="custom scripts must be placed above"><link href="/static/css/app.c45c3684ae3085f5c4ab019f570534d4.css" rel="stylesheet"><style type="text/css"></style><style type="text/css"> .file-uploads { overflow: hidden; position: relative; text-align: center; display: inline-block; } .file-uploads.file-uploads-html4 input[type="file"] { opacity: 0; font-size: 20em; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; position: absolute; width: 100%; height: 100%; } .file-uploads.file-uploads-html5 input[type="file"] { overflow: hidden; position: fixed; width: 1px; height: 1px; z-index: -1; opacity: 0; } </style><style type="text/css">ul[_v-6c618eea] {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.date-picker[_v-6c618eea] {
+  position: relative;
+  height: 32px;
+}
+.input-wrapper[_v-6c618eea] {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  vertical-align: middle;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 6px 10px 6px 4px;
+  height: 32px;
+  box-sizing: border-box;
+}
+.input[_v-6c618eea] {
+  height: 100%;
+  width: 100%;
+  font-size: inherit;
+  padding-left: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+.cancel-btn[_v-6c618eea] {
+  height: 14px;
+  width: 14px;
+}
+.date-panel[_v-6c618eea] {
+  position: absolute;
+  z-index: 5000;
+  border: 1px solid #eee;
+  width: 320px;
+  padding: 5px 10px 10px;
+  box-sizing: border-box;
+  background-color: #fff;
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
+}
+.panel-header[_v-6c618eea] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  width: 100%;
+}
+.arrow-left[_v-6c618eea],
+.arrow-right[_v-6c618eea] {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  font-size: 20px;
+  line-height: 2;
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.year-range[_v-6c618eea] {
+  font-size: 20px;
+  line-height: 2;
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.year-month-box[_v-6c618eea] {
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+.type-year[_v-6c618eea],
+.type-month[_v-6c618eea],
+.date-list[_v-6c618eea] {
+  background-color: #fff;
+}
+.year-box[_v-6c618eea],
+.month-box[_v-6c618eea] {
+  transition: all ease .1s;
+  font-family: Roboto, sans-serif;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  font-size: 20px;
+  line-height: 2;
+  cursor: pointer;
+  background-color: #fff;
+}
+.year-list[_v-6c618eea],
+.month-list[_v-6c618eea] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.year-list li[_v-6c618eea],
+.month-list li[_v-6c618eea] {
+  font-family: Roboto, sans-serif;
+  transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  cursor: pointer;
+  text-align: center;
+  font-size: 20px;
+  width: 33%;
+  padding: 10px 0;
+}
+.year-list li[_v-6c618eea]:hover,
+.month-list li[_v-6c618eea]:hover {
+  background-color: #6ac1c9;
+  color: #fff;
+}
+.year-list li.selected[_v-6c618eea],
+.month-list li.selected[_v-6c618eea] {
+  background-color: #0097a7;
+  color: #fff;
+}
+.year-list li.invalid[_v-6c618eea],
+.month-list li.invalid[_v-6c618eea] {
+  cursor: not-allowed;
+  color: #ccc;
+}
+.date-list[_v-6c618eea] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.date-list .valid[_v-6c618eea]:hover {
+  background-color: #eee;
+}
+.date-list li[_v-6c618eea] {
+  transition: all ease .1s;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-bottom: 1px solid #fff;
+  position: relative;
+  margin: 2px;
+}
+.date-list li[_v-6c618eea]:not(.firstItem) {
+  margin-left: 10px;
+}
+.date-list li .message[_v-6c618eea] {
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  position: relative;
+  height: 30px;
+}
+.date-list li .message.selected .bg[_v-6c618eea] {
+  background-color: #0097a7;
+}
+.date-list li .message.selected span[_v-6c618eea] {
+  color: #fff;
+}
+.date-list li .message:not(.selected) .bg[_v-6c618eea] {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  opacity: 0;
+}
+.date-list li .message:not(.selected):hover .bg[_v-6c618eea] {
+  background-color: #0097a7;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  opacity: .6;
+}
+.date-list li .message:not(.selected):hover span[_v-6c618eea] {
+  color: #fff;
+}
+.date-list li .message .bg[_v-6c618eea] {
+  height: 30px;
+  width: 100%;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+.date-list li .message span[_v-6c618eea] {
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+}
+.date-list li.invalid[_v-6c618eea] {
+  cursor: not-allowed;
+  color: #ccc;
+}
+.weeks[_v-6c618eea] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.weeks li[_v-6c618eea] {
+  font-weight: 600;
+}
+.weeks[_v-6c618eea],
+.date-list[_v-6c618eea] {
+  width: 100%;
+  text-align: center;
+}
+.weeks .preMonth[_v-6c618eea],
+.date-list .preMonth[_v-6c618eea],
+.weeks .nextMonth[_v-6c618eea],
+.date-list .nextMonth[_v-6c618eea] {
+  color: #ccc;
+}
+.weeks li[_v-6c618eea],
+.date-list li[_v-6c618eea] {
+  font-family: Roboto;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+.toggle-enter[_v-6c618eea],
+.toggle-leave-active[_v-6c618eea] {
+  opacity: 0;
+  -webkit-transform: translateY(-10px);
+          transform: translateY(-10px);
+}
+.toggle-enter-active[_v-6c618eea],
+.toggle-leave-active[_v-6c618eea] {
+  transition: all ease .2s;
+}
+.fade-enter[_v-6c618eea],
+.fade-leave-active[_v-6c618eea] {
+  opacity: 0;
+  -webkit-transform: scale3d(0, 0, 0);
+          transform: scale3d(0, 0, 0);
+}
+.fade-enter-active[_v-6c618eea],
+.fade-leave-active[_v-6c618eea] {
+  transition: all ease .1s;
+}
+</style></head><body><div id="app"><div class="MainHeader"><div class="container"><div class="brand-bar"><div class="brand"><img src="data:image/png;base64,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"></div><div class="tool-bar pull-right"><a href="#"><div class="avatar"><img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMvaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzEzOCA3OS4xNTk4MjQsIDIwMTYvMDkvMTQtMDE6MDk6MDEgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE3IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1NkFCMThGQ0U3QkExMUU3QjI4MDg2MjNEQ0EzQjJDQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1NkFCMThGREU3QkExMUU3QjI4MDg2MjNEQ0EzQjJDQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjU2QUIxOEZBRTdCQTExRTdCMjgwODYyM0RDQTNCMkNBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU2QUIxOEZCRTdCQTExRTdCMjgwODYyM0RDQTNCMkNBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgALwAmAwERAAIRAQMRAf/EAIAAAAMAAwEAAAAAAAAAAAAAAAAFBwMECAYBAQEAAwEAAAAAAAAAAAAAAAACAQMEBRAAAQMDAwIEBQUAAAAAAAAAAgEDBBEFBgASEyExIiMUB0FxJBUWYYEyQhcRAAIBAwIGAgMAAAAAAAAAAAABESECAzFB8FFxEiITofGR0WL/2gAMAwEAAhEDEQA/AOqdAGgFkXJLLLv06wxZKP3S2NtO3FgEVUYSRVWUcKm0ScEVIRrWiV7U1TtaUgZ6kBoA0AuySVdolguMuzxxmXSNHcehQzrR51sVIWunXxqm1PnqrEnck9Azl7C/cEhvTWSty2FzC9z3nDt8ZDWXKYEWmft86JRPNMtixzCghQzrt3jr1L8aahqLUuH+zWmdZa8k2BoA0BOL9ldyx33FMMnucS34XdoPDawVXFcOW0qK8ZuUHgWjtKIqiSIi1Eq16LcfdZ4qWtTE1J5jeZZB/oISMgC1RbTBU23slEWklORW+Umw5UcVxRcUAVaV/nrovwW9lHc3yJTKd7bX7IcguuQ3hyazOxV6Vw2BwANkxFioOBxknUUOvmKVTX4CKImuXLarUlEMpHvNaTIaAXX3HLFf4Xob1BZnxaoSNvghbSTqhCvcV/VNVbe7XKYgjGKe1lvk+6eSQb1ZEKyW1BctDjiPoBMyRRAFHFc8dNrgrWvbrruyZ2saadXqQlUuUKFDgxGocJhuNEYFAZYaFAABTsgiNERNcDbbllmbWAI81mpFxyUnqxgnK2xG5SmTZgUgka3M7EUyeFCVWxHqpUTWzGvIwyXSX8mdfio3kMeBkLTdvthzxmPSGPWNOPMP74yArTpyUdj+WviEuq0UOvUu3lKq9NuJJB45ZxIgxb40jztuejowVzeLbfFMIzVxJ9UXy+dpxtBKiEddoEqroonTfltyBgKENZXBkzcqa7cLYDT63KTR5slBqZsYIuP6maLgAIrtqu1CROmsz/Oz2/HwC1cb32zj2Lz8G3j5Frv2U28nfv8A2/fXDuWamVRselWCXGyI2GrQ8KNyHJJg22KkSIC7zogmhqOxe6FSnXVY3cn46hnklwzD2rLKjlkC/jq3UJcht59hxtLg3LQ3mnJBopqrkoaGClu3qqdO2tvsvnSsfH0TAubwX20G0TmvyJo7EUeOmQAsqNxOwm5Dz8MX3UpxN7nHG0IVHeCUqqpXV+3JKpXYQjZDBsHGTZyXJCV9hmKmOfUxVIYDUpl5lthCEuUCfRkeRUJVTaNevXHtvh069Y+xBSdvg21XtTd8fnrlKP/Z"></div><span class="mlm">My Course</span></a><div class="divider">|</div><a href="#"><span class="icon icon-talk"></span></a><div class="divider">|</div><span class="icon icon-credit-card"></span><a href="#" class="mlm">USD</a><div class="divider">|</div><span class="language"><span class="icon icon-language"></span><a href="#" class="mlm">EN</a><span class="icon icon-caret-down mls hidden-md hidden-lg"></span></span><div class="divider">|</div><a href="#">Q&amp;a</a><button type="button" class="mlm no-bb btn-black search-btn"><span class="icon icon-search"></span></button></div></div></div></div><div class="MainMenu"><div class="container"><div class="menu"><a href="/profile" class="item active"><span class="icon item-icon icon-user-o"><!----></span><div class="text">Profile</div></a><div class="divider"></div><a href="" class="item"><span class="icon item-icon icon-like"><!----></span><div class="text">School Reviews</div></a><div class="divider"></div><a href="/my-courses" class="item"><span class="icon item-icon icon-house"><!----></span><div class="text">My Courses</div></a><div class="divider"></div><a href="/orders" class="item"><span class="icon item-icon icon-paper"><div class="notification-count">2</div></span><div class="text">Orders</div></a><div class="divider"></div><a href="/create-course/" class="item"><span class="icon item-icon icon-plus-thin"><!----></span><div class="text">Create Course</div></a><div class="divider"></div><a href="" class="item"><span class="icon item-icon icon-talk"><!----></span><div class="text">Message</div></a><div class="divider"></div><a href="" class="item"><span class="icon item-icon icon-cog"><!----></span><div class="text">Settings</div></a><div class="divider"></div><a href="" class="item"><span class="icon item-icon icon-question-book"><!----></span><div class="text">Inquiry</div></a><!----></div></div></div><div class="MainContent"><div class="StudentProfile"><div class="container"><div class="content-card"><h1 class="content-card-title">Profile</h1><form class="content-card-body flex"><div class="form-left"><div class="_1"><div class="avatar mrm"><div class="ImageUploader mrl"><div class="box"><div class="icon icon-plus-thin"></div><span class="title mtm">Upload Photo</span></div><label class="VueUploadComponent file-uploads file-uploads-html5"> <input type="file" name="file" id="file" accept="image/gif,image/jpg,image/jpeg,image/png,image/webp"></label><!----><!----></div></div><div class="avatar-right"><div class="form-group"><label>Name on Passport</label><div class="flex"><input type="text" placeholder="* First Name" class="form-control input-lg"><div class="space"></div><input type="text" placeholder="Middle Name" class="form-control input-lg"><div class="space"></div><input type="text" placeholder="* Last Name" class="form-control input-lg"></div><div class="flex mtm"><div class="form-group"><label>* Gender</label><select class="form-control input-lg"><option value="">Please select</option><option value="male">Male</option><option value="female">Female</option></select></div><div class="space"></div><div class="form-group"><label>* Birthday</label><div class="DatePicker date-picker form-group has-feedback"><input type="text" class="form-control input-lg"><span class="icon icon-calendar form-control-feedback"></span><div class="mask"></div><div class="date-panel" style="display: none; left: 0px;"><div class="panel-header"><div class="arrow-left">&lt;</div><div class="year-month-box"><div class="year-box">2018</div><div class="month-box">Feb</div></div><div class="arrow-right">&gt;</div></div><div class="panel-header" style="display: none;"><div class="arrow-left">&lt;</div><div class="year-range"><span>2018</span> -<span>2029</span></div><div class="arrow-right">&gt;</div></div><div class="type-year" style="display: none;"><ul class="year-list"><li class="selected">2018</li><li class="">2019</li><li class="">2020</li><li class="">2021</li><li class="">2022</li><li class="">2023</li><li class="">2024</li><li class="">2025</li><li class="">2026</li><li class="">2027</li><li class="">2028</li><li class="">2029</li></ul></div><div class="type-month" style="display: none;"><ul class="month-list"><li class="">Jan</li><li class="selected">Feb</li><li class="">Mar</li><li class="">Apr</li><li class="">May</li><li class="">Jun</li><li class="">Jul</li><li class="">Aug</li><li class="">Sep</li><li class="">Oct</li><li class="">Nov</li><li class="">Dec</li></ul></div><div class="type-date"><ul class="weeks"><li>Su</li><li>Mo</li><li>Tu</li><li>We</li><li>Th</li><li>Fr</li><li>Sa</li></ul><ul class="date-list"><li class="preMonth firstItem"><div class="message"><div class="bg"></div><span>28</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>29</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>30</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>31</span></div></li><li class=""><div class="message"><div class="bg"></div><span>1</span></div></li><li class=""><div class="message"><div class="bg"></div><span>2</span></div></li><li class=""><div class="message"><div class="bg"></div><span>3</span></div></li><li class="firstItem"><div class="message selected"><div class="bg"></div><span>4</span></div></li><li class=""><div class="message"><div class="bg"></div><span>5</span></div></li><li class=""><div class="message"><div class="bg"></div><span>6</span></div></li><li class=""><div class="message"><div class="bg"></div><span>7</span></div></li><li class=""><div class="message"><div class="bg"></div><span>8</span></div></li><li class=""><div class="message"><div class="bg"></div><span>9</span></div></li><li class=""><div class="message"><div class="bg"></div><span>10</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>11</span></div></li><li class=""><div class="message"><div class="bg"></div><span>12</span></div></li><li class=""><div class="message"><div class="bg"></div><span>13</span></div></li><li class=""><div class="message"><div class="bg"></div><span>14</span></div></li><li class=""><div class="message"><div class="bg"></div><span>15</span></div></li><li class=""><div class="message"><div class="bg"></div><span>16</span></div></li><li class=""><div class="message"><div class="bg"></div><span>17</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>18</span></div></li><li class=""><div class="message"><div class="bg"></div><span>19</span></div></li><li class=""><div class="message"><div class="bg"></div><span>20</span></div></li><li class=""><div class="message"><div class="bg"></div><span>21</span></div></li><li class=""><div class="message"><div class="bg"></div><span>22</span></div></li><li class=""><div class="message"><div class="bg"></div><span>23</span></div></li><li class=""><div class="message"><div class="bg"></div><span>24</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>25</span></div></li><li class=""><div class="message"><div class="bg"></div><span>26</span></div></li><li class=""><div class="message"><div class="bg"></div><span>27</span></div></li><li class=""><div class="message"><div class="bg"></div><span>28</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>1</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>2</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>3</span></div></li><li class="nextMonth firstItem"><div class="message"><div class="bg"></div><span>4</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>5</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>6</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>7</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>8</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>9</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>10</span></div></li></ul></div></div></div></div><div class="space"></div><div class="form-group"><label>* Nationality</label><select class="form-control input-lg"><option value="">Please select</option><option value="USA">USA</option></select></div></div></div></div></div><div class="flex"><div class="form-group"><label>* Country of Residence</label><select class="form-control input-lg"><option value="">Please select</option><option value="USA">USA</option></select></div><div class="space"></div><div class="form-group flex-1"><label>* Email</label><input type="text" class="form-control input-lg"></div><div class="space"></div><div class="form-group phone"><label>* Phone</label><div class="input-group"><div class="input-group-addon">+1(917)</div><input type="text" class="form-control input-lg"></div></div></div><div class="form-group passport"><label>* Passport Information</label><div class="flex"><input type="text" placeholder="Passport Number" class="form-control input-lg"><div class="space"></div><input type="text" placeholder="Issued Country" class="form-control input-lg"><div class="space"></div><div class="DatePicker date-picker form-group has-feedback expiry-date"><input type="text" placeholder="Expiry Date" class="form-control input-lg"><span class="icon icon-calendar form-control-feedback"></span><div class="mask"></div><div class="date-panel" style="display: none; left: 0px;"><div class="panel-header"><div class="arrow-left">&lt;</div><div class="year-month-box"><div class="year-box">2018</div><div class="month-box">Feb</div></div><div class="arrow-right">&gt;</div></div><div class="panel-header" style="display: none;"><div class="arrow-left">&lt;</div><div class="year-range"><span>2018</span> -<span>2029</span></div><div class="arrow-right">&gt;</div></div><div class="type-year" style="display: none;"><ul class="year-list"><li class="selected">2018</li><li class="">2019</li><li class="">2020</li><li class="">2021</li><li class="">2022</li><li class="">2023</li><li class="">2024</li><li class="">2025</li><li class="">2026</li><li class="">2027</li><li class="">2028</li><li class="">2029</li></ul></div><div class="type-month" style="display: none;"><ul class="month-list"><li class="">Jan</li><li class="selected">Feb</li><li class="">Mar</li><li class="">Apr</li><li class="">May</li><li class="">Jun</li><li class="">Jul</li><li class="">Aug</li><li class="">Sep</li><li class="">Oct</li><li class="">Nov</li><li class="">Dec</li></ul></div><div class="type-date"><ul class="weeks"><li>Su</li><li>Mo</li><li>Tu</li><li>We</li><li>Th</li><li>Fr</li><li>Sa</li></ul><ul class="date-list"><li class="preMonth firstItem"><div class="message"><div class="bg"></div><span>28</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>29</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>30</span></div></li><li class="preMonth"><div class="message"><div class="bg"></div><span>31</span></div></li><li class=""><div class="message"><div class="bg"></div><span>1</span></div></li><li class=""><div class="message"><div class="bg"></div><span>2</span></div></li><li class=""><div class="message"><div class="bg"></div><span>3</span></div></li><li class="firstItem"><div class="message selected"><div class="bg"></div><span>4</span></div></li><li class=""><div class="message"><div class="bg"></div><span>5</span></div></li><li class=""><div class="message"><div class="bg"></div><span>6</span></div></li><li class=""><div class="message"><div class="bg"></div><span>7</span></div></li><li class=""><div class="message"><div class="bg"></div><span>8</span></div></li><li class=""><div class="message"><div class="bg"></div><span>9</span></div></li><li class=""><div class="message"><div class="bg"></div><span>10</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>11</span></div></li><li class=""><div class="message"><div class="bg"></div><span>12</span></div></li><li class=""><div class="message"><div class="bg"></div><span>13</span></div></li><li class=""><div class="message"><div class="bg"></div><span>14</span></div></li><li class=""><div class="message"><div class="bg"></div><span>15</span></div></li><li class=""><div class="message"><div class="bg"></div><span>16</span></div></li><li class=""><div class="message"><div class="bg"></div><span>17</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>18</span></div></li><li class=""><div class="message"><div class="bg"></div><span>19</span></div></li><li class=""><div class="message"><div class="bg"></div><span>20</span></div></li><li class=""><div class="message"><div class="bg"></div><span>21</span></div></li><li class=""><div class="message"><div class="bg"></div><span>22</span></div></li><li class=""><div class="message"><div class="bg"></div><span>23</span></div></li><li class=""><div class="message"><div class="bg"></div><span>24</span></div></li><li class="firstItem"><div class="message"><div class="bg"></div><span>25</span></div></li><li class=""><div class="message"><div class="bg"></div><span>26</span></div></li><li class=""><div class="message"><div class="bg"></div><span>27</span></div></li><li class=""><div class="message"><div class="bg"></div><span>28</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>1</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>2</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>3</span></div></li><li class="nextMonth firstItem"><div class="message"><div class="bg"></div><span>4</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>5</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>6</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>7</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>8</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>9</span></div></li><li class="nextMonth"><div class="message"><div class="bg"></div><span>10</span></div></li></ul></div></div></div></div></div></div><div class="form-right"><div class="form-group"><label>* Emergency Contact Person 1</label><input type="text" placeholder="Name" class="form-control input-lg"><div class="flex mtm"><input type="text" placeholder="Relationship" class="form-control input-lg"><div class="space"></div><input type="text" placeholder="Tel" class="form-control input-lg"></div></div><div class="form-group mtm"><label>Emergency Contact Person 2</label><input type="text" placeholder="Name" class="form-control input-lg"><div class="flex mtm"><input type="text" placeholder="Relationship" class="form-control input-lg"><div class="space"></div><input type="text" placeholder="Tel" class="form-control input-lg"></div></div><div class="declare mtm flex"><div class="Checkbox flex-0"><!----><input type="checkbox"></div><div class="mlm"><p>I hereby declare that all information provided above is true and accurate.</p><p>I agree to <a href="#">Borocol’s Terms of Service</a> and undestating <a href="#">the purpose of collecting personal data</a>.</p></div></div><div class="mtm"><button class="btn btn-primary btn-lg btn-block">Save</button></div></div></form></div></div></div></div><div class="MainFooter"><div class="_1"><div class="container phn"><div class="row"><div class="col-sm-2 col-xs-6"><div class="title">Borocol</div><div class="links"><a href="#" class="link">About Us</a><a href="#" class="link">Recruitment</a><a href="#" class="link">Media</a><a href="#" class="link">FAQs</a><a href="#" class="link">Contact Us</a></div></div><div class="col-sm-2 col-xs-6"><div class="title">Contact Us</div><div class="links"><a href="#" class="link">Borocol</a><a href="#" class="link">103 Arthur Road</a><a href="#" class="link">Windsor</a><a href="#" class="link">SL4 1 RU</a><a href="#" class="link">sales@borocol.com</a><a href="#" class="link">01753 833442</a></div></div><div class="col-sm-2 col-xs-6"><div class="title">Legal &amp; Cookies</div><div class="links"><a href="#" class="link">Terms &amp; Conditions</a><a href="#" class="link">Privacy Policy</a><a href="#" class="link">Cookie Policy</a><a href="#" class="link">Returns Policy</a><a href="#" class="link"></a></div></div></div></div></div><div class="_2"><div class="container phn"><span>© 2017 All Rights Reserved Borocol - Privacy Policy - Terms and conditions</span><div class="brands"><a href="#"><span class="icon icon-facebook"></span></a><a href="#"><span class="icon icon-linkedin"></span></a><a href="#"><span class="icon icon-twitter"></span></a><a href="#"><span class="icon icon-vimeo"></span></a><a href="#"><span class="icon icon-pinterest"></span></a></div></div></div></div><!----><!----><div class="notifications notification-layer"><div></div></div></div><script type="text/javascript" src="/static/js/manifest.40aa5012386f67f63a08.js"></script><script type="text/javascript" src="/static/js/vendor.7e8919b2d316c6215997.js"></script><script type="text/javascript" src="/static/js/app.f142dfb5d739521a036e.js"></script><script type="text/javascript" charset="utf-8" async="" src="/static/js/0.085b06a00fbe801d0139.js"></script><script type="text/javascript" charset="utf-8" async="" src="/static/js/2.4f329f23c05781469c6b.js"></script></body></html>

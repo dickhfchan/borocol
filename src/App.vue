@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
   MainHeader
-  MainMenu
+  MainMenu(v-if="hasMenu")
   MainContent
   MainFooter
   Alert
@@ -25,6 +25,12 @@ export default {
     }
   },
   computed: {
+    hasMenu() {
+      if (this.$route.meta && this.$route.meta.hasMenu === false) {
+        return false
+      }
+      return true
+    },
   },
   methods: {
   },

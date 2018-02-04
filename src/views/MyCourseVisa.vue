@@ -6,7 +6,7 @@ include ../common.pug
       .title Profile
       .content-card-body
         .left
-          img.avatar(src="~@/../static/student-avatar2.jpg")
+          img.avatar(v-lazy="'https://picsum.photos/100/100?image=100'")
         .right
           .bar1
             .name Philadelphian typesetter

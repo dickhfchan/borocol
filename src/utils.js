@@ -674,3 +674,8 @@ export function setTimeoutInterval(timeout, interval, func, immediate = true) {
     clearTimeout(t)
   }
 }
+
+export function doOnce(fun) {
+  fun()
+  return fun
+}
