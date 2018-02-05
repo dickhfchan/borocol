@@ -37,6 +37,12 @@ const state = {
     {value: 'male', text: 'Male'},
     {value: 'female', text: 'Female'},
   ],
+  style: {
+    small: 768,
+    medium: 992,
+    large: 1200,
+    superLarge: 1500,
+  },
   //
   // noImg,
 }

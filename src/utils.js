@@ -679,3 +679,11 @@ export function doOnce(fun) {
   fun()
   return fun
 }
+
+export function timeoutPromise(ms) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function () {
+      resolve()
+    }, ms);
+  });
+}

@@ -1,11 +1,12 @@
 <template lang="pug">
 include ../common.pug
 mixin carouselItem(src, title)
-  .carousel-item
-    a.img-area.has-read-more(href="#")
-      img.img(v-lazy=`'${src}'`)
-      +readMore
-    .text-area= title
+  div
+    .carousel-item
+      a.img-area.has-read-more(href="#")
+        img.img(v-lazy=`'${src}'`)
+        +readMore
+      .text-area= title
 .Home
   .banner-bar
     img.banner(v-lazy="'/static/pictures/header.jpg'")
@@ -509,71 +510,45 @@ mixin carouselItem(src, title)
           a.display-b
             img.w-100(v-lazy="'/static/pictures/Layer102.jpg'")
       .home-block-title Adventures
-      .carousel._1
-        .carousel-btn.left-btn
-          +icon('left-open-big')
-        .carousel-btn.right-btn
-          +icon('right-open-big')
-        .carousel-list-wrapper
-          .carousel-list
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
-            .clearfix
-      //-
+      .carousel._1.mtm
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
       .home-block-title Lifestyle
-      .carousel._1
-        .carousel-btn.left-btn
-          +icon('left-open-big')
-        .carousel-btn.right-btn
-          +icon('right-open-big')
-        .carousel-list-wrapper
-          .carousel-list
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
-            .clearfix
+      .carousel._1.mtm
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
       //-
       .home-block-title Categories
-      .carousel._1
-        .carousel-btn.left-btn
-          +icon('left-open-big')
-        .carousel-btn.right-btn
-          +icon('right-open-big')
-        .carousel-list-wrapper
-          .carousel-list
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
-            +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
-            +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
-            .clearfix
+      .carousel._1.mtm
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Specially')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Professional')
+        +carouselItem('/static/pictures/pexels-photo-110469copy.jpg', 'Business')
+        +carouselItem('/static/pictures/Layer15copy.jpg', 'Business')
       //-
       .home-block-title Countries
       .carousel._2
-        .carousel-btn.left-btn
-          +icon('left-open-big')
-        .carousel-btn.right-btn
-          +icon('right-open-big')
-        .carousel-list-wrapper
-          .carousel-list
-            +carouselItem('/static/pictures/Layer7.jpg', 'London')
-            +carouselItem('/static/pictures/Layer8.jpg', 'Paris')
-            +carouselItem('/static/pictures/Layer9.jpg', 'Tokyo')
-            +carouselItem('/static/pictures/Layer10.jpg', 'Havana')
-            +carouselItem('/static/pictures/Layer11.jpg', 'Cape Town')
-            +carouselItem('/static/pictures/Layer10.jpg', 'Miami')
-            +carouselItem('/static/pictures/Layer10.jpg', 'Havana')
-            +carouselItem('/static/pictures/Layer11.jpg', 'Cape Town')
-            +carouselItem('/static/pictures/Layer10.jpg', 'Miami')
-            .clearfix
+        +carouselItem('/static/pictures/Layer7.jpg', 'London')
+        +carouselItem('/static/pictures/Layer8.jpg', 'Paris')
+        +carouselItem('/static/pictures/Layer9.jpg', 'Tokyo')
+        +carouselItem('/static/pictures/Layer10.jpg', 'Havana')
+        +carouselItem('/static/pictures/Layer11.jpg', 'Cape Town')
+        +carouselItem('/static/pictures/Layer10.jpg', 'Miami')
+        +carouselItem('/static/pictures/Layer10.jpg', 'Havana')
+        +carouselItem('/static/pictures/Layer11.jpg', 'Cape Town')
+        +carouselItem('/static/pictures/Layer10.jpg', 'Miami')
   .subscribe-block.home-block
     img.back-img.hidden-xs(v-lazy="'/static/images/subscribe-background.jpg'")
     .title Subscribe to our mailing list
@@ -586,65 +561,64 @@ mixin carouselItem(src, title)
 
 <script>
 import routes from '@/routes/index'
-import {doOnce, initCarousel} from '@/utils'
+import {timeoutPromise} from '@/utils'
+import windowSize from '@/components/windowSize'
+import mounted from '@/components/mounted'
+import {waitFor} from 'helper-js'
 import 'slick-carousel'
 import 'slick-carousel/slick/slick.css'
 
 export default {
+  mixins: [windowSize, mounted],
   components: {},
   data() {
     return {
       routes: routes,
     }
   },
-  // computed: {},
-  // watch: {},
-  // methods: {},
-  // created() {},
-  mounted() {
-    $(function () {
-      initCarousel()
-      // extra small: carousel, card
-      var mini = false
-      var slicks = []
-      $(window).on('resize', doOnce(function () {
-        var mini2 = window.innerWidth <= 768
-        if (mini !== mini2) {
-          mini = mini2
-        } else {
+  computed: {
+    mini() { return this.window.innerWidth <= 768 },
+  },
+  watch: {
+    'window.innerWidth': {
+      immediate: true,
+      async handler(value) {
+        await this.mounted
+        setTimeout(() => {
+          this.updateCarouselItemWidth()
+        }, 100);
+      }
+    },
+    mini: {
+      immediate: true,
+      async handler(mini, old) {
+        if (old === mini) {
           return
         }
-        var wrapperHtmlStr = '<div class="card-wrapper-to-keep-shadow-in-slick"></div>'
-        var cards = $('.soon-to-start-courses-block .cards, .early-bird-courses-block .cards')
-        var carousels = $('.big-block .carousel')
+        await this.mounted
+        const wrapperHtmlStr = '<div class="card-wrapper-to-keep-shadow-in-slick"></div>'
+        const cards = $('.soon-to-start-courses-block .cards, .early-bird-courses-block .cards')
+        const carousels = $('.big-block .carousel')
         if (mini) {
-          cards.add(carousels).addClass('mini').find('img').each(function (i, el) {
-            // check lazyload. if not loaded, load img manually
-            var t = $(el)
-            if (!t.attr('src')) {
-              t.attr('src', t.attr('data-src'))
-            }
-          })
+          cards.add(carousels).addClass('mini')
           cards.find('.card').wrap(wrapperHtmlStr)
-          cards.each(function (i, el) {
-            $(el).slick({
-              dots: true,
-              arrows: false,
-              autoplay: true,
-            })
+          cards.slick({
+            dots: true,
+            arrows: false,
+            autoplay: true,
           })
-          carousels.each(function (i, el) {
-            $(el).find('.carousel-list').children('.carousel-item').addClass('card').wrap(wrapperHtmlStr)
+          // carousels
+          const last = carousels.last()
+          if (carousels.hasClass('slick-slider')) {
+            carousels.slick('unslick')
+            await waitFor(() => !carousels.hasClass('.slick-slider'), 50)
+          }
+          carousels.not(last).slick({
+            dots: true,
+            arrows: false,
+            autoplay: true,
           })
-          var last = carousels.last()
-          carousels.not(last).each(function (i, el) {
-            $(el).find('.carousel-list').slick({
-              dots: true,
-              arrows: false,
-              autoplay: true,
-            })
-          })
-          last.find('.carousel-list').slick({
+          last.slick({
             dots: true,
             arrows: false,
             autoplay: true,
@@ -652,19 +626,55 @@ export default {
             slidesToScroll: 2,
           })
         } else {
-          cards.add(carousels).removeClass('mini')
-          // destroy
-          cards.each(function (i, el) {
-            $(el).slick('unslick')
+          if (cards.hasClass('mini')) {
+            cards.add(carousels).removeClass('mini').slick('unslick')
+            cards.find('.card').unwrap()
+          }
+          $('.carousel').slick({
+            infinite: false,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            prevArrow: '<div class="carousel-btn left-btn"><span class="icon icon-left-open-big"></span></div>',
+            nextArrow: '<div class="carousel-btn right-btn"><span class="icon icon-right-open-big"></span></div>',
+            responsive: [
+              {
+                breakpoint: this.$state.style.large,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 1,
+                }
+              },
+              {
+                breakpoint: this.$state.style.medium,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+                }
+              },
+            ]
           })
-          cards.find('.card').unwrap()
-          carousels.each(function (i, el) {
-            $(el).find('.carousel-list').slick('unslick')
-          })
-          carousels.find('.carousel-item').removeClass('card').unwrap()
+          setTimeout(() => {
+            this.updateCarouselItemWidth()
+          }, 100);
         }
-      }))
-    })
+      },
+    }
+  },
+  methods: {
+    updateCarouselItemWidth() {
+      $('.slick-slider').each((i, el) => {
+        el = $(el)
+        const list = el.find('.slick-list')
+        const items = el.find('.carousel-item')
+        const space = 20
+        const n = Math.round(list.width() / el.find('.slick-slide:eq(0)').width())
+        const w = (list.width() - (n - 1) * space) / n
+        items.width(w)
+      })
+    },
+  },
+  // created() {},
+  mounted() {
   },
   beforeDestroy() {
     try {
@@ -677,6 +687,42 @@ export default {
 <style lang="scss">
 @import "~@/assets/css/global.scss";
 .Home{
+  // common
+
+  .carousel {
+    position: relative;
+
+    .carousel-btn {
+      color: #7D7D7D;
+      cursor: pointer;
+      position: absolute;
+      font-size: 40px;
+    }
+
+    .left-btn {
+      right: 101%;
+      right: calc(100% + 25px);
+    }
+
+    .right-btn {
+      left: 101%;
+      left: calc(100% + 25px);
+    }
+  }
+
+  .carousel-item{
+    width: 260px;
+    img{
+      width: 100%;
+    }
+    .text-area {
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 20px;
+    }
+  }
+  //
   .banner-bar {
     height: 770px;
     overflow: hidden;
@@ -985,6 +1031,7 @@ export default {
     }
 
     .img-area {
+      height: 0;
       padding-bottom: 55%;
     }
 
@@ -1006,6 +1053,7 @@ export default {
       }
 
       .img-area {
+        height: 0;
         padding-bottom: 54%;
       }
     }
@@ -1020,6 +1068,7 @@ export default {
       }
 
       .img-area {
+        height: 0;
         padding-bottom: 54%;
       }
     }
@@ -1067,7 +1116,8 @@ export default {
       margin-bottom: $space;
 
       .img-area {
-        height: 47.333%;
+        height: 0;
+        padding-bottom: 55.3%;
       }
 
       .text-area {
@@ -1119,7 +1169,6 @@ export default {
       }
     }
   }
-
   .big-block {
 
     .home-block-title {
@@ -1133,17 +1182,10 @@ export default {
       }
 
       .carousel-item {
-        width: 260px;
-
         .img-area {
           overflow: hidden;
-          width: 100%;
           height: 0;
           padding-bottom: 180 / 260 * 100 + %;
-
-          img {
-            width: 100%;
-          }
         }
       }
     }
@@ -1155,7 +1197,7 @@ export default {
 
       .carousel-item {
         .img-area {
-          width: 220px;
+          overflow: hidden;
           height: 0;
           padding-bottom: 148%;
         }
@@ -1171,9 +1213,6 @@ export default {
       }
 
       &.mini {
-        .carousel-btn{
-          display: none;
-        }
         .carousel-item {
           margin-right: 0;
           .text-area{
@@ -1192,7 +1231,7 @@ export default {
       &._2{
         .carousel-item{
           .img-area{
-            width: 100%;
+            // width: 100%;
           }
         }
       }

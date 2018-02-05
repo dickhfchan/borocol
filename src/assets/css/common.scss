@@ -27,7 +27,7 @@ a{
 
 .container {
   padding: 0;
-  @media (min-width: 1530px) {
+  @media (min-width: $superLarge) {
     width: 1400px;
   }
   // xs extra small and small 特小屏幕 手机 和 小屏幕 平板
@@ -129,48 +129,6 @@ a{
     .text-area2 {
       margin-left: $iconW;
     }
-  }
-}
-
-.carousel {
-  position: relative;
-
-  .carousel-btn {
-    color: #7D7D7D;
-    cursor: pointer;
-    position: absolute;
-    font-size: 40px;
-  }
-
-  .left-btn {
-    right: 101%;
-    right: calc(100% + 25px);
-  }
-
-  .right-btn {
-    left: 101%;
-    left: calc(100% + 25px);
-  }
-}
-
-.carousel-list-wrapper {
-  overflow-x: hidden;
-}
-
-.carousel-list {
-  white-space: nowrap;
-  position: relative;
-}
-
-.carousel-item {
-  display: inline-block;
-  margin-right: 20px;
-
-  .text-area {
-    font-size: 16px;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 20px;
   }
 }
 
