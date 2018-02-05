@@ -586,7 +586,7 @@ mixin carouselItem(src, title)
 
 <script>
 import routes from '@/routes/index'
-import {doOnce} from '@/utils'
+import {doOnce, initCarousel} from '@/utils'
 import 'slick-carousel'
 import 'slick-carousel/slick/slick.css'
 
@@ -603,6 +603,7 @@ export default {
   // created() {},
   mounted() {
     $(function () {
+      initCarousel()
       // extra small: carousel, card
       var mini = false
       var slicks = []
