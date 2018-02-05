@@ -95,8 +95,10 @@ include ../common.pug
 <script>
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick'
+import StarScore from '@/components/StarScore'
+
 export default {
-  components: {},
+  components: {StarScore},
   data() {
     return {}
   },

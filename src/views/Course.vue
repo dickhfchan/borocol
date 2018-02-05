@@ -214,34 +214,34 @@ include ../common.pug
                     .clearfix
 
               Tab(name="Accomodation")
-                .accomodation
-                  .accomodation-photos.crousel
-                    .accomodation-photo-wrapper
+                .accomodation2
+                  .accomodation2-photos.crousel
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=416")
-                    .accomodation-photo-wrapper
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=417")
-                    .accomodation-photo-wrapper
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=418")
-                    .accomodation-photo-wrapper
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=419")
-                    .accomodation-photo-wrapper
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=420")
-                    .accomodation-photo-wrapper
+                    .accomodation2-photo-wrapper
                       img(src="https://picsum.photos/220/150?image=421")
-                  .accomodation-line.mtl
-                    .accomodation-key Options
-                    .accomodation-value
-                      .accomodation-option
+                  .accomodation2-line.mtl
+                    .accomodation2-key Options
+                    .accomodation2-value
+                      .accomodation2-option
                         span.icon.icon-house
                         .mts Dorm
-                  .accomodation-line
-                    .accomodation-key About the location:
-                    .accomodation-value Lorem \psum ‘5 swmp‘y dummy text or’ the prmtmg and typesemng \ndustry
+                  .accomodation2-line
+                    .accomodation2-key About the location:
+                    .accomodation2-value Lorem \psum ‘5 swmp‘y dummy text or’ the prmtmg and typesemng \ndustry
                       br
                       | Lorem \psum has been the mdustry‘s standard dummy text ever smce the
-                  .accomodation-line
-                    .accomodation-key Facilities:
-                    .accomodation-value Wm / mtchen / Swwmmmg poo‘ / Washmg machme/ gym / ba‘cony
+                  .accomodation2-line
+                    .accomodation2-key Facilities:
+                    .accomodation2-value Wm / mtchen / Swwmmmg poo‘ / Washmg machme/ gym / ba‘cony
                       br
                       | Othevs warary‘ garden
         .advertisement.flex.mtl
@@ -698,31 +698,31 @@ export default {
     font-size: 13px;
   }
   // accomodation
-  .accomodation {
+  .accomodation2 {
     padding: 40px 0;
   }
-  .accomodation-photos {
+  .accomodation2-photos {
 
   }
-  .accomodation-photo-wrapper {
+  .accomodation2-photo-wrapper {
     img{
       width: 220px;
     }
   }
-  .accomodation-line {
+  .accomodation2-line {
     display: flex;
     padding: 25px 0;
     line-height: 25px;
     border-bottom: 1px solid #ddd;
   }
-  .accomodation-key {
+  .accomodation2-key {
     width: 180px;
     margin-right: 20px;
   }
-  .accomodation-value {
+  .accomodation2-value {
 
   }
-  .accomodation-option{
+  .accomodation2-option{
     text-align: center;
     .icon{
       font-size: 38px;

@@ -3,7 +3,7 @@ include ../common.pug
 .MainHeader
   .container.relative
     .brand-bar
-      .brand
+      router-link.brand(:to="{name: 'home'}")
         img(v-lazy="brand")
       .tool-bar.pull-right
         a
