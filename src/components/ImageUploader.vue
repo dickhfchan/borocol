@@ -21,14 +21,16 @@
         span.icon.icon-search(title="Preview" @click="preview")
         span.icon.icon-trash-o.mls(title="Remove" @click="remove")
       span(v-show="uploading") {{progress}}%
-  Modal(
-    v-if="modalVisible",
-    :options="modalOptions",
-    @close="modalClose", @ok="modalOk"
+  el-dialog(
+    :title="modalTitle"
+    :visible.sync="modalVisible"
   )
-    h4.modal-title(slot="title") {{modalTitle}}
     div
-      img.editing-img(ref="editingImage" :src="files[0].url")
+      img.editing-img(ref="editingImage" :src="files[0] && files[0].url")
+    div(slot="footer")
+      a.btn.btn-default(@click="modalClose") Cancel
+      a.btn.btn-primary.mlm(@click="modalOk") Ok
+  </span>
 </template>
 
 <script>
