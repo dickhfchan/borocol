@@ -30,3 +30,10 @@ $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !
 
 $padding-base-vertical:     10px;
 $padding-base-horizontal:   15px;
+
+$alert-success-bg:            #3FB618 !default;
+$alert-success-text:          #fff    !default;
+$alert-warning-bg:            #FF7518 !default;
+$alert-warning-text:          #fff    !default;
+$alert-danger-bg:            #FF0039 !default;
+$alert-danger-text:          #fff    !default;
