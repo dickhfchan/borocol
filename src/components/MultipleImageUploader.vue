@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import VueUploadComponent from 'vue-upload-component'
+import BaseUploader2 from './BaseUploader2'
 import valueDetails from './valueDetails'
 import mounted from './mounted'
 
@@ -95,7 +95,6 @@ const ui = {
         this.mounted.then(() => {
           if (value) {
             this.boxesWidth = (this.boxWidth + value) * this.visibleBlockCount - value
-            console.log(this.boxesWidth);
             this.boxesStyle = {
               width: this.boxesWidth + 'px',
             }
@@ -134,7 +133,8 @@ const ui = {
 
 export default {
   mixins: [valueDetails, mounted, ui],
-  components: {VueUploadComponent},
+  extends: BaseUploader2,
+  components: {},
   props: {
     name: {default: 'file'},
     value: {required: true, type: Array},
@@ -174,48 +174,19 @@ export default {
         console.log(this.value);
       }, 300);
     },
-    inputFile(newFile, oldFile) {
-      // when add
-      if (newFile && !oldFile) {
-        newFile.active = true
-        console.log('upload start')
+    added(newFile) {
+      let URL = window.URL || window.webkitURL
+      if (URL && URL.createObjectURL) {
+        newFile.url = URL.createObjectURL(newFile.file)
       }
-      // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
-      else if (!newFile && oldFile) {
-      }
-      else if (newFile) {
-        // uploading
-        if (newFile.active) {
-        } else {
-          if (newFile.error) {
-            console.log('upload failed');
-            this.remove(newFile)
-            const message = newFile.response.data && newFile.response.data.message || newFile.response.toString() || ''
-            this.$alert(`Upload Failed. ${message}`)
-          } else if (newFile.success && newFile.progress == 100) {
-            console.log('upload succeeded')
-            this.$notification.success(`The file was uploaded successfully`)
-            newFile.url = this.getAbsUrl(newFile.response.data)
-            this.filesChanged(newFile)
-          }
-        }
-      }
+      this.startUploadFile(newFile)
     },
-    inputFilter(newFile, oldFile, prevent) {
-      if (newFile && !oldFile) {
-        const reg = RegExp(`\.(${this.extensions.join('|')})$`, 'i')
-        if (!reg.test(newFile.name)) {
-          this.$alert('Your choice is not a picture')
-          return prevent()
-        }
-      }
-      if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
-        newFile.url = ''
-        let URL = window.URL || window.webkitURL
-        if (URL && URL.createObjectURL) {
-          newFile.url = URL.createObjectURL(newFile.file)
-        }
-      }
+    failed(newFile) {
+      this.remove(newFile)
+    },
+    succeeded(newFile) {
+      newFile.url = this.getAbsUrl(newFile.response.data)
+      this.filesChanged(newFile)
     },
     imgLoaded(item, index) {
       const img = this.$el.querySelector(`.preview[index='${index}'] .preview-img`)

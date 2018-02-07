@@ -1,38 +1,44 @@
 <template lang="pug">
-Btn.UploadBtn
-  template(v-if="upload")
-    span(v-if="upload.uploading") Uploading {{upload.progress}}%
-    span(v-else) Upload File
-  BaseUploader(ref="upload" v-model="value2" @input="$emit('change', $event)" :extensions="extensions" :mimes="mimes" :filter="filter")
+button.UploadBtn
+  span(v-if="uploading") Uploading {{files[0].progress.slice(0, -3)}}%
+  span(v-else) Upload File
+  VueUploadComponent.VueUploadComponent.man(
+    :inputId="inputId"
+    ref="upload"
+    v-model="files"
+    :accept="accept"
+    :name="name"
+    :post-action="$state.urls.serverBase + '/file'"
+    :drop="true"
+    @input-file="inputFile"
+    @input-filter="inputFilter"
+  )
 </template>
 
 <script>
-import BaseUploader from './BaseUploader'
+import BaseUploader2 from './BaseUploader2'
+import valueDetails from './valueDetails'
 export default {
-  props: {
-    value: {},
-    extensions: {default: is => []},
-    mimes: {},
-    filter: {},
-  },
-  components: {BaseUploader},
-  data() {
-    return {
-      upload: null,
-    }
-  },
-  computed: {
-    value2: {
-      get() { return this.value },
-      set(value) { this.$emit('input', value) },
+  mixins: [valueDetails],
+  extends: BaseUploader2,
+  // props: {},
+  // components: {},
+  // data() {
+  //   return {
+  //   }
+  // },
+  // computed: {},
+  // watch: {},
+  methods: {
+    added(file) {
+      this.startUploadFile(file)
+    },
+    succeeded(file) {
+      this.$emit('input', file.response.data)
     },
   },
-  // watch: {},
-  // methods: {},
   // created() {},
-  mounted() {
-    this.upload = this.$refs.upload
-  },
+  // mounted() {},
 }
 </script>
 
@@ -43,5 +49,8 @@ export default {
   font-weight: bold;
   width: 200px;
   position: relative;
+  .VueUploadComponent{
+    @extend %mask;
+  }
 }
 </style>

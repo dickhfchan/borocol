@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import VueUploadComponent from 'vue-upload-component'
+import BaseUploader2 from './BaseUploader2'
 import Modal from './Modal.vue'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
@@ -41,7 +41,8 @@ import { Base64 } from 'js-base64'
 
 export default {
   mixins: [valueDetails],
-  components: {VueUploadComponent, Modal},
+  extends: BaseUploader2,
+  components: {Modal},
   props: {
     name: {default: 'file'},
     extensions: {default: is => ["gif", "jpg", "jpeg", "png", "webp"]},
@@ -56,7 +57,6 @@ export default {
       editVisible: false,
       src: null,
       files: [],
-      uploading: false,
       progress: 0,
       // modal
       modalVisible: false,
@@ -112,49 +112,26 @@ export default {
     modalClose () {
       this.modalVisible = false
     },
-    inputFile(newFile, oldFile) {
-      // when add
-      if (newFile && !oldFile) {
-        this.$nextTick(function () {
-          this.modalVisible = true
-        })
+    added(newFile) {
+      let URL = window.URL || window.webkitURL
+      if (URL && URL.createObjectURL) {
+        newFile.url = URL.createObjectURL(newFile.file)
       }
-      // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
-      else if (!newFile && oldFile) {
-        this.modalVisible = false
-      }
-      // uploading
-      else if (this.uploading) {
-        if (newFile.active) {
-          this.progress = Math.ceil(newFile.progress)
-        } else {
-          this.uploading = false
-          if (newFile.success) {
-            this.$notification.success(`The file was uploaded successfully`)
-            this.$emit('input', newFile.response.data)
-          } else {
-            const message = newFile.response.data && newFile.response.data.message || newFile.response.toString() || ''
-            this.$alert(`Upload Failed. ${message}`)
-            this.src = this.getAbsUrl(this.value) // restore src
-          }
-        }
-      }
+      this.$nextTick(function () {
+        this.modalVisible = true
+      })
     },
-    inputFilter(newFile, oldFile, prevent) {
-      if (newFile && !oldFile) {
-        const reg = RegExp(`\.(${this.extensions.join('|')})$`, 'i')
-        if (!reg.test(newFile.name)) {
-          this.$alert('Your choice is not a picture')
-          return prevent()
-        }
-      }
-      if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
-        newFile.url = ''
-        let URL = window.URL || window.webkitURL
-        if (URL && URL.createObjectURL) {
-          newFile.url = URL.createObjectURL(newFile.file)
-        }
-      }
+    removed() {
+      this.modalVisible = false
+    },
+    uploadProcessing(newFile) {
+      this.progress = newFile.progress.slice(0, -3)
+    },
+    failed(newFile) {
+      this.src = this.getAbsUrl(this.value) // restore src
+    },
+    succeeded(newFile) {
+      this.$emit('input', newFile.response.data)
     },
     modalOk () {
       const oldFile = this.files[0]
@@ -173,7 +150,6 @@ export default {
         active: true,
       })
       this.modalVisible = false
-      this.uploading = true
       this.progress = 0
     },
     preview() {

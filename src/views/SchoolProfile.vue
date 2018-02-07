@@ -32,7 +32,7 @@ include ../common.pug
                   ref="uploadBtn"
                   v-model="fields.businessRegistrationDocument.value"
                   :mimes="['application/pdf']"
-                  @change="fields.businessRegistrationDocumentName.value=$refs.uploadBtn.files[0].name"
+                  @input="fields.businessRegistrationDocumentName.value=$refs.uploadBtn.files[0].name"
                 )
           el-col(:span="12")
             .form-group
@@ -71,7 +71,7 @@ include ../common.pug
                 .form-group
                   label * Upload Logo
                   .mts
-                    ImageUploader(v-model="fields.avatar.value")
+                    ImageUploader(v-model="fields.avatar.value" :aspectRatio="1/1")
               el-col(:span="19")
                 .form-group
                   label * Upload School Photos (min. 3)
