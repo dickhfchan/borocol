@@ -6,6 +6,7 @@
     .boxes(ref="boxes" :style="boxesStyle")
       .boxes-inner(:style="boxesInnerStyle")
         VueUploadComponent.VueUploadComponent(
+          :inputId="inputId"
           ref="upload"
           v-model="files"
           :accept="accept"
@@ -48,6 +49,7 @@ const ui = {
       boxesWidth: null,
       boxesInnerLeft: 0,
       boxesStyle: {width: null},
+      inputId: `VueUploadComponent_${this._uid}`,
     }
   },
   computed: {
@@ -179,9 +181,9 @@ export default {
         console.log('upload start')
       }
       // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
-      if (!newFile && oldFile) {
+      else if (!newFile && oldFile) {
       }
-      if (newFile) {
+      else if (newFile) {
         // uploading
         if (newFile.active) {
         } else {

@@ -65,10 +65,8 @@ export default {
 @import "~@/assets/css/global.scss";
 .CreateCourse{
   background-image: url(~@/assets/img/school-bg.jpg);
-  background-size: 100%;
-  @media(max-width: 1920px) {
-    background-size: 1920px;
-  }
+  background-position: center;
+  background-size: cover;
   .content-card{
     padding: 0;
   }
@@ -118,33 +116,6 @@ export default {
   .content-card-body{
     padding: 50px 100px 120px 100px;
     box-sizing: content-box;
-  }
-  .dividing-line-title{
-    .title{
-      font-size: $fs-title * 0.8;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 20px 0;
-      .line{
-        height: 1px;
-        width: 35%;
-        background: $bd1;
-      }
-    }
-    input, select{
-      display: inline-block;
-      width: auto;
-    }
-    .line1{
-      select{
-        width: 95px;
-      }
-    }
-    .icon{
-      color: #ccc;
-      font-size: 1.4em;
-    }
   }
 }
 </style>

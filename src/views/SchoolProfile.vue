@@ -26,11 +26,14 @@ include ../common.pug
               +inputLg(v-model="fields.officialWebsite.value")
             +formGroup('fields.businessRegistrationDocument')
               //- to do, extract as a component
-              el-row(:gutter="10")
-                el-col(:span="18")
-                  +inputLg
-                el-col(:span="6")
-                  button.btn.btn-default.btn-block Upload File
+              .flex
+                +inputLg(disabled="disabled" :value="fields.businessRegistrationDocumentName.value")
+                UploadBtn.btn.btn-default.flex-s0.mlm(
+                  ref="uploadBtn"
+                  v-model="fields.businessRegistrationDocument.value"
+                  :mimes="['application/pdf']"
+                  @change="fields.businessRegistrationDocumentName.value=$refs.uploadBtn.files[0].name"
+                )
           el-col(:span="12")
             .form-group
               label * Contact Person 1
@@ -62,7 +65,7 @@ include ../common.pug
                   +inputLg(v-model="fields.contactPerson.value[1].tel" placeholder="Tel")
             .form-group
               label Payment Gateway
-              button.btn.btn-default.btn-md.mlm(type="button") Setup Stripe Account
+              button.stripe-btn.btn.btn-default.btn-lg.mlm(type="button") Setup <b> Stripe </b> Account
             el-row.mtm(:gutter="10")
               el-col(:span="5")
                 .form-group
@@ -83,11 +86,12 @@ include ../common.pug
 <script>
 import ImageUploader from '@/components/ImageUploader';
 import MultipleImageUploader from '@/components/MultipleImageUploader';
+import UploadBtn from '@/components/UploadBtn';
 import DatePicker from '@/components/DatePicker';
 import {newDate} from '@/utils'
-import {snakeCase} from 'helper-js'
+import {snakeCase, arrayLast} from 'helper-js'
 export default {
-  components: {ImageUploader, MultipleImageUploader, DatePicker},
+  components: {ImageUploader, MultipleImageUploader, UploadBtn, DatePicker},
   data() {
     return {
       dateFormat: 'MMM dd yyyy',
@@ -119,6 +123,8 @@ export default {
         officialWebsite: {
           rules: 'required',
           text: 'Official Website'
+        },
+        businessRegistrationDocumentName: {
         },
         businessRegistrationDocument: {
           rules: 'required',
@@ -159,7 +165,8 @@ export default {
       saving: false,
     }
   },
-  // computed: {},
+  computed: {
+  },
   // watch: {},
   methods: {
     save() {},
@@ -172,5 +179,17 @@ export default {
 </script>
 
 <style lang="scss">
-.SchoolProfile{}
+@import "~@/assets/css/global.scss";
+.SchoolProfile{
+  .stripe-btn{
+    @include btnColors(rgb(0, 148, 232), #fff);
+    text-transform: none;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 15px 50px;
+    b{
+      font-size: 20px;
+    }
+  }
+}
 </style>

@@ -3,7 +3,6 @@ from flask_restful import Resource, Api, reqparse, url_for
 from datetime import datetime, timedelta
 import time
 from utils import to_dict, before_write, addTmpFiles, deleteTmpFiles
-from werkzeug import secure_filename
 from os import path, makedirs
 import models
 import hashlib
@@ -107,7 +106,7 @@ class FileController(Resource):
     def post(self):
         file = request.files['file']
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = file.filename
             t, extension = path.splitext(filename)
             filename = datetime.now().strftime('~/%Y/%m/%d/') + hashlib.md5((str(time.time()) + '_' + str(random.random()) + '_' + filename).encode('utf8')).hexdigest() + extension
             fullPath = filename.replace('~', app.config['file_uploadDir'])

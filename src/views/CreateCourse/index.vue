@@ -4,9 +4,9 @@
     form.content-card-body
       .title I want to create
       ._1
-        .text-box A Program<br><b>"With"</b> Accomodation <span class="icon icon-question-circle"></span>
+        .text-box A Program<br><b>"With"</b> Accomodation <span class="question-circle icon icon-question-circle"></span>
         .or OR
-        .text-box A Program<br><b>"Without"</b> Accomodation <span class="icon icon-question-circle"></span>
+        .text-box A Program<br><b>"Without"</b> Accomodation <span class="question-circle icon icon-question-circle"></span>
       ._2
         .item
           Radio(v-model="fields.declared.value")
@@ -67,10 +67,6 @@ export default {
     border: 1px solid $bd1;
     border-radius: $bdr;
     padding: 20px;
-    .icon{
-      color: #ccc;
-      font-size: 1.4em;
-    }
   }
   .or{
     display: inline-block;

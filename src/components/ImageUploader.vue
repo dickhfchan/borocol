@@ -4,6 +4,7 @@
     .icon.icon-plus-thin
     span.title.mtm(v-if="title") {{title}}
   VueUploadComponent.VueUploadComponent(
+    :inputId="inputId"
     ref="upload"
     v-model="files"
     :accept="accept"
@@ -49,6 +50,7 @@ export default {
   },
   data() {
     return {
+      inputId: `VueUploadComponent_${this._uid}`,
       // preview
       hovering: false,
       editVisible: false,
@@ -118,11 +120,11 @@ export default {
         })
       }
       // when remove, 删除时, 仅当选择新文件同时旧文件自动删除才触发此
-      if (!newFile && oldFile) {
+      else if (!newFile && oldFile) {
         this.modalVisible = false
       }
       // uploading
-      if (this.uploading) {
+      else if (this.uploading) {
         if (newFile.active) {
           this.progress = Math.ceil(newFile.progress)
         } else {

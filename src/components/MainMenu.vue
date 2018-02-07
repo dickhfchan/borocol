@@ -19,7 +19,7 @@ export default {
     return {
       children: [
         { icon: 'user-o', text: 'Profile', route: {name: 'profile'}},
-        { icon: 'like', text: 'School Reviews', },
+        { icon: 'heart-o', text: 'School Reviews', },
         { icon: 'house', text: 'My Courses', route: {name: 'myCourses'}},
         { icon: 'paper', text: 'Orders', notificationCount: 2, route: {name: 'orders'}},
         { icon: 'plus-thin', text: 'Create Course', route: {name: 'createCourse'}},

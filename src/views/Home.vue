@@ -8,8 +8,7 @@ mixin carouselItem(src, title)
         +readMore
       .text-area= title
 .Home
-  .banner-bar
-    img.banner(v-lazy="'/static/pictures/header.jpg'")
+  .banner-bar(v-lazy:background-image="'/static/pictures/header.jpg'")
     .lb1
       .container
         .course-search-card.bg1.pull-right.hidden-xs.hidden-sm.hidden-md
@@ -726,6 +725,8 @@ export default {
   .banner-bar {
     height: 770px;
     overflow: hidden;
+    background-position: center;
+    background-size: cover;
 
     .banner {
       // width: 100%;
@@ -733,9 +734,9 @@ export default {
     position: relative;
     // layout block
     .lb1 {
-      position: absolute;
-      top: 0;
-      width: 100%;
+      // position: absolute;
+      // top: 0;
+      // width: 100%;
       overflow: visible;
     }
   }
@@ -1178,7 +1179,7 @@ export default {
 
     .carousel._1 {
       .carousel-btn {
-        top: 50px;
+        top: 36px;
       }
 
       .carousel-item {

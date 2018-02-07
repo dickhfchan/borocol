@@ -27,3 +27,6 @@ $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) 
 $state-danger-text:              #ff0404 !default;
 $state-danger-bg:                #f2dede !default;
 $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+
+$padding-base-vertical:     10px;
+$padding-base-horizontal:   15px;

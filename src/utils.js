@@ -687,3 +687,7 @@ export function timeoutPromise(ms) {
     }, ms);
   });
 }
+
+export function isFalseAndDefined(v) {
+  return v !== undefined && !v
+}

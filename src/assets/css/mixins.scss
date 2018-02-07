@@ -14,6 +14,14 @@
   border: none;
   background: none;
 }
+@mixin btnColors($bg, $c) {
+  background-color: $bg;
+  color: $c;
+  &:hover{
+    background-color: darken($bg, 5%);
+    color: $c;
+  }
+}
 
 @mixin background-gradient($firstColor, $lastColor, $orientation) {
   $dir: (

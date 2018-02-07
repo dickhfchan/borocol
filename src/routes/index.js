@@ -1,6 +1,6 @@
 import {steps} from '@/initialData'
 export const createCourse = [
-  { path: '', name: 'createCourse', component: resolve => require(['../views/CreateCourse/index.vue'], resolve), meta: {title: 'Create Course'}},
+  { path: '', name: 'createCourse', component: resolve => require(['../views/CreateCourse/index.vue'], resolve), meta: {}},
   { path: '/create-course/page1', name: 'createCoursePage1', component: resolve => require(['../views/CreateCourse/Page1.vue'], resolve), meta: {}},
   { path: '/create-course/page2', name: 'createCoursePage2', component: resolve => require(['../views/CreateCourse/Page2.vue'], resolve), meta: {}},
   { path: '/create-course/page3', name: 'createCoursePage3', component: resolve => require(['../views/CreateCourse/Page3.vue'], resolve), meta: {}},
@@ -19,18 +19,19 @@ createCourse.forEach((item, index) => {
 })
 
 const routes = [
-  { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {title: 'Borocol', hasMenu: false}},
+  { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {hasMenu: false}},
   { path: '/routes', component: resolve => require(['../views/Routes.vue'], resolve)}, // for dev
-  { path: '/profile', name: 'profile', component: resolve => require(['../views/StudentProfile.vue'], resolve), meta: {title: 'Profile'}},
-  { path: '/my-courses', name: 'myCourses', component: resolve => require(['../views/MyCourses.vue'], resolve), meta: {title: 'My Courses'}},
-  { path: '/liked-courses', name: 'likedCourses', component: resolve => require(['../views/LikedCourses.vue'], resolve), meta: {title: 'Liked Courses'}},
-  { path: '/my-course-visa', name: 'myCourseVisa', component: resolve => require(['../views/MyCourseVisa.vue'], resolve), meta: {title: 'My Course Visa'}},
+  { path: '/partner-with-us', component: resolve => require(['../views/PartnerWithUs.vue'], resolve), meta: {hasMenu: false}}, // for dev
+  { path: '/profile', name: 'profile', component: resolve => require(['../views/StudentProfile.vue'], resolve), meta: {}},
+  { path: '/my-courses', name: 'myCourses', component: resolve => require(['../views/MyCourses.vue'], resolve), meta: {}},
+  { path: '/liked-courses', name: 'likedCourses', component: resolve => require(['../views/LikedCourses.vue'], resolve), meta: {}},
+  { path: '/my-course-visa', name: 'myCourseVisa', component: resolve => require(['../views/MyCourseVisa.vue'], resolve), meta: {}},
   { path: '/my-course-visa-step1-popup-visa', name: 'unnamed1', component: resolve => require(['../views/MyCourseVisaStep1PopupVisa.vue'], resolve), meta: {}},
   { path: '/my-course-classmate', name: 'unnamed2', component: resolve => require(['../views/MyCourseClassmate.vue'], resolve), meta: {}},
   { path: '/request-refund', name: 'unnamed3', component: resolve => require(['../views/RequestRefund.vue'], resolve), meta: {}},
-  { path: '/orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {title: 'Orders'}},
-  { path: '/settings', name: 'settings', component: resolve => require(['../views/Settings.vue'], resolve), meta: {title: 'Settings'}},
-  { path: '/message', name: 'message', component: resolve => require(['../views/Message.vue'], resolve), meta: {title: 'Message'}},
+  { path: '/orders', name: 'orders', component: resolve => require(['../views/Orders.vue'], resolve), meta: {}},
+  { path: '/settings', name: 'settings', component: resolve => require(['../views/Settings.vue'], resolve), meta: {}},
+  { path: '/message', name: 'message', component: resolve => require(['../views/Message.vue'], resolve), meta: {}},
   { path: '/create-course', component: resolve => require(['../views/CreateCourse.vue'], resolve),
     children: createCourse,
   },

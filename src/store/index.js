@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initialData from '@/initialData'
-// import {studlyCase} from 'helper-js'
 import urls from './urls.js'
 // import menu from './menu'
 import createCourse from './createCourse'
+import auth from './auth'
 // import noImg from '../assets/img/noThumb.jpg'
 // import createLogger from '@/../node_modules/vuex/src/plugins/logger.js'
 
@@ -15,6 +15,7 @@ const state = {
   urls,
   // menu,
   createCourse,
+  auth,
   appVm: null,
   createCourseVm: null,
   //

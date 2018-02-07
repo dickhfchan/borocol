@@ -52,11 +52,10 @@ include ../../common.pug
       MultipleImageUploader(v-model="fields.photos.value" :visibleBlockCount="5" :boxSpace="15")
     ._2.mtl
       .dividing-line-title
-        .title
-          .line
-          span Room
-          .line
-      .form-group
+        .line
+        .mhm Room
+        .line
+      .form-group.mtm
         Checkbox(v-model="fields.room1Enabled.value")
         +select.mlm(v-model="fields.room1Type.value")
           option(value="shared") Shared Room

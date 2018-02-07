@@ -60,6 +60,16 @@
     background-color: darken($bg2, 10%);
   }
 }
+.btn-primary-outline{
+  background: transparent;
+  border: 2px solid $bg2;
+  color: $bg2;
+  &:hover{
+    $c: darken($bg2, 10%);
+    border-color: $c;
+    color: $c;
+  }
+}
 .btn-lg{
   font-weight: bold;
   padding:$formControlVerticalPadding-lg 35px;

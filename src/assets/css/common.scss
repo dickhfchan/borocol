@@ -37,6 +37,12 @@ a{
     padding-right: 15px;
   }
 }
+.container-sm{
+  // lg large 大屏幕 大桌面显示器
+  @media(min-width: $large) {
+    width: 1170px;
+  }
+}
 
 .f12{
   font-size: 12px;
@@ -313,15 +319,19 @@ a{
 }
 .review-visa {
   background: rgb(105, 162, 221);
+  line-height: 100%;
 }
 .accomodation {
   background: rgb(150, 142, 203);
+  line-height: 100%;
 }
 .insurance {
   background: rgb(99,202,206);
+  line-height: 100%;
 }
 .down-payment {
   background: rgb(166, 200, 117);
+  line-height: 100%;
 }
 
 .has-read-more {
@@ -356,5 +366,17 @@ a{
       background-color: rgba(125, 125, 125, 0.6);
       color: #fff;
     }
+  }
+}
+
+.dividing-line-title{
+  font-size: $fs-title * 0.8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .line{
+    height: 1px;
+    flex-grow: 1;
+    background: $bd1;
   }
 }

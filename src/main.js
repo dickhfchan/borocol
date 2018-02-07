@@ -10,7 +10,7 @@ import * as VueDataValidator from 'vue-data-validator'
 //
 import VueLazyload from 'vue-lazyload'
 // element-ui
-import { Row, Col } from 'element-ui'
+import { Row, Col, Dialog } from 'element-ui'
 // files
 import App from './App'
 import store from './store/index.js'
@@ -44,6 +44,7 @@ Vue.use(VueLazyload)
 // element-ui
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Dialog)
 
 // router
 const router = initRouter(Router, Vue, store, routes, () => {

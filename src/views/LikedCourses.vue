@@ -60,10 +60,8 @@ export default {
 @import "~@/assets/css/global.scss";
 .LikedCourses{
   background-image: url(~@/assets/img/liked-courses-bg.jpg);
-  background-size: 100%;
-  @media(max-width: 1920px) {
-    background-size: 1920px;
-  }
+  background-position: center;
+  background-size: cover;
   .container{
     width: 1400px;
     padding: 0;

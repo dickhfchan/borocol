@@ -84,10 +84,8 @@ export default {
 @import "~@/assets/css/global.scss";
 .SchoolMyCourse{
   background-image: url(~@/assets/img/orders-bg.jpg);
-  background-size: 100%;
-  @media(max-width: 1920px) {
-    background-size: 1920px;
-  }
+  background-position: center;
+  background-size: cover;
   .container{
   }
   $space: 20px;

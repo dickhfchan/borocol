@@ -4,10 +4,10 @@ include ../../common.pug
   form.row
     ._1.col-sm-12
       +formGroup('fields.seats')
-        span.icon.icon-question-circle.mlm
+        span.question-circle.icon.icon-question-circle.mlm
         +input.mlm(v-model="fields.seats.value" type='number')
       +formGroup('fields.price')
-        span.icon.icon-question-circle.mlm
+        span.question-circle.icon.icon-question-circle.mlm
         +input.mlm(v-model="fields.price.value" type='number')
         span.help-block2.mlm.grey USD
     .mtm &nbsp;
@@ -17,15 +17,15 @@ include ../../common.pug
     .col-sm-6
       +formGroup('fields.registrationEndDate')
         DatePicker(v-model="fields.registrationEndDate.value")
-    .form-group.col-sm-12.dividing-line-title
-      .title
+    .form-group.col-sm-12.additional
+      .dividing-line-title.mtl
         .line
-        span Additional
+        .mhm Additional
         .line
-      .line1
+      .line1.mtm
         Checkbox(v-model="fields.earlyBirdDiscount.value")
         label.mls Early Bird Discount
-        span.icon.icon-question-circle.mlm
+        span.question-circle.icon.icon-question-circle.mlm
         label.mll Discount Rate
         +select.mls(v-model="fields.discountRate.value")
           option 10% off copy
@@ -37,7 +37,7 @@ include ../../common.pug
       .line2
         Checkbox(v-model="fields.downPayment.value")
         label.mls Down Payment 25%
-        span.icon.icon-question-circle.mlm
+        span.question-circle.icon.icon-question-circle.mlm
 </template>
 
 <script>
@@ -69,9 +69,16 @@ export default {
       display: inline-block;
       width: 120px;
     }
-    .icon{
-      color: #ccc;
-      font-size: 1.4em;
+  }
+  .additional{
+    input, select{
+      display: inline-block;
+      width: auto;
+    }
+    .line1{
+      select{
+        width: 95px;
+      }
     }
   }
 }
