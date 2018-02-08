@@ -6,6 +6,7 @@ import json
 # file
 from controllers import ResourceController, QueryController, FileController, CourseDetailController
 from utils import file_get_contents
+import auth
 
 # cors
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -25,9 +26,11 @@ def index():
 @app.route('/<t1>/<t2>/')
 def userAdmin(t1 = None, t2 = None):
     return renderSpa('spa.html')
-
+def aaa():
+    return '12412513'
+app.route(aaa,'/aaa')
 # api
-api = Api(app, prefix='/api/v1')
+api = Api(app, prefix=app.config['api_prefix'])
 api.add_resource(ResourceController, '/<string:model_name>', '/<string:model_name>/<string:id>')
 api.add_resource(QueryController, '/<string:model_name>/query')
 api.add_resource(FileController, '/file', '/file/<string:year>/<string:month>/<string:date>/<string:filename>')

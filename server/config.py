@@ -9,6 +9,8 @@ app_host = '0.0.0.0' # dev
 app_port = 8081 # dev
 app_name = 'Borocol'
 app_path = path.dirname(__file__)
+# api
+api_prefix = '/api/v1'
 # request
 request_maxContentLength = 16 * 1024 * 1024 # 16m MAX_CONTENT_LENGTH
 # file
