@@ -3,7 +3,7 @@ include ../common.pug
 .SchoolProfile
   .container
     .content-card
-      h1.content-card-title Profile
+      h1.content-card-title School Profile
       form.content-card-body(@submit.prevent="save")
         el-row(:gutter="50")
           el-col(:span="12")
@@ -98,7 +98,7 @@ export default {
       fields: {
         name: {
           rules: 'required',
-          text: '‘Name of School / Institution',
+          text: 'Name of School / Institution',
         },
         address: {
           rules: 'required',

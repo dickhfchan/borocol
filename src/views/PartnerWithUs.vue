@@ -1,4 +1,5 @@
 <template lang="pug">
+include ../common.pug
 .PartnerWithUs
   .banner-bar
     .container.container-sm
@@ -85,7 +86,70 @@
 export default {
   components: {},
   data() {
-    return {}
+    return {
+      dateFormat: 'MMM dd yyyy',
+      fields: {
+        name: {
+          rules: 'required',
+          text: '‘Name of School / Institution',
+        },
+        address: {
+          rules: 'required',
+          text: 'Address',
+        },
+        city: {
+          rules: 'required',
+          text: 'City',
+        },
+        country: {
+          rules: 'required',
+          text: 'Country',
+        },
+        email: {
+          rules: 'required|email',
+          text: 'Email(This will be used for receiving notifications)',
+        },
+        introduction: {
+          rules: 'required',
+          text: 'Introduction',
+        },
+        officialWebsite: {
+          rules: 'required',
+          text: 'Official Website'
+        },
+        businessRegistrationDocumentName: {
+        },
+        businessRegistrationDocument: {
+          rules: 'required',
+          text: 'Business Registration Document(BR)',
+        },
+        contactPerson: {
+          rules: 'required',
+          type: 'json',
+          value: [
+            {
+              firstName: null,
+              lastName: null,
+              title: null,
+              email: null,
+              tel: null,
+            },
+            {
+              firstName: null,
+              lastName: null,
+              title: null,
+              email: null,
+              tel: null,
+            },
+          ],
+        },
+        agreed: {
+          rules: 'required|accepted',
+        },
+      },
+      validation: {},
+      saving: false,
+    }
   },
   // computed: {},
   // watch: {},

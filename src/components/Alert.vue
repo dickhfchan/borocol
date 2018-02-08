@@ -5,9 +5,10 @@ Modal.Alert(
   @close="close", @ok="ok"
 )
   div(slot="body")
+    button.close(@click="close") &times;
     .text {{text}}
     .btns
-      button.btn.btn-primary.ok-btn(type="button" @click="ok") OK
+      button.btn.btn-primary.ok-btn(type="button" @click="ok"): b OKAY
 </template>
 
 <script >

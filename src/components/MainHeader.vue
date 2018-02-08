@@ -12,8 +12,8 @@ include ../common.pug
           span.mlm My Course
         //- a(href="/user-admin/create-course/") partner with us
         .divider |
-        +icon('user')
-        a.mlm(href="#") Login
+        +icon('user').moveup1
+        a.mlm(@click="$state.auth.show('login')") Login
         .divider |
         +icon('credit-card')
         a.mlm(href="#") USD
