@@ -26,9 +26,9 @@ def index():
 @app.route('/<t1>/<t2>/')
 def userAdmin(t1 = None, t2 = None):
     return renderSpa('spa.html')
-def aaa():
-    return '12412513'
-app.route(aaa,'/aaa')
+# def aaa():
+#     return '12412513'
+# app.route(aaa,'/aaa')
 # api
 api = Api(app, prefix=app.config['api_prefix'])
 api.add_resource(ResourceController, '/<string:model_name>', '/<string:model_name>/<string:id>')
