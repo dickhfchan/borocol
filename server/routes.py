@@ -1,38 +1,60 @@
-# module
-from flask_restful import Api
-from flask_cors import CORS
-from flask import current_app as app, render_template
-import json
-# file
-from controllers import ResourceController, QueryController, FileController, CourseDetailController
-from utils import file_get_contents
-import auth
+from flask import current_app as app
+import controllers
 
-# cors
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+# helpers
 
-# spa
-def renderSpa(fp):
-    html = render_template(fp)
-    initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
-    html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
-    return html
-@app.route('/')
-def index():
-    return renderSpa('index.html')
-@app.route('/<t1>')
-@app.route('/<t1>/')
-@app.route('/<t1>/<t2>')
-@app.route('/<t1>/<t2>/')
-def userAdmin(t1 = None, t2 = None):
-    return renderSpa('spa.html')
-# def aaa():
-#     return '12412513'
-# app.route(aaa,'/aaa')
-# api
-api = Api(app, prefix=app.config['api_prefix'])
-api.add_resource(ResourceController, '/<string:model_name>', '/<string:model_name>/<string:id>')
-api.add_resource(QueryController, '/<string:model_name>/query')
-api.add_resource(FileController, '/file', '/file/<string:year>/<string:month>/<string:date>/<string:filename>')
+def group(opt, routes):
+    for item in routes:
+        prefix = opt.get('prefix')
+        middlewares = opt.get('middlewares')
+        if prefix:
+            item['path'] = (prefix + item['path']).rstrip('/')
+        if middlewares:
+            item['middlewares'] = middlewares + item['middlewares']
+    return routes
 
-api.add_resource(CourseDetailController, '/course_detail', '/course_detail/<string:model_name>/<string:id>')
+# generate for resource controller and normal controller
+# simpleRoutes: [[], ...]
+def generate(controller, prefix, simpleRoutes = [], overwrite = False):
+    # inject default
+    if not overwrite:
+        names = set()
+        for item in simpleRoutes:
+            name = item if isinstance(item, str) else item['path']
+            names.add(name)
+        defaults = set(['find', 'select', 'store', 'update', 'destroy'])
+        diff = list(defaults-names)
+        simpleRoutes = simpleRoutes + diff
+    # convert to completed routes
+    routes = []
+    for item in simpleRoutes:
+        if isinstance(item, str):
+            path = item
+            action = None
+            methods = None
+        else:
+            path, action, methods = item
+        name = path
+        if name == 'find':
+            routes.append({'path': prefix + '/<id>', 'controller': controller, 'action': action or 'select', 'methods': methods or ['GET']})
+        elif name == 'select':
+            routes.append({'path': prefix + '.select', 'controller': controller, 'action': action or 'select', 'methods': methods or ['GET', 'POST']})
+        elif name == 'store':
+            routes.append({'path': prefix, 'controller': controller, 'action': action or 'store', 'methods': methods or ['POST']})
+        elif name == 'update':
+            routes.append({'path': prefix, 'controller': controller, 'action': action or 'update', 'methods': methods or ['PUT']})
+        elif name == 'destroy':
+            routes.append({'path': prefix, 'controller': controller, 'action': action or 'destroy', 'methods': methods or ['DELETE']})
+        else:
+            routes.append({'path': prefix + path, 'controller': controller, 'action': action, 'methods': methods})
+    return routes
+
+#
+routes = [
+    {'path': '/', 'controller': controllers.IndexController, 'action': 'index'},
+    {'path': '/<t1>', 'controller': controllers.IndexController, 'action': 'spa'},
+    {'path': '/<t1>/<t2>', 'controller': controllers.IndexController, 'action': 'spa'},
+    *group({'prefix': app.config['api_prefix']}, [
+        *generate(controllers.CourseDetailController, '/course_detail')
+    ]),
+]

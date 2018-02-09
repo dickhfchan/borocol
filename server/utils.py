@@ -1,4 +1,6 @@
 import datetime,time,decimal,uuid, os, json
+import string
+import random
 
 # quick read, write file
 def file_get_contents(filename):
@@ -26,28 +28,6 @@ def get_decimal_columns_from_model(model):
     dc_columns = [colName for colName in columns if columns[colName].db_type == 'decimal']
     return dc_columns
 
-# row is a model
-# convert row to dict; then convert datetime column to int
-def row2dict(row):
-    r = dict(row)
-    for k in r:
-        t = type(r[k])
-        if t == datetime.datetime:
-            r[k] = int(time.mktime(r[k].timetuple()))
-        elif t == decimal.Decimal:
-            r[k] = float((r[k] or decimal.Decimal('0.00')).quantize(decimal.Decimal('0.00')))
-        elif t == uuid.UUID:
-            r[k] = str(r[k])
-    return r
-
-# convert a model or models list to dict or dict list
-def to_dict(arg):
-    r = None
-    if type(arg) == list:
-        r = [row2dict(i) for i in arg]
-    else:
-        r = row2dict(arg)
-    return r
 # convert str to camel case; eg: hello_world => helloWorld
 def camel_case(st):
     output = ''.join(x for x in st.title() if x.isalpha())
@@ -56,9 +36,54 @@ def camel_case(st):
 def studly_case(st):
     return st[0].upper() + st[1:]
 
+# convert to dict; datetime to int, id to str, format decimal
+def to_dict(item):
+    columns = item._defined_columns
+    r = {}
+    for colName in columns:
+        val = getattr(item, colName)
+        if isinstance(val, datetime.datetime):
+            r[colName] = int(time.mktime(val.timetuple()))
+        elif isinstance(val, decimal.Decimal):
+            r[colName] = float((val or decimal.Decimal('0.00')).quantize(decimal.Decimal('0.00')))
+        elif isinstance(val, uuid.UUID):
+            r[colName] = str(val)
+        else:
+            r[colName] = val
+    return r
+
+# tmp files
+def add_tmp_files(files):
+    from flask import current_app as app
+    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
+    tmp = {}
+    if os.path.exists(tmpPath):
+        f = open(tmpPath, 'r')
+        tmp = json.load(f)
+        f.close()
+    f = open(tmpPath, 'w')
+    for fn in files:
+        tmp[fn] = int(time.time())
+    json.dump(tmp,f)
+    f.close()
+def delete_tmp_files(files):
+    from flask import current_app as app
+    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
+    tmp = {}
+    if os.path.exists(tmpPath):
+        f = open(tmpPath, 'r')
+        tmp = json.load(f)
+        f.close()
+    f = open(tmpPath, 'w')
+    for fn in files:
+        if fn in tmp:
+            del tmp[fn]
+    json.dump(tmp,f)
+    f.close()
+
 # before assign data to a model; remove keys maintenanced by backend; convert timestamp to datetime
 # data0: dict    model: class
-def before_write(data0, model):
+def before_write(model, data0):
     data = {}
     # pick fields in model
     columns = model._defined_columns
@@ -76,31 +101,17 @@ def before_write(data0, model):
             data[col] = datetime.datetime.fromtimestamp(data[col])
     return data
 
-# tmp files
-def addTmpFiles(files):
-    from flask import current_app as app
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        tmp[fn] = int(time.time())
-    json.dump(tmp,f)
-    f.close()
-def deleteTmpFiles(files):
-    from flask import current_app as app
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        if fn in tmp:
-            del tmp[fn]
-    json.dump(tmp,f)
-    f.close()
+# after row saved
+def saved(item):
+    if hasattr(item, 'fileFields'):
+        files = [] # not empty
+        for fld in item.fileFields:
+            if isinstance(item[fld], (list, tuple)):
+                files = files + item[fld]
+            else:
+                files.append(item[fld])
+        deleteTmpFiles(files)
+
+# random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
+def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))

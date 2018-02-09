@@ -3,7 +3,6 @@ from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table as sync_table
 from cassandra.cqlengine.models import Model
 
-
 class user(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
