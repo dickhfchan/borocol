@@ -2,16 +2,17 @@ from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table as sync_table
 from cassandra.cqlengine.models import Model
+from flask_login import UserMixin
 
-class user(Model):
+class user(Model, UserMixin):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    password      = columns.Text(required=False, )
+    password      = columns.Bytes(required=False, )
 
     privacy      = columns.Text(required=False, )
 
-    email      = columns.Text(required=False, )
+    email      = columns.Text(required=False, index=True, )
 
     user_type      = columns.Text(required=False, )
 
@@ -82,18 +83,18 @@ class student_profile(Model):
     liked_courses      = columns.Text(required=False, )
 
     # in student profile form
-    avatar = columns.Text(required=True, )
-    first_name = columns.Text(required=True, )
+    avatar = columns.Text(required=False, )
+    first_name = columns.Text(required=False, )
     middle_name = columns.Text(required=False, )
-    last_name = columns.Text(required=True, )
-    gender = columns.Text(required=True, )
-    birthday = columns.DateTime(required=True, )
-    nationality = columns.Text(required=True, )
-    country_of_residence = columns.Text(required=True, )
-    email = columns.Text(required=True, )
-    phone = columns.Text(required=True, )
-    passport_info = columns.Text(required=True, )
-    emergency_contact_person = columns.Text(required=True, )
+    last_name = columns.Text(required=False, )
+    gender = columns.Text(required=False, )
+    birthday = columns.DateTime(required=False, )
+    nationality = columns.Text(required=False, )
+    country_of_residence = columns.Text(required=False, )
+    email = columns.Text(required=False, )
+    phone = columns.Text(required=False, )
+    passport_info = columns.Text(required=False, )
+    emergency_contact_person = columns.Text(required=False, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()

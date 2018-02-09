@@ -11,7 +11,7 @@ def actionHandler(next, *args, **kwargs):
         if len(response) == 1:
             response = response + (200, {})
         elif len(response) == 2:
-            response = response + ({})
+            response = response + ({},)
     # convert data to json if possible
     data = response[0]
     if isinstance(data, list) or isinstance(data, dict):

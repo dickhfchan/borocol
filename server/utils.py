@@ -1,6 +1,14 @@
 import datetime,time,decimal,uuid, os, json
 import string
 import random
+from cerberus import Validator
+import bcrypt
+
+def dict_pluck(data, keys):
+    newDict = {}
+    for key in keys:
+        newDict[key] = data.get(key)
+    return newDict
 
 # quick read, write file
 def file_get_contents(filename):
@@ -115,3 +123,31 @@ def saved(item):
 # random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+# Validator
+def make_validator(schema, allow_unknown = True):
+    v = Validator(schema)
+    v.allow_unknown = allow_unknown
+    return v
+
+# hash password
+# return bytes
+def hash_pwd(pwd):
+    pwd = pwd.encode('utf-8')
+    return bcrypt.hashpw(pwd, bcrypt.gensalt())
+# pwd: str, hashed: bytes
+def hash_compare(pwd, hashed):
+    hashed = bytes
+    return hashed == bcrypt.hashpw(pwd, hashed)
+
+#
+def success(message, data = None, code = 200):
+    data2 = {'result': 'success', 'message': message}
+    if data:
+        data2 = dict(data2, **data)
+    return data2, code
+def failed(message, data = None, code = 400):
+    data2 = {'result': 'failed', 'message': message}
+    if data:
+        data2 = dict(data2, **data)
+    return data2, code

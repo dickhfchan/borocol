@@ -33,7 +33,9 @@ def generate(controller, prefix, simpleRoutes = [], overwrite = False):
             action = None
             methods = None
         else:
-            path, action, methods = item
+            path = item['path']
+            action = item['action']
+            methods = item['methods']
         name = path
         if name == 'find':
             routes.append({'path': prefix + '/<id>', 'controller': controller, 'action': action or 'select', 'methods': methods or ['GET']})
@@ -55,6 +57,9 @@ routes = [
     {'path': '/<t1>', 'controller': controllers.IndexController, 'action': 'spa'},
     {'path': '/<t1>/<t2>', 'controller': controllers.IndexController, 'action': 'spa'},
     *group({'prefix': app.config['api_prefix']}, [
-        *generate(controllers.CourseDetailController, '/course_detail')
+        *generate(controllers.CourseDetailController, '/course_detail'),
+        *generate(controllers.UserController, '/user', [
+            {'path': '/register', 'action': 'register', 'methods': ['POST']},
+        ], True),
     ]),
 ]
