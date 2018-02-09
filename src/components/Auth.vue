@@ -30,7 +30,7 @@ include ../common.pug
       .flex.justify-sb.align-c.mtl
         b Without an Account?
         a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up' : 'Partner with Us'}}
-    form(v-else)
+    form(v-else @submit.prevent="state.register")
       template(v-if="registerStep===1")
         .mbm
           .openid.openid-facebook
@@ -109,7 +109,10 @@ export default {
     },
   },
   // created() {},
-  // mounted() {},
+  mounted() {
+    this.$validate(this.state.loginValidation, this.state.loginFields)
+    this.$validate(this.state.registrationValidation, this.state.registrationFields)
+  },
 }
 </script>
 

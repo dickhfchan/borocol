@@ -380,3 +380,8 @@ a{
     background: $bd1;
   }
 }
+
+// layer
+.modal-layer{
+  z-index: 2001;
+}

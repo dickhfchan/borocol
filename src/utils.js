@@ -1,4 +1,4 @@
-import { titleCase, windowLoaded, unset, isArray, isObject } from 'helper-js'
+import { titleCase, snakeCase, windowLoaded, unset, isArray, isObject } from 'helper-js'
 import Vue from 'vue'
 
 export const loaded = windowLoaded()
@@ -690,4 +690,12 @@ export function timeoutPromise(ms) {
 
 export function isFalseAndDefined(v) {
   return v !== undefined && !v
+}
+
+export function snakeCaseKeys(obj) {
+  const obj2 = {}
+  Object.keys(obj).forEach(key => {
+    obj2[snakeCase(key)] = obj[key]
+  })
+  return obj2
 }
