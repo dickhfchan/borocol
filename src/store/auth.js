@@ -61,6 +61,8 @@ export default {
       this.submitting = true
       return vm.$http.post(`${vm.$state.urls.api}/user/login`, data).then(({data}) => {
         vm.$alert(`Logined Successfully`)
+        vm.$state.authenticated = true
+        vm.$state.user = data.data
       }, (e) => {
         console.log(e);
         vm.$alert(`Logined Failed. ${e.response.data.message || ''}`)

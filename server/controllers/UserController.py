@@ -26,6 +26,7 @@ class UserController(ResourceController):
         try:
             user = store(self.model, data)
             profileData = dict_pluck(data, ['first_name', 'last_name'])
+            profileData['user_id'] = user.id
             profile = store(models.student_profile, profileData)
         except Exception as e:
             print(e)
@@ -41,15 +42,26 @@ class UserController(ResourceController):
         if not pwd_hashed_compare(data['password'].encode('utf-8'), item.password):
             return failed('Incorrect password')
         login_user(item, remember = data.get('remember'))
-        return success('', {'data': to_dict(item)})
+        return success('', {'data': self._get_user_dict(item)})
     def logout(self):
         logout_user()
         return success()
     def current_user(self):
         item = {}
         if current_user.is_authenticated:
-            item = to_dict(current_user)
-            item['is_authenticated'] = True
+            item = self._get_user_dict(current_user)
         else:
             item['is_anonymous'] = True
         return success('', {'data': item})
+    def _get_user_dict(self, user):
+        item = to_dict(user)
+        item['is_authenticated'] = user.is_authenticated
+        item['is_anonymous'] = user.is_anonymous
+        profile = self._get_profile(user)
+        item['avatar'] = profile.avatar
+        item['name'] = '%s %s %s'%(profile.first_name, profile.middle_name or '', profile.last_name)
+        item['name'] = item['name'].replace('  ', ' ')
+        return item
+    def _get_profile(self, user):
+        model = models.student_profile if user.user_type == 'student' else models.school_profile
+        return model.objects.filter(user_id=user.id).first()

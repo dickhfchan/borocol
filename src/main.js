@@ -64,7 +64,9 @@ Vue.component('Radio', Radio)
 /* eslint-disable no-new */
 const start = async () => {
   store.state.initialized = true
-  // await getCurrentUser(store, Vue)
+  if (!store.state.authenticated) {
+    await getCurrentUser(store, Vue)
+  }
   new Vue({
     el: '#app',
     store,

@@ -39,9 +39,9 @@ class course_subscriptions(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    user_id      = columns.Text(required=False, index=True, )
+    user_id      = columns.UUID(required=False, index=True, )
 
-    course_id      = columns.Text(required=False, index=True, )
+    course_id      = columns.UUID(required=False, index=True, )
 
     require_accomodation      = columns.Text(required=False, index=True, )
 
@@ -56,7 +56,7 @@ class school_profile(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    user_id      = columns.Text(required=False, index=True, )
+    user_id      = columns.UUID(required=False, index=True, )
 
     status      = columns.Text(required=False, index=True, )
 
@@ -92,7 +92,7 @@ class school_profile(Model):
 class student_profile(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
-    user_id      = columns.Text(required=False, index=True, )
+    user_id      = columns.UUID(required=False, index=True, )
     status      = columns.Text(required=False, index=True, )
     currency      = columns.Text(required=False, index=True, )
     language      = columns.Text(required=False, index=True, )
@@ -119,7 +119,7 @@ class course_detail(Model):
     fileFields = ['instructor_photo', 'cover', 'photos']
 
     id      = columns.UUID(required=True, primary_key=True)
-    school_id      = columns.Text(required=False, index=True, )
+    school_id      = columns.UUID(required=False, index=True, )
 
     name = columns.Text(required=True, index=True, )
     category_id = columns.Text(required=True, index=True, )
@@ -172,7 +172,7 @@ class accomodation_detail(Model):
     fileFields = ['photos']
 
     id      = columns.UUID(required=True, primary_key=True)
-    course_id      = columns.Text(required=False, index=True, )
+    course_id      = columns.UUID(required=False, index=True, )
 
     options = columns.List(columns.Text, required=False, index=True, )
     other_options = columns.Text(required=False, index=True, )
@@ -196,7 +196,7 @@ class visa_detail(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    course_id      = columns.Text(required=False, index=True, )
+    course_id      = columns.UUID(required=False, index=True, )
 
     information      = columns.Text(required=False, index=True, )
 
@@ -219,7 +219,7 @@ class featured_course(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    course_id      = columns.Text(required=False, index=True, )
+    course_id      = columns.UUID(required=False, index=True, )
 
     created_at = columns.DateTime(index=True, )
     updated_at = columns.DateTime(index=True, )
@@ -228,9 +228,9 @@ class reviews(Model):
 
     id      = columns.UUID(required=True, primary_key=True)
 
-    user_id      = columns.Text(required=False, index=True, )
+    user_id      = columns.UUID(required=False, index=True, )
 
-    course_id      = columns.Text(required=False, index=True, )
+    course_id      = columns.UUID(required=False, index=True, )
 
     ratings      = columns.Text(required=False, index=True, )
 

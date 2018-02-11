@@ -611,11 +611,17 @@ export function getRoutes() {
 export function getCurrentUser(store, Vue) {
   const {http} = Vue
   const {urls} = store.state
-  return Vue.http.get(urls.currentUser).then(({data}) => {
-    if (data) {
-      store.state.user = data
-      store.state.authenticated = true
+  return Vue.http.get(urls.api + '/user/current_user').then(({data}) => {
+    if (data.status === 'failed') {
+      return Promise.reject()
     }
+    if (data.data.is_authenticated) {
+      store.state.authenticated = true
+      store.state.user = data.data
+    }
+  }, (e) => {
+    console.log(e);
+    window.alert('Get data failed, please refresh')
   })
 }
 

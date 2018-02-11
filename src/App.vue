@@ -36,7 +36,8 @@ export default {
   },
   methods: {
   },
-  created() {
+  // created() {},
+  mounted() {
     this.$state.appVm = this
   },
 }

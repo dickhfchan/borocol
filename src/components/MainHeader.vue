@@ -6,14 +6,16 @@ include ../common.pug
       router-link.brand(:to="{name: 'home'}")
         img(v-lazy="brand")
       .tool-bar.pull-right
-        a
-          img.avatar(v-lazy="'https://picsum.photos/40/40?image=401'")
-        a(href="#")
-          span.mlm My Course
-        //- a(href="/user-admin/create-course/") partner with us
-        .divider |
-        +icon('user').moveup1
-        a.mlm(@click="$state.auth.show('login')") Login
+        template(v-if="$state.authenticated")
+          a
+            img.avatar(v-lazy="$state.user.avatar || anonymousAvatar")
+          a(href="#")
+            span.mlm {{$state.user.name}}
+        template(v-else)
+          a(href="/user-admin/create-course/") Partner with us
+          .divider |
+          +icon('user').moveup1
+          a.mlm(@click="$state.auth.show('login')") Login
         .divider |
         +icon('credit-card')
         a.mlm(href="#") USD
@@ -49,12 +51,14 @@ include ../common.pug
 
 <script>
 import brand from '@/assets/img/brand.png'
+import anonymousAvatar from '@/assets/img/anonymous.jpg'
 
 export default {
   components: {},
   data() {
     return {
       brand,
+      anonymousAvatar,
     }
   },
   // computed: {},
