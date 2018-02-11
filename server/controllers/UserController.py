@@ -40,7 +40,7 @@ class UserController(ResourceController):
             return failed('User not found')
         if not pwd_hashed_compare(data['password'].encode('utf-8'), item.password):
             return failed('Incorrect password')
-        login_user(item)
+        login_user(item, remember = data.get('remember'))
         return success('', {'data': to_dict(item)})
     def logout(self):
         logout_user()
