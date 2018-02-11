@@ -12,7 +12,7 @@ class UserController(ResourceController):
             'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
             'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
             'password': {'required': True, 'type': 'string', 'maxlength': 255},
-            # 'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
+            'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
         }
         v = make_validator(schema)
         data = request_json()
@@ -42,18 +42,18 @@ class UserController(ResourceController):
         if not pwd_hashed_compare(data['password'].encode('utf-8'), item.password):
             return failed('Incorrect password')
         login_user(item, remember = data.get('remember'))
-        return success('', {'data': self._get_user_dict(item)})
+        return success('', {'data': self.get_user_dict(item)})
     def logout(self):
         logout_user()
         return success()
     def current_user(self):
         item = {}
         if current_user.is_authenticated:
-            item = self._get_user_dict(current_user)
+            item = self.get_user_dict(current_user)
         else:
             item['is_anonymous'] = True
         return success('', {'data': item})
-    def _get_user_dict(self, user):
+    def get_user_dict(self, user):
         item = to_dict(user)
         item['is_authenticated'] = user.is_authenticated
         item['is_anonymous'] = user.is_anonymous
