@@ -2,7 +2,7 @@
 include ../common.pug
 .Auth(v-if="state.visible")
   el-dialog(:visible.sync='state.visible', width="430px" custom-class="auth-dialog")
-    form(v-if="state.mode==='login'")
+    form(v-if="state.mode==='login'" @submit.prevent="state.login")
       .mbm(v-if="state.role==='student'")
         .openid.openid-facebook
           .icon-wrapper
