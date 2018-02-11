@@ -60,7 +60,7 @@ module.exports = {
     assetsPublicPath: '/',
 
     // prerender (must start with slash)
-    prerenderPaths: ['/index'],
+    prerenderPaths: ['/index', '/partner-with-us'],
 
     /**
      * Source Maps
