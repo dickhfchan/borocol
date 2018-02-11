@@ -50,6 +50,8 @@ def to_dict(item):
     columns = item._defined_columns
     r = {}
     for colName in columns:
+        if hasattr(item, 'hidden') and colName in item.hidden:
+            continue
         val = getattr(item, colName)
         if isinstance(val, datetime.datetime):
             r[colName] = int(time.mktime(val.timetuple()))
@@ -97,7 +99,8 @@ def before_write(model, data0):
     # pick fields in model
     columns = model._defined_columns
     for colName in columns:
-        data[colName] = data0.get(colName)
+        if colName in data0:
+            data[colName] = data0[colName]
     # remove protected fields
     keys = ['created_at', 'updated_at']
     for key in keys:
@@ -137,17 +140,16 @@ def hash_pwd(pwd):
     pwd = pwd.encode('utf-8')
     return bcrypt.hashpw(pwd, bcrypt.gensalt())
 # pwd: str, hashed: bytes
-def hash_compare(pwd, hashed):
-    hashed = bytes
+def pwd_hashed_compare(pwd, hashed):
     return hashed == bcrypt.hashpw(pwd, hashed)
 
 #
-def success(message, data = None, code = 200):
+def success(message = '', data = None, code = 200):
     data2 = {'result': 'success', 'message': message}
     if data:
         data2 = dict(data2, **data)
     return data2, code
-def failed(message, data = None, code = 400):
+def failed(message = '', data = None, code = 400):
     data2 = {'result': 'failed', 'message': message}
     if data:
         data2 = dict(data2, **data)

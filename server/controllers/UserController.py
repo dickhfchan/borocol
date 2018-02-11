@@ -1,7 +1,8 @@
 from flask import current_app as app, request
 import models
 from ResourceController import ResourceController, store
-from utils import failed, success, make_validator, hash_pwd, hash_compare, dict_pluck, request_json
+from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare, dict_pluck, request_json, to_dict
+from flask_login import login_user, logout_user, current_user
 
 class UserController(ResourceController):
     model = models.user
@@ -32,3 +33,23 @@ class UserController(ResourceController):
         if 'errorMsg' in locals():
             return failed(errorMsg)
         return success('', {'id': str(user.id)})
+    def login(self):
+        data = request_json()
+        item = models.user.objects.filter(email=data['email']).first()
+        if not item:
+            return failed('User not found')
+        if not pwd_hashed_compare(data['password'].encode('utf-8'), item.password):
+            return failed('Incorrect password')
+        login_user(item)
+        return success('', {'data': to_dict(item)})
+    def logout(self):
+        logout_user()
+        return success()
+    def current_user(self):
+        item = {}
+        if current_user.is_authenticated:
+            item = to_dict(current_user)
+            item['is_authenticated'] = True
+        else:
+            item['is_anonymous'] = True
+        return success('', {'data': item})

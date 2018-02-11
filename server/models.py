@@ -11,11 +11,12 @@ class key_value(Model):
     key      = columns.Text(required=False, index=True, )
 
     value      = columns.Text(required=False, index=True, )
-    
+
     created_at = columns.DateTime(index=True, )
     updated_at = columns.DateTime(index=True, )
 
 class user(Model, UserMixin):
+    hidden = ['password']
 
     id      = columns.UUID(required=True, primary_key=True)
 
