@@ -2,6 +2,7 @@ from flask import current_app as app, request
 import models
 from ResourceController import ResourceController, store
 import cassandra
+from utils import request_json
 
 class CourseDetailController(ResourceController):
     model = models.course_detail
@@ -12,7 +13,7 @@ class CourseDetailController(ResourceController):
         if isinstance(r, (tuple, list)):
             r = r[0]
         if r['result'] == 'success':
-            data = request.get_json()['accomodation_detail']
+            data = request_json()['accomodation_detail']
             data['course_id'] = r['id']
             item = None
             # save

@@ -3,6 +3,7 @@ import string
 import random
 from cerberus import Validator
 import bcrypt
+from flask import request
 
 def dict_pluck(data, keys):
     newDict = {}
@@ -151,3 +152,12 @@ def failed(message, data = None, code = 400):
     if data:
         data2 = dict(data2, **data)
     return data2, code
+
+def request_json():
+    data = request.get_json()
+    for key in data.keys():
+        if isinstance(data[key], str):
+            data[key] = data[key].strip()
+            if data[key] == '':
+                data[key] = None
+    return data

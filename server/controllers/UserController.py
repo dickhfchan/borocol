@@ -1,7 +1,7 @@
 from flask import current_app as app, request
 import models
 from ResourceController import ResourceController, store
-from utils import failed, success, make_validator, hash_pwd, hash_compare, dict_pluck
+from utils import failed, success, make_validator, hash_pwd, hash_compare, dict_pluck, request_json
 
 class UserController(ResourceController):
     model = models.user
@@ -14,7 +14,7 @@ class UserController(ResourceController):
             # 'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
         }
         v = make_validator(schema)
-        data = request.get_json()
+        data = request_json()
         if not v.validate(data):
             return failed('Invalid input', {'error': v.errors})
         if data.get('user_type') != 'student':

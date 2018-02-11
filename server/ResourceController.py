@@ -1,7 +1,7 @@
 from flask import request
 from datetime import datetime
 import time
-from utils import to_dict, before_write, saved
+from utils import to_dict, before_write, saved, request_json
 import cassandra
 
 def store(model, data):
@@ -52,7 +52,7 @@ class ResourceController(object):
         errorMsg = None
         item = None
         try:
-            item = store(self.model, request.get_json())
+            item = store(self.model, request_json())
         except Exception as e:
             print(e)
             errorMsg = str(e)
@@ -62,7 +62,7 @@ class ResourceController(object):
         errorMsg = None
         item = None
         try:
-            item = update(self.model, request.get_json(), id)
+            item = update(self.model, request_json(), id)
         except Exception as e:
             errorMsg = str(e)
         return ({'result': 'failed', 'message': errorMsg}, 400) if errorMsg else {'result': 'success'}

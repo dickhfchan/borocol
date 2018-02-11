@@ -4,6 +4,17 @@ from cassandra.cqlengine.management import sync_table as sync_table
 from cassandra.cqlengine.models import Model
 from flask_login import UserMixin
 
+class key_value(Model):
+
+    id      = columns.UUID(required=True, primary_key=True)
+
+    key      = columns.Text(required=False, index=True, )
+
+    value      = columns.Text(required=False, index=True, )
+    
+    created_at = columns.DateTime(index=True, )
+    updated_at = columns.DateTime(index=True, )
+
 class user(Model, UserMixin):
 
     id      = columns.UUID(required=True, primary_key=True)
@@ -15,6 +26,10 @@ class user(Model, UserMixin):
     email      = columns.Text(required=False, index=True, )
 
     user_type      = columns.Text(required=False, index=True, )
+
+    email_confirmed      = columns.Boolean(required=False, index=True, )
+
+    profile_completed      = columns.Boolean(required=False, index=True, )
 
     created_at = columns.DateTime(index=True, )
     updated_at = columns.DateTime(index=True, )
