@@ -36,7 +36,9 @@ class UserController(ResourceController):
         return success('', {'id': str(user.id)})
     def login(self):
         data = request_json()
-        print(validate_recaptcha(data['recaptcha']).read())
+        resp = validate_recaptcha(data['recaptcha'])
+        print(resp)
+        print(resp.read())
         return {}
         item = models.user.objects.filter(email=data['email']).first()
         if not item:
