@@ -1,5 +1,6 @@
 import store from './index'
 import {ajaxDataFilter} from '@/utils'
+import {objectGet} from 'helper-js'
 
 export default {
   visible: false,
@@ -51,13 +52,15 @@ export default {
     }
     this.visible = true
   },
-  login() {
+  login(recaptcha) {
     const vm = store.state.appVm
     if (this.submitting) {
       return
     }
-    this.loginValidation.check().then(data => {
+    this.loginValidation.check().then(async data => {
       data = ajaxDataFilter(data)
+      const token = await recaptcha.getToken()
+      data.recaptcha = token
       this.submitting = true
       return vm.$http.post(`${vm.$state.urls.api}/user/login`, data).then(({data}) => {
         vm.$alert(`Logined Successfully`)
@@ -65,7 +68,7 @@ export default {
         vm.$state.user = data.data
       }, (e) => {
         console.log(e);
-        vm.$alert(`Logined Failed. ${e.response.data.message || ''}`)
+        vm.$alert(`Logined Failed. ${objectGet(e, 'response.data.message') || ''}`)
       })
     }, e => {
       console.log(e);
@@ -89,7 +92,7 @@ export default {
         vm.$alert(`Registered Successfully`)
       }, (e) => {
         console.log(e);
-        vm.$alert(`Register Failed. ${e.response.data.message || ''}`)
+        vm.$alert(`Register Failed. ${objectGet(e, 'response.data.message') || ''}`)
       })
     }, e => {
       console.log(e);

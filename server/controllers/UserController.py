@@ -1,7 +1,7 @@
 from flask import current_app as app, request
 import models
 from ResourceController import ResourceController, store
-from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare, dict_pluck, request_json, to_dict
+from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare, dict_pluck, request_json, to_dict, validate_recaptcha
 from flask_login import login_user, logout_user, current_user
 
 class UserController(ResourceController):
@@ -36,6 +36,8 @@ class UserController(ResourceController):
         return success('', {'id': str(user.id)})
     def login(self):
         data = request_json()
+        print(validate_recaptcha(data['recaptcha']).read())
+        return {}
         item = models.user.objects.filter(email=data['email']).first()
         if not item:
             return failed('User not found')

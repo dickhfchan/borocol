@@ -2,7 +2,7 @@
 include ../common.pug
 .Auth(v-if="state.visible")
   el-dialog(:visible.sync='state.visible', width="430px" custom-class="auth-dialog")
-    form(v-if="state.mode==='login'" @submit.prevent="state.login")
+    form(v-if="state.mode==='login'" @submit.prevent="state.login($refs.recaptcha)")
       .mbm(v-if="state.role==='student'")
         .openid.openid-facebook
           .icon-wrapper
@@ -26,6 +26,7 @@ include ../common.pug
         Checkbox(v-model="state.loginFields.remember.value")
         label.mls Remember Me
         router-link.pull-right(:to="{name: 'resetPassword'}"): b Forget Password?
+      GoogleRecaptcha(ref="recaptcha")
       button.login-btn.btn.btn-primary.btn-block.btn-lg Log in
       .flex.justify-sb.align-c.mtl
         b Without an Account?
@@ -81,9 +82,10 @@ include ../common.pug
 
 <script>
 import {studlyCase} from 'helper-js'
+import GoogleRecaptcha from '@/components/GoogleRecaptcha'
 
 export default {
-  components: {},
+  components: {GoogleRecaptcha},
   data() {
     return {
       state: this.$state.auth,

@@ -12,7 +12,7 @@ include ../common.pug
           a(href="#")
             span.mlm {{$state.user.name}}
         template(v-else)
-          a(href="/user-admin/create-course/") Partner with us
+          router-link(:to="{name: 'partnerWithUs'}") Partner with us
           .divider |
           +icon('user').moveup1
           a.mlm(@click="$state.auth.show('login')") Login

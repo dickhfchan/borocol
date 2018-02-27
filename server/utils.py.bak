@@ -4,7 +4,7 @@ import random
 from cerberus import Validator
 import bcrypt
 from flask import current_app as app, request
-import http.client, urllib.request, urllib.parse, urllib.error
+import httplib, urllib
 
 def dict_pluck(data, keys):
     newDict = {}
@@ -158,7 +158,7 @@ def failed(message = '', data = None, code = 400):
 
 def request_json():
     data = request.get_json()
-    for key in list(data.keys()):
+    for key in data.keys():
         if isinstance(data[key], str):
             data[key] = data[key].strip()
             if data[key] == '':
@@ -168,8 +168,8 @@ def request_json():
 def validate_recaptcha(token):
     httpsClient = None
     try:
-        params = urllib.parse.urlencode({'secret': app.config['recaptcha_secretkey'], 'response': token})
-        httpsClient = http.client.HTTPSConnection('www.google.com')
+        params = urllib.urlencode({'secret': app.config['recaptcha_secretkey'], 'response': token})
+        httpsClient = httplib.HTTPSConnection('www.google.com')
         httpsClient.request('POST', '/recaptcha/api/siteverify', params)
         response = httpsClient.getresponse()
     except Exception as e:

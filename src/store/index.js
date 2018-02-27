@@ -46,6 +46,10 @@ const state = {
   },
   //
   // noImg,
+  // google recaptcha, dev
+  recaptcha: {
+    sitekey: '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4',
+  },
 }
 Object.assign(state, initialData)
 //

@@ -17,3 +17,6 @@ request_maxContentLength = 16 * 1024 * 1024 # 16m MAX_CONTENT_LENGTH
 # file
 file_uploadDir = path.join(app_path, 'uploads')
 file_allowedExtensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp'])
+#
+recaptcha_sitekey = '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4'
+recaptcha_secretkey = '6LdizkgUAAAAAB_bXXnjnjWomYSTy4GxVn7umQnf'
