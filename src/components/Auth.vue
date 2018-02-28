@@ -27,11 +27,11 @@ include ../common.pug
         label.mls Remember Me
         router-link.pull-right(:to="{name: 'resetPassword'}"): b Forget Password?
       GoogleRecaptcha(ref="recaptcha")
-      button.login-btn.btn.btn-primary.btn-block.btn-lg Log in
+      el-button.login-btn.btn.btn-primary.btn-block.btn-lg(native-type="submit" :loading="state.submitting") Log in
       .flex.justify-sb.align-c.mtl
         b Without an Account?
         a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up' : 'Partner with Us'}}
-    form(v-else @submit.prevent="state.register")
+    form(v-else @submit.prevent="state.register($refs.recaptcha)")
       template(v-if="registerStep===1")
         .mbm
           .openid.openid-facebook
@@ -67,7 +67,8 @@ include ../common.pug
         .form-group.flex
           Checkbox.flex-s0(v-model="state.registrationFields.agreed.value")
           small.mlm By signing up, I agree to Brocol Terms of Service, No Discrimination Policy, Payments Terms of Service, Privacy Policy, Refund Policy, and Host Guarantee Terms.
-        button.btn.btn-primary.btn-block.btn-lg Sign Up
+        GoogleRecaptcha(ref="recaptcha")
+        el-button.btn.btn-primary.btn-block.btn-lg(native-type="submit" :loading="state.submitting") Sign Up
 
       .flex.justify-sb.align-c.mtl
         b Already Have an Borocol Account?
@@ -88,6 +89,7 @@ export default {
   components: {GoogleRecaptcha},
   data() {
     return {
+      self: this,
       state: this.$state.auth,
       roles: ['student', 'school'],
       registerStep: 1,

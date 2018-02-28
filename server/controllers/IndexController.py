@@ -18,5 +18,7 @@ class IndexController(object):
         return html
     def index(self):
         return self._renderSpa('index.html')
+    def partnerWithUs(self):
+        return self._renderSpa('partner-with-us.html')
     def spa(self, t1 = None, t2 = None):
         return self._renderSpa('spa.html')

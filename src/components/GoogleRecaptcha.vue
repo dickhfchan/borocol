@@ -1,9 +1,10 @@
 <template lang="pug">
-.GoogleRecaptcha.g-recaptcha(:data-sitekey="sitekey2", :data-callback='callbackName', data-size='invisible')
+.GoogleRecaptcha()
 </template>
 
 <script>
 import $script from 'scriptjs'
+import {waitFor} from 'helper-js'
 
 export default {
   props: {
@@ -34,9 +35,9 @@ export default {
           window[this.callbackName] = resolve
         })
         if (this.grecaptchaExecuted) {
-          grecaptcha.reset()
+          grecaptcha.reset(this.grecaptchaId)
         }
-        grecaptcha.execute()
+        grecaptcha.execute(this.grecaptchaId)
         this.grecaptchaExecuted = true
         return callbackProm
       })
@@ -45,7 +46,10 @@ export default {
   // created() {},
   mounted() {
     $script('https://www.google.com/recaptcha/api.js', () => {
-      this.readyResolve()
+      waitFor(() => window.grecaptcha).then(() => {
+        this.grecaptchaId = window.grecaptcha.render( this.$el, { sitekey : this.sitekey2, size: 'invisible', callback: this.callbackName });
+        this.readyResolve()
+      })
     })
   },
 }

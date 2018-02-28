@@ -7,6 +7,12 @@ from flask_login import login_user, logout_user, current_user
 class UserController(ResourceController):
     model = models.user
     def register(self):
+        data = request_json()
+        # recaptcha
+        vdt = validate_recaptcha(data['recaptcha'])
+        if not vdt['success']:
+            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        #
         schema = {
             'email': {'required': True, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255},
             'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
@@ -15,7 +21,6 @@ class UserController(ResourceController):
             'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
         }
         v = make_validator(schema)
-        data = request_json()
         if not v.validate(data):
             return failed('Invalid input', {'error': v.errors})
         if data.get('user_type') != 'student':
@@ -36,10 +41,11 @@ class UserController(ResourceController):
         return success('', {'id': str(user.id)})
     def login(self):
         data = request_json()
-        resp = validate_recaptcha(data['recaptcha'])
-        print(resp)
-        print(resp.read())
-        return {}
+        # recaptcha
+        vdt = validate_recaptcha(data['recaptcha'])
+        if not vdt['success']:
+            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        # 
         item = models.user.objects.filter(email=data['email']).first()
         if not item:
             return failed('User not found')

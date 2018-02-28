@@ -58,10 +58,10 @@ export default {
       return
     }
     this.loginValidation.check().then(async data => {
+      this.submitting = true
       data = ajaxDataFilter(data)
       const token = await recaptcha.getToken()
       data.recaptcha = token
-      this.submitting = true
       return vm.$http.post(`${vm.$state.urls.api}/user/login`, data).then(({data}) => {
         vm.$alert(`Logined Successfully`)
         vm.$state.authenticated = true
@@ -79,15 +79,17 @@ export default {
       this.submitting = false
     })
   },
-  register() {
+  register(recaptcha) {
     const vm = store.state.appVm
     if (this.submitting) {
       return
     }
-    this.registrationValidation.check().then(data => {
-      data = ajaxDataFilter(data)
-      data.user_type = 'student'
+    this.registrationValidation.check().then(async data => {
       this.submitting = true
+      data = ajaxDataFilter(data)
+      const token = await recaptcha.getToken()
+      data.recaptcha = token
+      data.user_type = 'student'
       return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
         vm.$alert(`Registered Successfully`)
       }, (e) => {

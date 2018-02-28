@@ -166,15 +166,20 @@ def request_json():
     return data
 
 def validate_recaptcha(token):
-    httpsClient = None
+    conn = None
+    data = None
     try:
         params = urllib.parse.urlencode({'secret': app.config['recaptcha_secretkey'], 'response': token})
-        httpsClient = http.client.HTTPSConnection('www.google.com')
-        httpsClient.request('POST', '/recaptcha/api/siteverify', params)
-        response = httpsClient.getresponse()
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+        # use proxy
+        # conn = http.client.HTTPSConnection('localhost', '8118')
+        # conn.set_tunnel("www.google.com")
+        conn = http.client.HTTPSConnection('www.google.com')
+        conn.request('POST', '/recaptcha/api/siteverify', params, headers)
+        data = conn.getresponse().read()
     except Exception as e:
         raise e
     finally:
-        if httpsClient:
-            httpsClient.close()
-    return response
+        if conn:
+            conn.close()
+    return json.loads(data)
