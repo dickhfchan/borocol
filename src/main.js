@@ -73,7 +73,8 @@ Vue.component('Radio', Radio)
 /* eslint-disable no-new */
 const start = async () => {
   store.state.initialized = true
-  if (!store.state.authenticated) {
+  // getCurrentUser by ajax when developing and not PhantomJS(prerender)
+  if (store.state.isDevelopment && !/PhantomJS/.test(window.navigator.userAgent)) {
     await getCurrentUser(store, Vue)
   }
   new Vue({
