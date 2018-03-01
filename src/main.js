@@ -10,7 +10,9 @@ import * as VueDataValidator from 'vue-data-validator'
 //
 import VueLazyload from 'vue-lazyload'
 // element-ui
-import { Row, Col, Dialog, Button } from 'element-ui'
+import { Row, Col, Button, MessageBox, Dialog } from 'element-ui'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
 // files
 import App from './App'
 import store from './store/index.js'
@@ -42,10 +44,16 @@ initVDV(VueDataValidator, store, Vue)
 Vue.use(VueLazyload)
 
 // element-ui
+locale.use(lang)
 Vue.use(Row)
 Vue.use(Col)
-Vue.use(Dialog)
 Vue.use(Button)
+Vue.component(MessageBox.name, MessageBox)
+Vue.use(Dialog)
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = (msg, title = 'Oops!') => MessageBox.alert(msg, title)
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
 
 // router
 const router = initRouter(Router, Vue, store, routes, () => {

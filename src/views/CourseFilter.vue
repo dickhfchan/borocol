@@ -126,8 +126,6 @@ include ../common.pug
               .line.mbs
                 span.course-card__key-icon.icon.icon-calendar
                 span Feb 20‘ 16 , Mar 30‘ 17
-            .flex.justify-sb.mts
-              .course-card__date Feb 20,16 , Mar 30,17
             .course-card__prices
               .course-card__price USD 600,000
               .course-card__oprice Original: $700,000
@@ -166,8 +164,6 @@ include ../common.pug
               .line.mbs
                 span.course-card__key-icon.icon.icon-calendar
                 span Feb 20‘ 16 , Mar 30‘ 17
-            .flex.justify-sb.mts
-              .course-card__date Feb 20,16 , Mar 30,17
             .course-card__prices
               .course-card__price USD 600,000
               .course-card__oprice Original: $700,000

@@ -1,6 +1,6 @@
 <template lang="pug">
 include ../common.pug
-.ConfirmEmail
+.ActiveEmail
   .container
     .content-card
       .text-center
@@ -10,26 +10,14 @@ include ../common.pug
 </template>
 
 <script>
-import Slider from '@/components/Slider';
-import DatePicker from '@/components/DatePicker';
 export default {
-  components: {Slider, DatePicker},
-  data() {
-    return {
-      priceRange: [0, 50000],
-    }
-  },
-  // computed: {},
-  // watch: {},
-  // methods: {},
-  // created() {},
-  // mounted() {},
+
 }
 </script>
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.ConfirmEmail{
+.ActiveEmail{
   .container{
     max-width: 500px;
   }

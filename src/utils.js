@@ -1,4 +1,4 @@
-import { titleCase, snakeCase, windowLoaded, unset, isArray, isObject, isString } from 'helper-js'
+import { titleCase, snakeCase, windowLoaded, unset, isArray, isObject, isString, objectGet } from 'helper-js'
 import Vue from 'vue'
 
 export const loaded = windowLoaded()
@@ -705,4 +705,8 @@ export function ajaxDataFilter(obj) {
     obj2[snakeCase(key)] = isString(v) ? v.trim() : v
   })
   return obj2
+}
+
+export function errorRequestMessage(error, msg) {
+  return objectGet(error, 'response.data.message') || error.message || msg || ''
 }

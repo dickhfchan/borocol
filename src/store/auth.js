@@ -1,6 +1,5 @@
 import store from './index'
-import {ajaxDataFilter} from '@/utils'
-import {objectGet} from 'helper-js'
+import {ajaxDataFilter, errorRequestMessage} from '@/utils'
 
 export default {
   visible: false,
@@ -68,7 +67,7 @@ export default {
         vm.$state.user = data.data
       }, (e) => {
         console.log(e);
-        vm.$alert(`Logined Failed. ${objectGet(e, 'response.data.message') || ''}`)
+        vm.$alert(`Logined Failed. ${errorRequestMessage(e)}`)
       })
     }, e => {
       console.log(e);
@@ -92,9 +91,10 @@ export default {
       data.user_type = 'student'
       return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
         vm.$alert(`Registered Successfully`)
+        vm.$router.push({name: 'activeEmail'})
       }, (e) => {
         console.log(e);
-        vm.$alert(`Register Failed. ${objectGet(e, 'response.data.message') || ''}`)
+        vm.$alert(`Register Failed. ${errorRequestMessage(e)}`)
       })
     }, e => {
       console.log(e);

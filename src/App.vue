@@ -5,7 +5,6 @@
   MainContent
   MainFooter
   Auth
-  Alert
   Confirm
   Notification
 </template>
@@ -16,12 +15,11 @@ import MainMenu from './components/MainMenu.vue'
 import MainContent from './components/MainContent.vue'
 import MainFooter from './components/MainFooter.vue'
 import Auth from './components/Auth.vue'
-import Alert from './components/Alert.vue'
 import Confirm from './components/Confirm.vue'
 import Notification from './components/Notification.vue'
 
 export default {
-  components: { MainHeader, MainMenu, MainContent, MainFooter, Auth, Alert, Confirm, Notification },
+  components: { MainHeader, MainMenu, MainContent, MainFooter, Auth, Confirm, Notification },
   data () {
     return {
     }

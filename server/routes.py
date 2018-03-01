@@ -63,6 +63,9 @@ routes = [
             {'path': '/register', 'action': 'register', 'methods': ['POST']},
             {'path': '/login', 'action': 'login', 'methods': ['POST']},
             {'path': '/logout', 'action': 'logout', 'methods': ['GET'], 'middlewares': [auth]},
+            # active email
+            {'path': '/active-email', 'name': 'activeEmail', 'action': 'active_email', 'methods': ['GET'], 'middlewares': [auth]},
+            {'path': '/send-activation-email', 'action': 'send_activation_email', 'methods': ['POST'], 'middlewares': [auth]},
         ], True),
     ]),
 ]

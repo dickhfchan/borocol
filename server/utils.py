@@ -3,8 +3,10 @@ import string
 import random
 from cerberus import Validator
 import bcrypt
-from flask import current_app as app, request
+from flask import current_app as app, request, render_template
 import http.client, urllib.request, urllib.parse, urllib.error
+import models
+from flask_login import current_user
 
 def dict_pluck(data, keys):
     newDict = {}
@@ -142,6 +144,7 @@ def hash_pwd(pwd):
     return bcrypt.hashpw(pwd, bcrypt.gensalt())
 # pwd: str, hashed: bytes
 def pwd_hashed_compare(pwd, hashed):
+    pwd = pwd.encode('utf-8')
     return hashed == bcrypt.hashpw(pwd, hashed)
 
 #
@@ -183,3 +186,32 @@ def validate_recaptcha(token):
         if conn:
             conn.close()
     return json.loads(data)
+
+def get_user_profile(user):
+    model = models.student_profile if user.user_type == 'student' else models.school_profile
+    return model.objects.filter(user_id=user.id).first()
+
+def user_to_dict(user):
+    item = to_dict(user)
+    item['is_authenticated'] = user.is_authenticated
+    item['is_anonymous'] = user.is_anonymous
+    profile = get_user_profile(user)
+    item['avatar'] = profile.avatar
+    item['name'] = '%s %s %s'%(profile.first_name, profile.middle_name or '', profile.last_name)
+    item['name'] = item['name'].replace('  ', ' ')
+    return item
+
+def render_spa(fp, initialDataAppend = None):
+    html = render_template(fp)
+    initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
+    initialData['recaptcha'] = {'sitekey': app.config['recaptcha_sitekey']}
+    # inject user info
+    if current_user.is_authenticated:
+        initialData['authenticated'] = True
+        initialData['user'] = user_to_dict(current_user)
+    #
+    if initialDataAppend:
+        initialData.update(initialDataAppend)
+    #
+    html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
+    return html
