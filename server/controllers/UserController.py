@@ -15,7 +15,7 @@ class UserController(ResourceController):
         vdt = validate_recaptcha(data['recaptcha'])
         if not vdt['success']:
             return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
-        # 
+        #
         schema = {
             'email': {'required': True, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255},
             'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
@@ -123,6 +123,6 @@ class UserController(ResourceController):
             item = store(models.activation_email, data)
         link = url_for('activeEmail', token = data['token'])
         msg = Message("Confirm Email Address", recipients=[email])
-        msg.html = render_template('email/activation-email.html', email = email, link = link)
+        msg.html = render_template('email/active-email.html', email = email, link = link)
         mail.send(msg)
         return item
