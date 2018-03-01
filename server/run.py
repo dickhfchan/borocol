@@ -30,7 +30,6 @@ app = Flask(__name__, static_url_path='/static')
 configNames = [item for item in dir(config) if not item.startswith("__")]
 for name in configNames:
     app.config[name] = config.__dict__[name]
-app.config['SERVER_NAME'] = app.config['app_hostname']
 app.config['MAX_CONTENT_LENGTH'] = app.config['request_maxContentLength']
 
 # init login_manager

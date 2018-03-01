@@ -121,7 +121,8 @@ class UserController(ResourceController):
             item = update(models.activation_email, data)
         else:
             item = store(models.activation_email, data)
-        link = url_for('activeEmail', token = data['token'])
+        # generate absolute link
+        link = url_for('activeEmail', token = data['token'], _external = True)
         msg = Message("Confirm Email Address", recipients=[email])
         msg.html = render_template('email/active-email.html', email = email, link = link)
         mail.send(msg)
