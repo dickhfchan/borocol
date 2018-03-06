@@ -111,5 +111,5 @@ local/
 # developer local
 info.txt
 borocol.cql
-.dev
 test.py
+env.py

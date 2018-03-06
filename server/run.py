@@ -4,7 +4,7 @@ from cassandra.cqlengine import connection
 from flask_login import LoginManager
 # file
 import config
-from config import db_keyspace, db_host, debug, app_host, app_port
+from config import db_keyspace, db_host, app_debug, app_host, app_port
 from utils import str_rand
 from models import user
 
@@ -71,4 +71,4 @@ with app.app_context():
 
 # bootstrap app
 if __name__ == '__main__':
-    app.run(host=app_host,port=app_port, debug=debug, threaded=True)
+    app.run(host=app_host,port=app_port, debug=app_debug, threaded=True)

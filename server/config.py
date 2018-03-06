@@ -1,10 +1,16 @@
 from os import path
+# env
+env = None
+try:
+    import env
+except Exception as e:
+    pass
 
-debug = path.exists('./.dev')
 # db
 db_keyspace = "borocol"
 db_host = '127.0.0.1'
 # app
+app_debug = getattr(env, 'debug', False)
 app_host = '127.0.0.1' # dev
 app_port = 8081 # dev
 app_name = 'Borocol'
