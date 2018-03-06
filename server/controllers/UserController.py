@@ -3,7 +3,7 @@ import models
 from ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare, dict_pluck, request_json, to_dict, validate_recaptcha, str_rand, user_to_dict, render_spa
 from flask_login import login_user, logout_user, current_user
-from mail import mail
+from plugins.mail import mail
 from flask_mail import Message
 from datetime import datetime
 
