@@ -1,7 +1,9 @@
 from flask import current_app as app, request, render_template, url_for, redirect
 import models
-from ResourceController import ResourceController, store, update
-from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare, dict_pluck, request_json, to_dict, validate_recaptcha, str_rand, user_to_dict, render_spa
+from plugins.ResourceController import ResourceController, store, update
+from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
+from utils import dict_pluck, request_json, to_dict, validate_recaptcha
+from utils import str_rand, user_to_dict, render_spa
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
 from flask_mail import Message
@@ -28,7 +30,9 @@ class UserController(ResourceController):
             return failed('Invalid input', {'error': v.errors})
         if data.get('user_type') != 'student':
             return failed('Invalid user_type')
-        if self.model.objects.filter(email=data['email'], email_confirmed=True).first():
+        q = models.user.objects.filter(email=data['email'])
+        isEmailTaken = any(v.email_confirmed for v in q[:])
+        if isEmailTaken:
             return failed('Email already exists')
         data['password'] = hash_pwd(data['password'])
         try:
@@ -42,6 +46,7 @@ class UserController(ResourceController):
             errorMsg = str(e)
         if 'errorMsg' in locals():
             return failed(errorMsg)
+        login_user(user)
         return success('', {'id': str(user.id)})
     def login(self):
         data = request_json()
@@ -49,14 +54,15 @@ class UserController(ResourceController):
         vdt = validate_recaptcha(data['recaptcha'])
         if not vdt['success']:
             return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
-        #
-        item = models.user.objects.filter(email=data['email']).first()
-        if not item:
+        possibleUsers = models.user.objects.filter(email=data['email'])[:]
+        possibleUsers = sorted(possibleUsers, key = lambda v: int(v.email_confirmed), reverse=True ) # put email_confirmed users on the top
+        if len(possibleUsers) == 0:
             return failed('User not found')
-        if not pwd_hashed_compare(data['password'], item.password):
+        user = next((item for item in possibleUsers if pwd_hashed_compare(data['password'], item.password)), None) # find first matched user
+        if not user:
             return failed('Incorrect password')
-        login_user(item, remember = data.get('remember'))
-        return success('', {'data': user_to_dict(item)})
+        login_user(user, remember = data.get('remember'))
+        return success('', {'data': user_to_dict(user)})
     def logout(self):
         logout_user()
         return success()
@@ -69,25 +75,33 @@ class UserController(ResourceController):
         return success('', {'data': item})
     # active email
     def active_email(self):
-        token = request.args.get('token')
+        if request.method == 'GET':
+            return render_spa('spa.html')
+        # post
+        data = request_json()
+        token = data.get('token', None)
+        user = current_user
+        errorMsg = None
+        if user.email_confirmed:
+            errorMsg = 'Your email already active'
         if token:
-            item = models.active_email.objects().filter(token = token).first()
-            if not item:
+            item = models.activation_email.objects().filter(token = token).first()
+            if not item or item.email != user.email:
                 errorMsg = 'Illegal request'
             else:
                 expired = (datetime.now() - item.updated_at).seconds > 3600 * 1
-                user = models.user.objects().filter(id = item.user_id).first()
-                if expired or user.email != item.email:
+                if expired:
                     errorMsg = 'Link expired'
-                elif models.user.objects().filter(email = item.email, email_confirmed = True).first():
+                elif any(v.email_confirmed for v in models.user.objects().filter(email = item.email)):
                     errorMsg = 'Email already exists'
                 else:
                     user.email_confirmed = True
                     user.save()
                     item.delete()
-            if errorMsg:
-                return redirect(url_for('activeEmail'), error = errorMsg)
-        return render_spa('spa.html')
+        else:
+            errorMsg = 'Token is required'
+        return failed(errorMsg) if errorMsg else success()
+    #
     def send_activation_email(self):
         data = request_json()
         # recaptcha
@@ -123,7 +137,8 @@ class UserController(ResourceController):
             item = store(models.activation_email, data)
         # generate absolute link
         link = url_for('activeEmail', token = data['token'], _external = True)
-        msg = Message("Confirm Email Address", recipients=[email])
+        print('active email link:', link)
+        msg = Message("Confirm Email Address", recipients=[email], sender=app.config['MAIL_DEFAULT_SENDER'],)
         msg.html = render_template('email/active-email.html', email = email, link = link)
         mail.send(msg)
         return item

@@ -1,5 +1,5 @@
 from flask import current_app as app, request, send_from_directory
-from ResourceController import ResourceController
+from plugins.ResourceController import ResourceController
 from datetime import datetime, timedelta
 import time
 import hashlib

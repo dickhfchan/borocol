@@ -175,11 +175,14 @@ def validate_recaptcha(token):
         params = urllib.parse.urlencode({'secret': app.config['recaptcha_secretkey'], 'response': token})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
         # use proxy
-        # conn = http.client.HTTPSConnection('localhost', '8118')
-        # conn.set_tunnel("www.google.com")
-        conn = http.client.HTTPSConnection('www.google.com')
+        if app.config['recaptcha_proxy']:
+            # 试试用socks5接口
+            conn = http.client.HTTPSConnection('localhost', '8118')
+            conn.set_tunnel("www.google.com")
+        else:
+            conn = http.client.HTTPSConnection('www.google.com')
         conn.request('POST', '/recaptcha/api/siteverify', params, headers)
-        data = conn.getresponse().read()
+        data = conn.getresponse().read().decode('utf8')
     except Exception as e:
         raise e
     finally:
@@ -215,3 +218,13 @@ def render_spa(fp, initialDataAppend = None):
     #
     html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
     return html
+
+def bubble_sort(list0, func):
+    # 冒泡排序
+    list1 = list0[:]
+    count = len(list1)
+    for i in range(0, count):
+        for j in range(i + 1, count):
+            if func(list1[i], list1[j]) > 0:
+                list1[i], list1[j] = list1[j], list1[i]
+    return list1

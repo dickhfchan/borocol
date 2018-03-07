@@ -65,6 +65,7 @@ export default {
         vm.$alert(`Logined Successfully`)
         vm.$state.authenticated = true
         vm.$state.user = data.data
+        this.visible = false
       }, (e) => {
         console.log(e);
         vm.$alert(`Logined Failed. ${errorRequestMessage(e)}`)
@@ -72,7 +73,7 @@ export default {
     }, e => {
       console.log(e);
       if (e.message === 'invalid') {
-        vm.$alert(this.registrationValidation.getFirstError().message)
+        vm.$alert(this.loginValidation.getFirstError().message)
       }
     }).then(() => {
       this.submitting = false
@@ -92,6 +93,7 @@ export default {
       return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
         vm.$alert(`Registered Successfully`)
         vm.$router.push({name: 'activeEmail'})
+        this.visible = false
       }, (e) => {
         console.log(e);
         vm.$alert(`Register Failed. ${errorRequestMessage(e)}`)

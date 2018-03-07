@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal.Alert(
+Modal.AlertMessagebox(
   v-if="visible",
   :options="modalOptions",
   @close="close", @ok="ok"
@@ -13,7 +13,7 @@ Modal.Alert(
 
 <script >
 import Modal from './Modal.vue'
-const Alert = {
+const AlertMessagebox = {
   install (Vue, vm) {
     Vue.alert = Vue.prototype.$alert = function (text) {
       vm.text = text
@@ -55,7 +55,7 @@ export default {
     }
   },
   created () {
-    this.$root.constructor.use(Alert, this)
+    this.$root.constructor.use(AlertMessagebox, this)
   }
 }
 
@@ -63,7 +63,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/css/global.scss";
-.Alert.modal{
+.AlertMessagebox.modal{
   padding-top: 300px;
   .modal-content {
     border-radius: $bdr;

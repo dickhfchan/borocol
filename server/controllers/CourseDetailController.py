@@ -1,6 +1,6 @@
 from flask import current_app as app, request
 import models
-from ResourceController import ResourceController, store
+from plugins.ResourceController import ResourceController, store
 import cassandra
 from utils import request_json
 

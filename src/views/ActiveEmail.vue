@@ -4,6 +4,7 @@ include ../common.pug
   .container
     .content-card
       .text-center
+        el-alert(title='Illegal request' type='error' show-icon) 
         h1 Confirm Your Email
         ._1 Prease check your inbox for a confirmation email. Clink the link in the email to confirm your email address.
         button.send-btn.btn.btn-primary.btn-lg Re-send confirmation email
