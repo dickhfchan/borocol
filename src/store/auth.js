@@ -1,7 +1,7 @@
 import store from './index'
 import {ajaxDataFilter, errorRequestMessage} from '@/utils'
 
-export default {
+const auth = {
   visible: false,
   mode: 'login',
   role: 'student',
@@ -62,10 +62,17 @@ export default {
       const token = await recaptcha.getToken()
       data.recaptcha = token
       return vm.$http.post(`${vm.$state.urls.api}/user/login`, data).then(({data}) => {
-        vm.$alert(`Logined Successfully`)
+        vm.$notifySuccess(`Logined Successfully`)
         vm.$state.authenticated = true
         vm.$state.user = data.data
         this.visible = false
+        if (vm.$state.intended) {
+          const to = vm.$state.intended
+          vm.$state.intended = null
+          if (vm.$route.name === 'unauthorized') {
+            vm.$router.push({path: to.fullPath})
+          }
+        }
       }, (e) => {
         console.log(e);
         vm.$alert(`Logined Failed. ${errorRequestMessage(e)}`)
@@ -91,7 +98,7 @@ export default {
       data.recaptcha = token
       data.user_type = 'student'
       return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
-        vm.$alert(`Registered Successfully`)
+        vm.$notifySuccess(`Registered Successfully`)
         vm.$router.push({name: 'activeEmail'})
         this.visible = false
       }, (e) => {
@@ -108,3 +115,5 @@ export default {
     })
   },
 }
+
+export default auth

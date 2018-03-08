@@ -50,6 +50,9 @@ const state = {
   recaptcha: {
     sitekey: '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4',
   },
+  resolveTitle(title) {
+    return `${title} - ${this.site_name}`
+  },
 }
 Object.assign(state, initialData)
 //

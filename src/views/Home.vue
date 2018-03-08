@@ -568,6 +568,11 @@ import 'slick-carousel'
 import 'slick-carousel/slick/slick.css'
 
 export default {
+  metaInfo () {
+    return {
+      title: this.$state.site_home_title,
+    }
+  },
   mixins: [windowSize, mounted],
   components: {},
   data() {

@@ -96,7 +96,17 @@ export default {
     }
   },
   // computed: {},
-  // watch: {},
+  watch: {
+    'state.visible': {
+      handler(value) {
+        if (value) {
+          this.state.role = localStorage.getItem('user_role') || 'student'
+        } else {
+          localStorage.setItem('user_role', this.state.role)
+        }
+      }
+    }
+  },
   methods: {
     studlyCase,
     partnerWithUs() {

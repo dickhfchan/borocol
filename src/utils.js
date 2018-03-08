@@ -31,21 +31,16 @@ export function initRouter(Router, Vue, store, routes, authFailed) {
     base: store.state.urls.clientBase,
     routes
   })
-  router.beforeEach((to, from, next) => {
-    const {auth, title} = to.meta
-    if (auth && !store.state.authenticated) {
-      authFailed && authFailed(to, from, next)
-      store.state.intended = Object.assign({}, to)
-      next({name: 'login'})
-      return
-    }
-    if (title) {
-      loaded.then(() => {
-        document.title = title
-      })
-    }
-    next()
-  })
+  if (authFailed) {
+    router.beforeEach((to, from, next) => {
+      const {auth} = to.meta || {}
+      if (auth && !store.state.authenticated) {
+        authFailed(to, from, next)
+      } else {
+        next()
+      }
+    })
+  }
   return router
 }
 

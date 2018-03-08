@@ -7,10 +7,11 @@ import Router from 'vue-router'
 import axios from 'axios'
 // vue-data-validator
 import * as VueDataValidator from 'vue-data-validator'
-//
+// other dependences
+import Meta from 'vue-meta'
 import VueLazyload from 'vue-lazyload'
 // element-ui
-import { Row, Col, Button, MessageBox, Dialog } from 'element-ui'
+import { Row, Col, Button, Alert, MessageBox, Notification, Dialog } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 // files
@@ -40,7 +41,8 @@ initAxios(axios, store, Vue)
 // VDV
 initVDV(VueDataValidator, store, Vue)
 
-//
+// other dependences
+Vue.use(Meta)
 Vue.use(VueLazyload)
 
 // element-ui
@@ -48,16 +50,25 @@ locale.use(lang)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Button)
+Vue.use(Alert)
 Vue.component(MessageBox.name, MessageBox)
+Vue.component(Notification.name, Notification)
 Vue.use(Dialog)
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = (msg, title = 'Oops!') => MessageBox.alert(msg, title)
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$notify = Notification
+Vue.prototype.$notifySuccess = (message, title = 'Successful') => Notification.success({title, message})
+Vue.prototype.$notifyInfo = (message, title = 'Info') => Notification.info({title, message})
+Vue.prototype.$notifyWarn = (message, title = 'Warning') => Notification.warning({title, message})
+Vue.prototype.$notifyError = (message, title = 'Failed') => Notification.error({title, message})
 
 // router
-const router = initRouter(Router, Vue, store, routes, () => {
+const router = initRouter(Router, Vue, store, routes, (to, from, next) => {
   // unauthorized
+  store.state.intended = to
+  next({name: 'unauthorized'})
 })
 
 registerPreventURLChange(Vue, router)

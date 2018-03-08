@@ -204,15 +204,20 @@ def user_to_dict(user):
     item['name'] = item['name'].replace('  ', ' ')
     return item
 
-def render_spa(fp, initialDataAppend = None):
-    html = render_template(fp)
+def get_initial_data():
     initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
     initialData['recaptcha'] = {'sitekey': app.config['recaptcha_sitekey']}
+    initialData['site_name'] = app.config['site_name']
+    initialData['site_home_title'] = app.config['site_home_title']
     # inject user info
     if current_user.is_authenticated:
         initialData['authenticated'] = True
         initialData['user'] = user_to_dict(current_user)
-    #
+    return initialData
+
+def render_spa(fp, initialDataAppend = None):
+    html = render_template(fp)
+    initialData = get_initial_data()
     if initialDataAppend:
         initialData.update(initialDataAppend)
     #

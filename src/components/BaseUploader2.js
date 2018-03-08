@@ -14,7 +14,7 @@ export default {
       this.failed && this.failed(newFile, oldFile)
     },
     uploadSucceeded(newFile, oldFile) {
-      this.$notification.success(`The file was uploaded successfully`)
+      this.$notifySuccess(`The file was uploaded successfully`)
       this.succeeded && this.succeeded(newFile, oldFile)
     },
   },

@@ -78,6 +78,11 @@ import DatePicker from '@/components/DatePicker';
 import {newDate} from '@/utils'
 import {snakeCase} from 'helper-js'
 export default {
+  metaInfo () {
+    return {
+      title: this.$state.resolveTitle('Profile'),
+    }
+  },
   components: {ImageUploader, DatePicker},
   data() {
     return {

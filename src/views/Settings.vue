@@ -24,6 +24,11 @@ include ../common.pug
 <script>
 
 export default {
+  metaInfo () {
+    return {
+      title: this.$state.resolveTitle('Settings'),
+    }
+  },
   components: {},
   data() {
     return {

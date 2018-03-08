@@ -34,6 +34,7 @@
     "vue-date": "^1.1.7",
     "vue-input-tag": "^0.0.16",
     "vue-lazyload": "^1.1.4",
+    "vue-meta": "^1.4.3",
     "vue-router": "^3.0.1",
     "vue-slider-component": "^2.4.7",
     "vue-upload-component": "^2.7.4",
