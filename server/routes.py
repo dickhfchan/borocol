@@ -53,7 +53,8 @@ def generate(controller, prefix, simpleRoutes = [], overwrite = False):
 #
 routes = [
     {'path': '/', 'controller': controllers.IndexController, 'action': 'index'},
-    {'path': '/partner-with-us', 'controller': controllers.IndexController, 'action': 'partnerWithUs'},
+    {'path': '/partner-with-us', 'controller': controllers.IndexController, 'action': 'partner_with_us'},
+    {'path': '/active-email', 'name': 'activeEmail', 'controller': controllers.IndexController, 'action': 'active_email'},
     {'path': '/<t1>', 'controller': controllers.IndexController, 'action': 'spa'},
     {'path': '/<t1>/<t2>', 'controller': controllers.IndexController, 'action': 'spa'},
     *group({'prefix': app.config['api_prefix']}, [
@@ -63,8 +64,6 @@ routes = [
             {'path': '/register', 'action': 'register', 'methods': ['POST']},
             {'path': '/login', 'action': 'login', 'methods': ['POST']},
             {'path': '/logout', 'action': 'logout', 'methods': ['GET'], 'middlewares': [auth]},
-            # active email
-            {'path': '/active-email', 'name': 'activeEmail', 'action': 'active_email', 'methods': ['GET']},
             {'path': '/active-email', 'action': 'active_email', 'methods': ['POST'], 'middlewares': [auth]},
             {'path': '/send-activation-email', 'action': 'send_activation_email', 'methods': ['POST'], 'middlewares': [auth]},
         ], True),

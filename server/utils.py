@@ -2,6 +2,7 @@ import datetime,time,decimal,uuid, os, json
 import string
 import random
 from cerberus import Validator
+import hashlib
 import bcrypt
 from flask import current_app as app, request, render_template
 import http.client, urllib.request, urllib.parse, urllib.error
@@ -130,6 +131,9 @@ def saved(item):
 # random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+def md5(str0):
+    return hashlib.md5(str0.encode('utf-8')).hexdigest()
 
 # Validator
 def make_validator(schema, allow_unknown = True):

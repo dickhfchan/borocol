@@ -11,7 +11,7 @@ app_name = 'Borocol'
 app_path = path.dirname(__file__)
 app_key = '\xfe\xfc\x8a\xebq>\xd4\x88\xa6\xccvkN,\xb89\xa9\xd97\xba\xb3R\x08\x1d'
 # site
-site_name = 'Borocol'
+site_name = app_name
 site_home_title = site_name
 # api
 api_prefix = '/api/v1'
@@ -29,7 +29,9 @@ MAIL_SERVER = env('MAIL_SERVER', 'smtp.mailtrap.io')
 MAIL_PORT = env('MAIL_PORT', '2525')
 MAIL_USERNAME = env('MAIL_USERNAME', '0ae55e5821a6db')
 MAIL_PASSWORD = env('MAIL_PASSWORD', '51593ff1131ed6')
-MAIL_DEFAULT_SENDER = env('MAIL_DEFAULT_SENDER', '')
+MAIL_DEFAULT_SENDER_NAME = env('MAIL_DEFAULT_SENDER_NAME', site_name)
+MAIL_DEFAULT_SENDER_ADDRESS = env('MAIL_DEFAULT_SENDER_ADDRESS', '')
+MAIL_DEFAULT_SENDER = MAIL_DEFAULT_SENDER_NAME, MAIL_DEFAULT_SENDER_ADDRESS
 # MAIL_PORT : default 25
 # MAIL_USE_TLS : default False
 # MAIL_USE_SSL : default False

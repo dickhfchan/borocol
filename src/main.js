@@ -11,7 +11,7 @@ import * as VueDataValidator from 'vue-data-validator'
 import Meta from 'vue-meta'
 import VueLazyload from 'vue-lazyload'
 // element-ui
-import { Row, Col, Button, Alert, MessageBox, Notification, Dialog } from 'element-ui'
+import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 // files
@@ -51,8 +51,6 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Button)
 Vue.use(Alert)
-Vue.component(MessageBox.name, MessageBox)
-Vue.component(Notification.name, Notification)
 Vue.use(Dialog)
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = (msg, title = 'Oops!') => MessageBox.alert(msg, title)
@@ -63,6 +61,7 @@ Vue.prototype.$notifySuccess = (message, title = 'Successful') => Notification.s
 Vue.prototype.$notifyInfo = (message, title = 'Info') => Notification.info({title, message})
 Vue.prototype.$notifyWarn = (message, title = 'Warning') => Notification.warning({title, message})
 Vue.prototype.$notifyError = (message, title = 'Failed') => Notification.error({title, message})
+Vue.prototype.$loading = Loading.service;
 
 // router
 const router = initRouter(Router, Vue, store, routes, (to, from, next) => {

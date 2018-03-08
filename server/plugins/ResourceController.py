@@ -20,7 +20,9 @@ def update(model, data, id):
     # make data
     data = before_write(model, data)
     data['updated_at'] = datetime.now()
-    del data['id'] # prevent change id
+    # prevent change id
+    if 'id' in data:
+        del data['id']
     # write
     model.objects(id=id).update(**data)
     item = model.objects(id=id).first()

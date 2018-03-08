@@ -3,7 +3,7 @@ import models
 from plugins.ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
 from utils import dict_pluck, request_json, to_dict, validate_recaptcha
-from utils import str_rand, user_to_dict, render_spa
+from utils import str_rand, user_to_dict, md5
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
 from flask_mail import Message
@@ -75,9 +75,6 @@ class UserController(ResourceController):
         return success('', {'data': item})
     # active email
     def active_email(self):
-        if request.method == 'GET':
-            return render_spa('spa.html')
-        # post
         data = request_json()
         token = data.get('token', None)
         user = current_user
@@ -128,17 +125,18 @@ class UserController(ResourceController):
     def do_send_activation_email(self, email, userId):
         data = {
             'user_id': userId,
-            'token': str_rand(16),
+            'token': md5(str_rand(16)),
             'email': email,
         }
-        if models.activation_email.objects.filter(user_id=userId).first():
-            item = update(models.activation_email, data)
+        record = models.activation_email.objects.filter(user_id=userId).first()
+        if record:
+            item = update(models.activation_email, data, record.id)
         else:
             item = store(models.activation_email, data)
         # generate absolute link
         link = url_for('activeEmail', token = data['token'], _external = True)
         print('active email link:', link)
-        msg = Message("Confirm Email Address", recipients=[email], sender=app.config['MAIL_DEFAULT_SENDER'],)
+        msg = Message('[%s] Confirm Email Address'%(app.config['site_name']), recipients=[email])
         msg.html = render_template('email/active-email.html', email = email, link = link)
         mail.send(msg)
         return item
