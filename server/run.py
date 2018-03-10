@@ -5,16 +5,7 @@ from flask_login import LoginManager
 # file
 import config
 from config import db_keyspace, db_host, app_debug, app_host, app_port
-from utils import str_rand
 from models import user
-
-# func
-controllerInstanceMap = {}
-def getControllerInstance(ctl):
-    key = str(id(ctl))
-    if key not in controllerInstanceMap:
-        controllerInstanceMap[key] = ctl()
-    return controllerInstanceMap[key]
 
 # connect databse
 try:
@@ -44,30 +35,8 @@ def load_user(userid):
 with app.app_context():
     from routes import routes
     from middlewares import globalMiddlewares
-    # for loop hasn't scope, so put loop code into func
-    def resolveRoute(item):
-        ctlInstance = getControllerInstance(item['controller'])
-        originalAction = getattr(ctlInstance, item['action'])
-        if 'middlewares' in item:
-            middlewares = globalMiddlewares + item['middlewares']
-        else:
-            middlewares = list(globalMiddlewares)
-        middlewares.reverse()
-        def action(*args, **kwargs):
-            next = originalAction
-            def loop(mdl):
-                nonlocal next
-                oldNext = next
-                def nextFunc(*args, **kwargs):
-                    return mdl(oldNext, *args, **kwargs)
-                next = nextFunc
-            for mdl in middlewares:
-                loop(mdl)
-            return next(*args, **kwargs)
-        endPoint = item['name'] if 'name' in item else str_rand(4)
-        app.add_url_rule(item['path'], endPoint, view_func=action, methods=item.get('methods', ['GET']))
-    for item in routes:
-        resolveRoute(item)
+    from plugins.route import registerMany
+    registerMany(routes, globalMiddlewares, app)
 
 # bootstrap app
 if __name__ == '__main__':
