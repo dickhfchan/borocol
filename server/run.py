@@ -1,11 +1,11 @@
 # module
 from flask import Flask
 from cassandra.cqlengine import connection
-from flask_login import LoginManager
 # file
 import config
 from config import db_keyspace, db_host, app_debug, app_host, app_port
 from models import user
+from plugins.auth import init_login_manager
 
 # connect databse
 try:
@@ -23,13 +23,7 @@ for name in configNames:
     app.config[name] = config.__dict__[name]
 app.config['MAX_CONTENT_LENGTH'] = app.config['request_maxContentLength']
 
-# init login_manager
-app.secret_key = config.app_key
-login_manager = LoginManager()
-login_manager.init_app(app)
-@login_manager.user_loader
-def load_user(userid):
-    return user.objects(id=userid).first()
+init_login_manager(app, user)
 
 # register routes
 with app.app_context():
