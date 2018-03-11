@@ -10,5 +10,7 @@ class IndexController(object):
         return render_spa('partner-with-us.html')
     def active_email(self):
         return render_spa('spa.html')
+    def reset_password(self):
+        return render_spa('spa.html')
     def spa(self, t1 = None, t2 = None):
         return render_spa('spa.html')

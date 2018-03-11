@@ -11,6 +11,8 @@ from datetime import datetime
 
 class UserController(ResourceController):
     model = models.user
+    emailSchema = {'required': True, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255}
+    passwordSchema = {'required': True, 'type': 'string', 'maxlength': 255}
     def register(self):
         data = request_json()
         # recaptcha
@@ -19,10 +21,10 @@ class UserController(ResourceController):
             return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
         #
         schema = {
-            'email': {'required': True, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255},
+            'email': self.emailSchema,
             'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
             'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
-            'password': {'required': True, 'type': 'string', 'maxlength': 255},
+            'password': self.passwordSchema,
             'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
         }
         v = make_validator(schema)
@@ -30,7 +32,7 @@ class UserController(ResourceController):
             return failed('Invalid input', {'error': v.errors})
         if data.get('user_type') != 'student':
             return failed('Invalid user_type')
-        q = models.user.objects.filter(email=data['email'])
+        q = self.model.objects.filter(email=data['email'])
         isEmailTaken = any(v.email_confirmed for v in q[:])
         if isEmailTaken:
             return failed('Email already exists')
@@ -54,7 +56,7 @@ class UserController(ResourceController):
         vdt = validate_recaptcha(data['recaptcha'])
         if not vdt['success']:
             return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
-        possibleUsers = models.user.objects.filter(email=data['email'])[:]
+        possibleUsers = self.model.objects.filter(email=data['email'])[:]
         possibleUsers = sorted(possibleUsers, key = lambda v: int(v.email_confirmed), reverse=True ) # put email_confirmed users on the top
         if len(possibleUsers) == 0:
             return failed('User not found')
@@ -89,7 +91,7 @@ class UserController(ResourceController):
                 expired = (datetime.now() - item.updated_at).seconds > 3600 * 1
                 if expired:
                     errorMsg = 'Link expired'
-                elif any(v.email_confirmed for v in models.user.objects().filter(email = item.email)):
+                elif any(v.email_confirmed for v in self.model.objects().filter(email = item.email)):
                     errorMsg = 'Email already exists'
                 else:
                     user.email_confirmed = True
@@ -113,14 +115,105 @@ class UserController(ResourceController):
             print(e)
             errorMsg = str(e)
         return failed(errorMsg) if errorMsg else success()
+    def update_email(self):
+        data = request_json()
+        schema = {
+            'email': self.emailSchema,
+        }
+        v = make_validator(schema)
+        if not v.validate(data):
+            return failed('Invalid input', {'error': v.errors})
+        current_user.email = data['email']
+        current_user.email_confirmed = False
+        current_user.save()
+        return success()
     # forgot password
-    def forgot_password(self):
-        item = {}
-        if current_user.is_authenticated:
-            item = user_to_dict(current_user)
+    def send_reset_password_email(self):
+        data = request_json()
+        # recaptcha
+        vdt = validate_recaptcha(data['recaptcha'])
+        if not vdt['success']:
+            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        # validate
+        schema = {
+            'email': self.emailSchema,
+        }
+        v = make_validator(schema)
+        if not v.validate(data):
+            return failed('Invalid input', {'error': v.errors})
+        # whether exist
+        email = data['email']
+        if self.model.objects.filter(email = email).count() == 0:
+            return failed('The account for the given email does not exist')
+        #
+        data = {
+            'token': md5(str_rand(16)),
+            'email': email,
+        }
+        record = models.reset_password_email.objects.filter(email=email).first()
+        if record:
+            item = update(models.reset_password_email, data, record.id)
         else:
-            item['is_anonymous'] = True
-        return success('', {'data': item})
+            item = store(models.reset_password_email, data)
+        link = url_for('resetPassword', token = data['token'], _external = True) # generate absolute link
+        print('reset password link:', link)
+        try:
+            msg = Message('[%s] Reset your account password'%(app.config['site_name']), recipients=[email])
+            msg.html = render_template('email/reset-password.html', email = email, link = link, app = app)
+            mail.send(msg)
+        except Exception as e:
+            return failed(str(e))
+        return success()
+    def check_reset_password_token(self):
+        data = request_json()
+        # recaptcha
+        vdt = validate_recaptcha(data['recaptcha'])
+        if not vdt['success']:
+            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        token = data.get('token', None)
+        if not token:
+            return failed('Illegal request')
+        item = models.reset_password_email.objects.filter(token=token).first()
+        if not item:
+            return failed('No record found with given token')
+        expired = (datetime.now() - item.updated_at).seconds > 3600 * 1
+        if expired:
+            return failed('Link expired')
+        # return possible users
+        return success(data = {'data': [user_to_dict(v) for v in self.model.objects.filter(email=item.email)]})
+    def reset_password(self):
+        data = request_json()
+        # recaptcha
+        vdt = validate_recaptcha(data['recaptcha'])
+        if not vdt['success']:
+            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        # validate
+        schema = {
+            'user_id': {'required': True, 'type': 'string'},
+            'token': {'required': True, 'type': 'string'},
+            'password': self.passwordSchema,
+        }
+        v = make_validator(schema)
+        if not v.validate(data):
+            return failed('Invalid input', {'error': v.errors})
+        #
+        record = models.reset_password_email.objects.filter(token=data['token']).first()
+        user = self.model.objects.filter(id = data['user_id']).first()
+        if not record or not user or record.email != user.email:
+            return failed('Illegal request')
+        #
+        expired = (datetime.now() - record.updated_at).seconds > 3600 * 1
+        if expired:
+            return failed('Link expired')
+        # other users may used wrong email
+        for item in self.model.objects.filter(email = user.email):
+            item.email_confirmed = False
+            item.save()
+        user.password = hash_pwd(data['password'])
+        user.email_confirmed = True
+        user.save()
+        record.delete()
+        return success()
     # private
     def do_send_activation_email(self, email, userId):
         data = {

@@ -157,7 +157,7 @@ def success(message = '', data = None, code = 200):
     if data:
         data2 = dict(data2, **data)
     return data2, code
-def failed(message = '', data = None, code = 400):
+def failed(message = 'Failed', data = None, code = 400):
     data2 = {'result': 'failed', 'message': message}
     if data:
         data2 = dict(data2, **data)

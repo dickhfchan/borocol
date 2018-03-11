@@ -39,4 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
+.el-notification__content{
+  text-align: left; //overwrite; origin is justify
+}
 </style>

@@ -17,6 +17,7 @@ const routes = [
   { path: '/', name: 'home', component: resolve => require(['../views/Home.vue'], resolve), meta: {hasMenu: false}},
   { path: '/partner-with-us', name: 'partnerWithUs', component: resolve => require(['../views/PartnerWithUs.vue'], resolve), meta: {hasMenu: false}},
   { path: '/active-email', name: 'activeEmail', component: resolve => require(['../views/ActiveEmail.vue'], resolve), meta: {hasMenu: false, auth: true}},
+  { path: '/reset-password', name: 'resetPassword', component: resolve => require(['../views/ResetPassword.vue'], resolve), meta: {hasMenu: false}},
   { path: '/SchoolReviews', component: resolve => require(['../views/SchoolReviews.vue'], resolve),},
   { path: '/profile', name: 'profile', component: resolve => require(['../views/StudentProfile.vue'], resolve), meta: {}},
   { path: '/my-courses', name: 'myCourses', component: resolve => require(['../views/MyCourses.vue'], resolve), meta: {}},

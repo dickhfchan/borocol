@@ -9,7 +9,9 @@ include ../common.pug
           ._1 You email({{$state.user.email}}) has been confirmed.
         template(v-else)
           h1 Confirm Your Email
-          ._1 Prease check your inbox for a confirmation email. Clink the link in the email to confirm your email address.
+          ._1
+            p Prease check your inbox <i><b>{{$state.user.email}}</b></i> for a confirmation email. Clink the link in the email to confirm your email address.
+            p If your email is not right, you can <a href="javascript:void(0)" @click.prevent="changeEmail">click here</a> to change it.
           GoogleRecaptcha(ref="recaptcha")
           el-button.send-btn.btn.btn-primary.btn-lg(@click="send" :loading="sending") Re-send confirmation email
 </template>
@@ -36,6 +38,17 @@ export default {
         this.$alert(`Sent Failed. ${errorRequestMessage(e)}`)
       }).then(() => {
         this.sending = false
+      })
+    },
+    changeEmail() {
+      this.$prompt('Please enter your email', {inputValue: this.$state.user.email}).then(({ value }) => {
+        this.$http.post(`${this.$state.urls.api}/user/update-email`, {email: value}).then(({data}) => {
+          this.$notifySuccess(`Your email has been changed successfully`)
+          this.$state.user.email = value
+        }, (e) => {
+          console.log(e);
+          this.$alert(`Failed. ${errorRequestMessage(e)}`)
+        })
       })
     },
   },

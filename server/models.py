@@ -37,13 +37,23 @@ class user(Model, UserMixin):
     updated_at = columns.DateTime()
 
 class activation_email(Model):
-    hidden = ['password']
 
     id      = columns.UUID(required=True, partition_key=True)
 
     user_id      = columns.UUID(required=False, index=True)
 
     email      = columns.Text(required=False, )
+
+    token      = columns.Text(required=False, index=True)
+
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
+
+class reset_password_email(Model):
+
+    id      = columns.UUID(required=True, partition_key=True)
+
+    email      = columns.Text(required=False, index=True)
 
     token      = columns.Text(required=False, index=True)
 
@@ -290,6 +300,7 @@ def sync_tables_and_materialized_views():
     # tables
     sync_table(user)
     sync_table(activation_email)
+    sync_table(reset_password_email)
     sync_table(course_subscriptions)
     sync_table(school_profile)
     sync_table(student_profile)
