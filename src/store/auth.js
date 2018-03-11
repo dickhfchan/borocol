@@ -1,5 +1,6 @@
+import Vue from 'vue'
 import store from './index'
-import {ajaxDataFilter, errorRequestMessage} from '@/utils'
+import {ajaxDataFilter, errorRequestMessage, getCurrentUser} from '@/utils'
 
 const auth = {
   visible: false,
@@ -98,9 +99,14 @@ const auth = {
       data.recaptcha = token
       data.user_type = 'student'
       return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
-        vm.$notifySuccess(`Registered Successfully`)
-        vm.$router.push({name: 'activeEmail'})
-        this.visible = false
+        getCurrentUser(store, Vue).then(() => {
+          vm.$notifySuccess(`Registered Successfully`)
+          vm.$router.push({name: 'activeEmail'})
+          this.visible = false
+        }, (e) => {
+          console.log(e);
+          window.alert('Get data failed, please refresh')
+        })
       }, (e) => {
         console.log(e);
         vm.$alert(`Register Failed. ${errorRequestMessage(e)}`)

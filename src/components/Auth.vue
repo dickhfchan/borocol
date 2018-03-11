@@ -8,7 +8,7 @@ include ../common.pug
           .icon-wrapper
             span.icon.icon-facebook
           | Log in with Facebook
-        .openid.openid-google.mtm
+        GoogleSignin.openid.openid-google.mtm(@success="googleSignin")
           .icon-wrapper
             img(src="~@/assets/img/google-icon-colorful.png")
           | Log in with Google
@@ -25,12 +25,12 @@ include ../common.pug
       .form-group
         Checkbox(v-model="state.loginFields.remember.value")
         label.mls Remember Me
-        router-link.pull-right(:to="{name: 'resetPassword'}"): b Forget Password?
+        a.pull-right(@click="goResetPassword"): b Forgot Password?
       GoogleRecaptcha(ref="recaptcha")
       el-button.login-btn.btn.btn-primary.btn-block.btn-lg(native-type="submit" :loading="state.submitting") Log in
       .flex.justify-sb.align-c.mtl
         b Without an Account?
-        a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up' : 'Partner with Us'}}
+        a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up as studnet' : 'Partner with Us'}}
     form(v-else @submit.prevent="state.register($refs.recaptcha)")
       template(v-if="registerStep===1")
         .mbm
@@ -48,7 +48,7 @@ include ../common.pug
             .line
           a.btn.btn-primary.btn-block.btn-lg.text-transform-n.mtm(@click="registerStep=2") Sign Up with Email
       template(v-else)
-        .text-center Sign up with <a><b>Facebook</b></a> or <a><b>Google</b></a>
+        .text-center Sign up with <a @click="registerStep=1"><b>Facebook or Google</b></a>
         .form-group.mtl
           label Email
           +inputLg(v-model="state.registrationFields.email.value" name="email")
@@ -84,9 +84,10 @@ include ../common.pug
 <script>
 import {studlyCase} from 'helper-js'
 import GoogleRecaptcha from '@/components/GoogleRecaptcha'
+import GoogleSignin from '@/components/GoogleSignin'
 
 export default {
-  components: {GoogleRecaptcha},
+  components: {GoogleRecaptcha, GoogleSignin},
   data() {
     return {
       self: this,
@@ -120,6 +121,23 @@ export default {
         this.registerStep = 1
         this.state.mode = 'register'
       }
+    },
+    goResetPassword() {
+      this.state.visible = false
+      this.$router.push({name: 'resetPassword'})
+    },
+    // openid
+    googleSignin(googleUser) {
+      const token = googleUser.getAuthResponse().id_token
+      this.$http.post(`${this.$state.urls.api}/google/login`, {token}).then(({data}) => {
+        // this.$notifySuccess(`Sent Successfully`)
+        // this.sentCount++
+      }, (e) => {
+        console.log(e);
+        this.$alert(`Sent Failed. ${errorRequestMessage(e)}`)
+      }).then(() => {
+        // this.processing = false
+      })
     },
   },
   // created() {},

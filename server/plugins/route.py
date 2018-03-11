@@ -36,13 +36,16 @@ def registerMany(routes, globalMiddlewares, app):
 # helpers
 
 def group(opt, routes):
+    prefix = opt.get('prefix')
+    middlewares = opt.get('middlewares')
+    controller = opt.get('controller')
     for item in routes:
-        prefix = opt.get('prefix')
-        middlewares = opt.get('middlewares')
         if prefix:
             item['path'] = (prefix + item['path']).rstrip('/')
         if middlewares:
             item['middlewares'] = middlewares + item.get('middlewares', [])
+        if controller and 'controller' not in item:
+            item['controller'] = controller
     return routes
 
 # generate for resource controller and normal controller

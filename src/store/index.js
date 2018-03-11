@@ -50,6 +50,12 @@ const state = {
   recaptcha: {
     sitekey: '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4',
   },
+  google: {
+    signin: {
+      client_id: '395826608446-1npm72l9egmcolbqpvqlatjjegr9ibnj.apps.googleusercontent.com',
+      secretkey: 'NHG807fWsVRCwt1YTKHfmxej',
+    },
+  },
   resolveTitle(title) {
     return `${title} - ${this.site_name}`
   },

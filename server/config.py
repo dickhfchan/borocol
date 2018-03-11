@@ -20,10 +20,14 @@ request_maxContentLength = 16 * 1024 * 1024 # 16m MAX_CONTENT_LENGTH
 # file
 file_uploadDir = path.join(app_path, 'uploads')
 file_allowedExtensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp'])
+# for server to access google or other api
+server_side_request_proxy = env('server_side_request_proxy', False)
 # google recaptcha
-recaptcha_proxy = env('recaptcha_proxy', False)
 recaptcha_sitekey = '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4'
 recaptcha_secretkey = '6LdizkgUAAAAAB_bXXnjnjWomYSTy4GxVn7umQnf'
+# google signin
+google_singin_client_id = '395826608446-1npm72l9egmcolbqpvqlatjjegr9ibnj.apps.googleusercontent.com'
+google_singin_secretkey = 'NHG807fWsVRCwt1YTKHfmxej'
 # mail
 MAIL_SERVER = env('MAIL_SERVER', 'smtp.mailtrap.io')
 MAIL_PORT = env('MAIL_PORT', '2525')
