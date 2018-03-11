@@ -2,7 +2,7 @@ from flask import current_app as app, request, render_template, url_for, redirec
 import models
 from plugins.ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
-from utils import dict_pluck, request_json, to_dict, validate_recaptcha
+from utils import dict_pluck, request_json, to_dict, sort_models, validate_recaptcha
 from utils import str_rand, user_to_dict, md5
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
@@ -180,7 +180,8 @@ class UserController(ResourceController):
         if expired:
             return failed('Link expired')
         # return possible users
-        return success(data = {'data': [user_to_dict(v) for v in self.model.objects.filter(email=item.email)]})
+        possibleUsers = ort_models(self.model.objects.filter(email=item.email)[:])
+        return success(data = {'data': [user_to_dict(v) for v in possibleUsers]})
     def reset_password(self):
         data = request_json()
         # recaptcha

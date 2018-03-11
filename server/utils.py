@@ -66,6 +66,9 @@ def to_dict(item):
         else:
             r[colName] = val
     return r
+def sort_models(models):
+    models.sort(key=lambda item: item.created_at, reverse=True)
+    return models
 
 # tmp files
 def add_tmp_files(files):
@@ -211,6 +214,7 @@ def user_to_dict(user):
 def get_initial_data():
     initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
     initialData['recaptcha'] = {'sitekey': app.config['recaptcha_sitekey']}
+    initialData['google'] = {'signin': {'secretkey': app.config['google_singin_secretkey']}}
     initialData['site_name'] = app.config['site_name']
     initialData['site_home_title'] = app.config['site_home_title']
     # inject user info

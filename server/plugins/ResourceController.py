@@ -1,7 +1,7 @@
 from flask import request
 from datetime import datetime
 import time
-from utils import to_dict, before_write, saved, request_json
+from utils import to_dict, sort_models, before_write, saved, request_json
 import cassandra
 
 def store(model, data):
