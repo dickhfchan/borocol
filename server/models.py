@@ -13,7 +13,7 @@ class key_value(Model):
 
     value      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class user(Model, UserMixin):
@@ -33,7 +33,7 @@ class user(Model, UserMixin):
 
     profile_completed      = columns.Boolean(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class activation_email(Model):
@@ -46,7 +46,7 @@ class activation_email(Model):
 
     token      = columns.Text(required=False, index=True)
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class reset_password_email(Model):
@@ -57,7 +57,7 @@ class reset_password_email(Model):
 
     token      = columns.Text(required=False, index=True)
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class course_subscriptions(Model):
@@ -74,7 +74,7 @@ class course_subscriptions(Model):
 
     payment_details      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class school_profile(Model):
@@ -111,7 +111,7 @@ class school_profile(Model):
 
     website      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class student_profile(Model):
@@ -137,7 +137,7 @@ class student_profile(Model):
     passport_info = columns.Text(required=False, )
     emergency_contact_person = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class course_detail(Model):
@@ -190,7 +190,7 @@ class course_detail(Model):
     quota = columns.Text(required=False, )
     down_payment = columns.Boolean(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class accomodation_detail(Model):
@@ -214,7 +214,7 @@ class accomodation_detail(Model):
     room2_quota = columns.Text(required=False, )
     room2_price = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class visa_detail(Model):
@@ -237,7 +237,7 @@ class visa_detail(Model):
 
     auto_reply_message      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class featured_course(Model):
@@ -246,7 +246,7 @@ class featured_course(Model):
 
     course_id      = columns.UUID(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class reviews(Model):
@@ -263,7 +263,7 @@ class reviews(Model):
 
     photos      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class course_types(Model):
@@ -276,7 +276,7 @@ class course_types(Model):
 
     description      = columns.Text(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 class test(Model):
@@ -286,7 +286,7 @@ class test(Model):
     lsi      = columns.List(columns.Integer, required=False, )
     dm      = columns.Decimal(required=False, )
 
-    created_at = columns.DateTime()
+    created_at = columns.DateTime(primary_key=True, clustering_order='desc')
     updated_at = columns.DateTime()
 
 
