@@ -16,9 +16,9 @@ class UserController(ResourceController):
     def register(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         #
         schema = {
             'email': self.emailSchema,
@@ -46,16 +46,16 @@ class UserController(ResourceController):
         except Exception as e:
             print(e)
             errorMsg = str(e)
-        if 'errorMsg' in locals():
+        if errorMsg:
             return failed(errorMsg)
         login_user(user)
         return success('', {'id': str(user.id)})
     def login(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         possibleUsers = self.model.objects.filter(email=data['email'])[:]
         possibleUsers = sorted(possibleUsers, key = lambda v: int(v.email_confirmed), reverse=True ) # put email_confirmed users on the top
         if len(possibleUsers) == 0:
@@ -104,9 +104,9 @@ class UserController(ResourceController):
     def send_activation_email(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         #
         errorMsg = None
         try:
@@ -131,9 +131,9 @@ class UserController(ResourceController):
     def send_reset_password_email(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         # validate
         schema = {
             'email': self.emailSchema,
@@ -167,9 +167,9 @@ class UserController(ResourceController):
     def check_reset_password_token(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         token = data.get('token', None)
         if not token:
             return failed('Illegal request')
@@ -185,9 +185,9 @@ class UserController(ResourceController):
     def reset_password(self):
         data = request_json()
         # recaptcha
-        vdt = validate_recaptcha(data['recaptcha'])
-        if not vdt['success']:
-            return failed('Recaptcha failed: ' + ', '.join(vdt['error-codes']))
+        errorMsg = validate_recaptcha(data['recaptcha'])
+        if errorMsg:
+            return failed(errorMsg)
         # validate
         schema = {
             'user_id': {'required': True, 'type': 'string'},

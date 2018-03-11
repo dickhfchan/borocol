@@ -175,27 +175,35 @@ def request_json():
                 data[key] = None
     return data
 
+def get_https_conn(domain):
+    # use proxy
+    if app.config['server_side_request_proxy']:
+        conn = http.client.HTTPSConnection('localhost', '8118')
+        conn.set_tunnel(domain)
+    else:
+        conn = http.client.HTTPSConnection(domain)
+    return conn
+
 def validate_recaptcha(token):
     conn = None
     data = None
+    errorMsg = None
     try:
         params = urllib.parse.urlencode({'secret': app.config['recaptcha_secretkey'], 'response': token})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-        # use proxy
-        if app.config['recaptcha_proxy']:
-            # 试试用socks5接口
-            conn = http.client.HTTPSConnection('localhost', '8118')
-            conn.set_tunnel("www.google.com")
-        else:
-            conn = http.client.HTTPSConnection('www.google.com')
+        conn = get_https_conn('www.google.com')
         conn.request('POST', '/recaptcha/api/siteverify', params, headers)
         data = conn.getresponse().read().decode('utf8')
     except Exception as e:
-        raise e
+        print(e)
+        errorMsg = str(e)
     finally:
-        if conn:
-            conn.close()
-    return json.loads(data)
+        conn.close()
+    if errorMsg:
+        return errorMsg
+    data = json.loads(data)
+    if not data['success']:
+        return data['error-codes']
 
 def get_user_profile(user):
     model = models.student_profile if user.user_type == 'student' else models.school_profile
@@ -214,7 +222,7 @@ def user_to_dict(user):
 def get_initial_data():
     initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
     initialData['recaptcha'] = {'sitekey': app.config['recaptcha_sitekey']}
-    initialData['google'] = {'signin': {'secretkey': app.config['google_singin_secretkey']}}
+    initialData['google'] = {'signin': {'client_id': app.config['google_singin_client_id'] ,'secretkey': app.config['google_singin_secretkey']}}
     initialData['site_name'] = app.config['site_name']
     initialData['site_home_title'] = app.config['site_home_title']
     # inject user info
