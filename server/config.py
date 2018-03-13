@@ -1,10 +1,11 @@
 from os import path
-from plugins.env import env
+# lower case name first
+
 # db
 db_keyspace = "borocol"
 db_host = '127.0.0.1'
 # app
-app_debug = env('app_debug', False)
+app_debug = False
 app_host = '127.0.0.1' # dev
 app_port = 8081 # dev
 app_name = 'Borocol'
@@ -21,7 +22,7 @@ request_maxContentLength = 16 * 1024 * 1024 # 16m MAX_CONTENT_LENGTH
 file_uploadDir = path.join(app_path, 'uploads')
 file_allowedExtensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp'])
 # for server to access google or other api
-server_side_request_proxy = env('server_side_request_proxy', False)
+server_side_request_proxy = False
 # google recaptcha
 recaptcha_sitekey = '6LdizkgUAAAAANJGphKgKtGcERgbagwAAL91kti4'
 recaptcha_secretkey = '6LdizkgUAAAAAB_bXXnjnjWomYSTy4GxVn7umQnf'
@@ -29,12 +30,12 @@ recaptcha_secretkey = '6LdizkgUAAAAAB_bXXnjnjWomYSTy4GxVn7umQnf'
 google_singin_client_id = '395826608446-1npm72l9egmcolbqpvqlatjjegr9ibnj.apps.googleusercontent.com'
 google_singin_secretkey = 'NHG807fWsVRCwt1YTKHfmxej'
 # mail
-MAIL_SERVER = env('MAIL_SERVER', 'smtp.mailtrap.io')
-MAIL_PORT = env('MAIL_PORT', '2525')
-MAIL_USERNAME = env('MAIL_USERNAME', '0ae55e5821a6db')
-MAIL_PASSWORD = env('MAIL_PASSWORD', '51593ff1131ed6')
-MAIL_DEFAULT_SENDER_NAME = env('MAIL_DEFAULT_SENDER_NAME', site_name)
-MAIL_DEFAULT_SENDER_ADDRESS = env('MAIL_DEFAULT_SENDER_ADDRESS', '')
+MAIL_SERVER = 'smtp.mailtrap.io'
+MAIL_PORT = '2525'
+MAIL_USERNAME = '0ae55e5821a6db'
+MAIL_PASSWORD = '51593ff1131ed6'
+MAIL_DEFAULT_SENDER_NAME = site_name
+MAIL_DEFAULT_SENDER_ADDRESS = ''
 MAIL_DEFAULT_SENDER = MAIL_DEFAULT_SENDER_NAME, MAIL_DEFAULT_SENDER_ADDRESS
 # MAIL_PORT : default 25
 # MAIL_USE_TLS : default False
@@ -46,3 +47,6 @@ MAIL_DEFAULT_SENDER = MAIL_DEFAULT_SENDER_NAME, MAIL_DEFAULT_SENDER_ADDRESS
 # MAIL_MAX_EMAILS : default None
 # MAIL_SUPPRESS_SEND : default app.testing
 # MAIL_ASCII_ATTACHMENTS : default False
+
+# overwrite with env
+from env import *
