@@ -64,7 +64,7 @@ class UserController(ResourceController):
         if not user:
             return failed('Incorrect password')
         login_user(user, remember = data.get('remember'))
-        return success('', {'data': user_to_dict(user)})
+        return success()
     def logout(self):
         logout_user()
         return success()
@@ -180,7 +180,7 @@ class UserController(ResourceController):
         if expired:
             return failed('Link expired')
         # return possible users
-        possibleUsers = ort_models(self.model.objects.filter(email=item.email)[:])
+        possibleUsers = sort_models(self.model.objects.filter(email=item.email)[:])
         return success(data = {'data': [user_to_dict(v) for v in possibleUsers]})
     def reset_password(self):
         data = request_json()

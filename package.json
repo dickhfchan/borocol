@@ -30,7 +30,7 @@
     "slick-carousel": "^1.8.1",
     "tree-helper": "^1.0.2",
     "vue": "^2.5.2",
-    "vue-data-validator": "^2.2.5",
+    "vue-data-validator": "^2.2.7",
     "vue-date": "^1.1.7",
     "vue-input-tag": "^0.0.16",
     "vue-lazyload": "^1.1.4",

@@ -17,7 +17,7 @@ class key_value(Model):
     updated_at = columns.DateTime()
 
 class user(Model, UserMixin):
-    hidden = ['password']
+    hidden = ['password', 'google_id', 'facebook_id']
 
     id      = columns.UUID(required=True, partition_key=True)
 
@@ -32,6 +32,9 @@ class user(Model, UserMixin):
     email_confirmed      = columns.Boolean(required=False, default=False)
 
     profile_completed      = columns.Boolean(required=False, )
+
+    google_id      = columns.Text(required=False, index=True, )
+    facebook_id      = columns.Text(required=False, index=True, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
@@ -140,7 +143,7 @@ class student_profile(Model):
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
-class course_detail(Model):
+class course(Model):
     fileFields = ['instructor_photo', 'cover', 'photos']
 
     id      = columns.UUID(required=True, partition_key=True)
@@ -193,7 +196,7 @@ class course_detail(Model):
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
-class accomodation_detail(Model):
+class accomodation(Model):
     fileFields = ['photos']
 
     id      = columns.UUID(required=True, partition_key=True)
@@ -304,8 +307,8 @@ def sync_tables_and_materialized_views():
     sync_table(course_subscriptions)
     sync_table(school_profile)
     sync_table(student_profile)
-    sync_table(course_detail)
-    sync_table(accomodation_detail)
+    sync_table(course)
+    sync_table(accomodation)
     sync_table(visa_detail)
     sync_table(featured_course)
     sync_table(reviews)

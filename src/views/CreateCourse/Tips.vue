@@ -15,7 +15,7 @@
     a.btn.btn-link.btn-lg.back-btn(@click="state.goPrevPage()")
       span.icon.icon-arrow-left.mrs
       | Back
-    a.btn.btn-primary.btn-lg.pull-right(v-if="isLastPage" @click="state.submit()") Finish
+    el-button.btn.btn-primary.btn-lg.pull-right(v-if="isLastPage" @click="state.submit()" :loading="state.submitting") Finish
     a.btn.btn-primary.btn-lg.pull-right(v-else @click="state.checkAndGoNextPage()") Next
 </template>
 

@@ -7,6 +7,8 @@ import createCourse from './createCourse'
 import auth from './auth'
 // import noImg from '../assets/img/noThumb.jpg'
 // import createLogger from '@/../node_modules/vuex/src/plugins/logger.js'
+import * as df from 'date-functions'
+import imgAnonymous from '../assets/img/anonymous.jpg'
 
 Vue.use(Vuex)
 
@@ -58,6 +60,10 @@ const state = {
   },
   resolveTitle(title) {
     return `${title} - ${this.site_name}`
+  },
+  imgAnonymous,
+  dtFormat(seconds, format = 'yyyy-MM-dd HH:mm') {
+    return df.format(new Date(seconds * 1000), format)
   },
 }
 Object.assign(state, initialData)

@@ -367,7 +367,7 @@ const state = {
     this.submitting = true
     this.checkIsValidTillIndex(this.fields.length - 1).then(() => {
       const data = {
-        accomodation_detail: {},
+        accomodation: {},
       }
       this.validations.forEach((vl, i) => {
         if (i !== 0) {
@@ -385,20 +385,18 @@ const state = {
           }
           //
           if (i === 8) {
-            Object.assign(data.accomodation_detail, values)
+            Object.assign(data.accomodation, values)
           } else {
             Object.assign(data, values)
           }
         }
       })
-      return vm.$http.post(`${vm.$state.urls.api}/course_detail`, data).then(({data}) => {
+      return vm.$apiPost('/course/store', data).then(data => {
         vm.$alert(`Saved Successfully`)
-      }, (e) => {
-        console.log(e);
-        vm.$alert(`Save Failed. ${e.response.data.message || ''}`)
       })
     }, e => {
       if (e.index != null) {
+        console.log(e);
         const invalidRoute = this.routes[e.index]
         vm.$router.push(invalidRoute)
       }

@@ -4,8 +4,8 @@ from plugins.ResourceController import ResourceController, store
 import cassandra
 from utils import request_json
 
-class CourseDetailController(ResourceController):
-    model = models.course_detail
+class CourseController(ResourceController):
+    model = models.course
     def store(self):
         r = super().store()
         model = self.model
@@ -13,13 +13,13 @@ class CourseDetailController(ResourceController):
         if isinstance(r, (tuple, list)):
             r = r[0]
         if r['result'] == 'success':
-            data = request_json()['accomodation_detail']
+            data = request_json()['accomodation']
             data['course_id'] = r['id']
             item = None
             # save
             try:
-                item = store(models.accomodation_detail, data)
-                r['accomodation_detail_id'] = str(item.id)
+                item = store(models.accomodation, data)
+                r['accomodation_id'] = str(item.id)
             except Exception as e:
                 print(e)
                 r['message'] = str(e)

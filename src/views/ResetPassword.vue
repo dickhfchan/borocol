@@ -12,13 +12,7 @@ include ../common.pug
             +inputLg(type="password" v-model="fields.passwordConfirmation.value")
           .form-group(v-if="possibleUsers && possibleUsers.length > 1")
             label * Select your account
-            .users-list
-              .user-item.pas(v-for="item in possibleUsers" :class="{active:user_id===item.id}" @click="user_id=item.id")
-                img.avatar(:src="item.avatar || anonymousAvatar")
-                .text-area
-                  label {{item.name}}
-                  label.mlm {{item.user_type}}
-                  .datetime Registered at: {{datetime(item.created_at)}}
+            UserTable(:data="possibleUsers" v-model="user_id")
           GoogleRecaptcha(ref="recaptcha")
           el-button.btn.btn-primary.btn-lg.btn-block.mtm(@click="resetPassword" :loading="processing") Submit
           br
@@ -33,16 +27,14 @@ include ../common.pug
 </template>
 
 <script>
-import {errorRequestMessage, ajaxDataFilter} from '@/utils'
+import {errorRequestMessage, checkValidation} from '@/utils'
 import GoogleRecaptcha from '@/components/GoogleRecaptcha'
-import anonymousAvatar from '@/assets/img/anonymous.jpg'
-import * as df from 'date-functions'
+import UserTable from '@/components/UserTable'
 
 export default {
-  components: {GoogleRecaptcha},
+  components: {GoogleRecaptcha, UserTable},
   data() {
     return {
-      anonymousAvatar,
       processing: false,
       email: null,
       sentCount: 0,
@@ -64,78 +56,61 @@ export default {
   },
   methods: {
     async send() {
-      this.processing = true
-      const recaptcha = await this.$refs.recaptcha.getToken()
-      this.$http.post(`${this.$state.urls.api}/user/send-reset-password-email`, {email: this.email, recaptcha}).then(({data}) => {
+      try {
+        this.processing = true
+        const recaptcha = await this.$refs.recaptcha.getToken()
+        await this.$apiPost(`/user/send-reset-password-email`, {email: this.email, recaptcha})
         this.$notifySuccess(`Sent Successfully`)
         this.sentCount++
-      }, (e) => {
-        console.log(e);
-        this.$alert(`Sent Failed. ${errorRequestMessage(e)}`)
-      }).then(() => {
+      } catch (e) {
+        throw e
+      } finally {
         this.processing = false
-      })
+      }
     },
     resetPassword() {
       if (!this.user_id) {
         this.$alert('Please select your account')
         return
       }
-      this.validation.check().then(async data => {
+      checkValidation(this.validation).then(async requestData => {
         this.processing = true
-        data = ajaxDataFilter(data)
         const token = await this.$refs.recaptcha.getToken()
-        data.recaptcha = token
-        data.token = this.$route.query.token
-        data.user_id = this.user_id
-        this.$http.post(`${this.$state.urls.api}/user/reset-password`, data).then(({data}) => {
-          this.$alert('Reset password successfully. Please login', {
-            callback: () => {
-              const user = this.possibleUsers.find(v => v.id === this.user_id)
-              this.$state.auth.role = user.user_type
-              this.$state.auth.visible = true
-            }
-          })
-        }, (e) => {
-          console.log(e);
-          this.$alert(`Reset Failed. ${errorRequestMessage(e)}`)
+        requestData.recaptcha = token
+        requestData.token = this.$route.query.token
+        requestData.user_id = this.user_id
+        await this.$apiPost(`/user/reset-password`, requestData)
+        this.$alert('Reset password successfully. Please login', {
+          callback: () => {
+            const user = this.possibleUsers.find(v => v.id === this.user_id)
+            this.$state.auth.role = user.user_type
+            this.$state.auth.visible = true
+          }
         })
-      }, e => {
-        console.log(e);
-        if (e.message === 'invalid') {
-          this.$alert(this.validation.getFirstError().message)
-        }
-      }).then(() => {
         this.processing = false
+      }).catch(e => {
+        this.processing = false
+        throw e
       })
-    },
-    datetime(ts) {
-      const t = df.format(new Date(ts * 1000))
-      return t.substr(0, t.length - 3)
     },
   },
   async mounted() {
     const {token} = this.$route.query
     if (token) {
       this.$validate(this.validation, this.fields)
-      const loading = this.$loading({
-         lock: true,
-         text: 'Checking',
-         spinner: 'el-icon-loading',
-         background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.$loading({text: 'Checking'})
       const recaptcha = await this.$refs.recaptcha.getToken()
-      this.$http.post(`${this.$state.urls.api}/user/check-reset-password-token`, {token, recaptcha}).then(({data}) => {
+      try {
+        const data = this.$apiPost(`/user/check-reset-password-token`, {token, recaptcha})
         this.possibleUsers = data.data
         if (this.possibleUsers.length === 1) {
           this.user_id = this.possibleUsers[0].id
         }
-      }, (e) => {
-        console.log(e);
-        this.$alert(`Checking Failed. ${errorRequestMessage(e)}`)
-      }).then(() => {
+      } catch (e) {
+        throw e
+      } finally {
         loading.close()
-      })
+      }
     }
   },
 }
@@ -159,28 +134,6 @@ export default {
   }
   ._2{
     text-align: left;
-  }
-  .user-item{
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    .text-area{
-      margin-left: 20px;
-    }
-    &:hover{
-      background: #fbfbfb;
-    }
-    &.active{
-      background: #2196F3;
-      color: #fff;
-    }
-  }
-  .avatar{
-    $side: 60px;
-    width: $side;
-    height: $side;
-    border-radius: 100%;
   }
 }
 </style>

@@ -29,7 +29,6 @@ export default {
            //scope: 'additional_scope'
          });
          auth2.attachClickHandler(this.$el, {}, (googleUser) => {
-           console.log(googleUser.getBasicProfile().getName());
            this.$emit('success', googleUser)
          }, (error) => {
            console.log(error);

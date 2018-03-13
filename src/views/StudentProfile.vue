@@ -75,7 +75,7 @@ include ../common.pug
 <script>
 import ImageUploader from '@/components/ImageUploader';
 import DatePicker from '@/components/DatePicker';
-import {newDate} from '@/utils'
+import {newDate, checkValidation} from '@/utils'
 import {snakeCase} from 'helper-js'
 export default {
   metaInfo () {
@@ -174,8 +174,8 @@ export default {
       if (this.saving) {
         return
       }
-      this.saving = true
-      this.validation.check().then(data => {
+      checkValidation(this.validation).then(async requestData => {
+        this.saving = true
         if (Object.values(this.fields.passportInfo.value).some(v => !v)) {
           this.$alert(`Passport info is required`);
         } else if (Object.values(this.fields.emergencyContactPerson.value[0]).some(v => !v)) {
@@ -184,28 +184,20 @@ export default {
           Object.values(this.fields).forEach(fld => {
             switch (fld.type) {
               case 'date':
-                  data[fld.name] = parseInt(newDate(data[fld.name]).getTime() / 1000)
+                  requestData[fld.name] = parseInt(newDate(requestData[fld.name]).getTime() / 1000)
                 break;
               case 'json':
-                  data[fld.name] = JSON.stringify(data[fld.name])
+                  requestData[fld.name] = JSON.stringify(requestData[fld.name])
                 break;
             }
           })
-          const requestData = {}
-          for (const key in data) {
-            requestData[snakeCase(key)] = data[key]
-          }
-          return this.$http.post(`${this.$state.urls.api}/student_profile`, requestData).then(({data}) => {
-            this.$alert(`Saved Successfully`)
-          }, (e) => {
-            console.log(e);
-            this.$alert(`Save Failed. ${e.response.data.message || ''}`)
-          })
+          await this.$apiPost(`/student_profile/store`, requestData)
+          this.$alert(`Saved Successfully`)
         }
-      }, e => {
-        this.$alert(this.validation.getFirstError().message);
-      }).then(() => {
         this.saving = false
+      }).catch(e => {
+        this.saving = false
+        throw e
       })
     }
   },

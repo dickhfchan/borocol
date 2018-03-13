@@ -1,5 +1,6 @@
 import { titleCase, snakeCase, windowLoaded, unset, isArray, isObject, isString, objectGet } from 'helper-js'
 import Vue from 'vue'
+import store from './store/index.js'
 
 export const loaded = windowLoaded()
 export const dateTimeFields = ['start_time', 'end_time', 'time', 'start_date', 'end_date', 'date',
@@ -603,25 +604,18 @@ export function getRoutes() {
   })
 }
 
-export function getCurrentUser(store, Vue) {
-  const {http} = Vue
-  const {urls} = store.state
-  return Vue.http.get(urls.api + '/user/current_user').then(({data}) => {
-    if (data.status === 'failed') {
-      return Promise.reject()
-    }
+export function getCurrentUser() {
+  return Vue.apiGet('/user/current_user').then(data => {
     if (data.data.is_authenticated) {
       store.state.authenticated = true
       store.state.user = data.data
     }
-  }, (e) => {
-    console.log(e);
-    window.alert('Get data failed, please refresh')
+    return store.state.user
   })
 }
 
 export function selectAll(vm, name) {
-  return vm.$http.post(vm.$store.state.urls[name].select, {perPage: 'all'})
+  return vm.$apiPost(vm.$store.state.urls[name].select, {perPage: 'all'})
 }
 
 export function cloneObj(obj, exclude) {
@@ -703,5 +697,59 @@ export function ajaxDataFilter(obj) {
 }
 
 export function errorRequestMessage(error, msg) {
-  return objectGet(error, 'response.data.message') || error.message || msg || ''
+  const data = objectGet(error, 'response.data')
+  if (data) {
+    if (isString(data)) {
+      // ignore error page html content
+      if (!data.startsWith('<!DOCTYPE')) {
+        return data
+      }
+    } else if (data.message) {
+      return data.message
+    }
+  }
+  return  error.message || msg || ''
 }
+
+export function checkValidation(validation) {
+  return validation.check().then(data => data, e => {
+    const vm = store.state.appVm
+    if (e.message === 'invalid') {
+      vm.$alert(validation.getFirstError().message)
+    } else {
+      throw e
+    }
+  })
+}
+export function makeStorageHelper(storage) {
+  return {
+    storage,
+    set(name, value, minutes) {
+      if (value == null) {
+        this.storage.removeItem(name)
+      } else {
+        this.storage.setItem(name, JSON.stringify({
+          value,
+          expired_at: minutes && new Date().getTime() / 1000 + minutes * 60,
+        }))
+      }
+    },
+    get(name) {
+      let t = this.storage.getItem(name)
+      if (t) {
+        t = JSON.parse(t)
+        if (!t.expired_at || t.expired_at > new Date().getTime()) {
+          return t.value
+        } else {
+          this.storage.removeItem(name)
+        }
+      }
+      return null
+    },
+    clear() {
+      this.storage.clear()
+    },
+  }
+}
+export const localStorage2 = makeStorageHelper(window.localStorage)
+export const sessionStorage2 = makeStorageHelper(window.sessionStorage)

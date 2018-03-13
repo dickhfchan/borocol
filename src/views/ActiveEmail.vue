@@ -17,7 +17,6 @@ include ../common.pug
 </template>
 
 <script>
-import {errorRequestMessage} from '@/utils'
 import GoogleRecaptcha from '@/components/GoogleRecaptcha'
 
 export default {
@@ -31,45 +30,36 @@ export default {
     async send() {
       this.sending = true
       const recaptcha = await this.$refs.recaptcha.getToken()
-      this.$http.post(`${this.$state.urls.api}/user/send-activation-email`, {email: this.$state.user.email, recaptcha}).then(({data}) => {
+      try {
+        await this.$apiPost(`/user/send-activation-email`, {email: this.$state.user.email, recaptcha})
         this.$notifySuccess(`Sent Successfully`)
-      }, (e) => {
-        console.log(e);
-        this.$alert(`Sent Failed. ${errorRequestMessage(e)}`)
-      }).then(() => {
+      } catch (e) {
+        throw e
+      } finally {
         this.sending = false
-      })
+      }
     },
     changeEmail() {
-      this.$prompt('Please enter your email', {inputValue: this.$state.user.email}).then(({ value }) => {
-        this.$http.post(`${this.$state.urls.api}/user/update-email`, {email: value}).then(({data}) => {
-          this.$notifySuccess(`Your email has been changed successfully`)
-          this.$state.user.email = value
-        }, (e) => {
-          console.log(e);
-          this.$alert(`Failed. ${errorRequestMessage(e)}`)
-        })
+      this.$prompt('Please enter your email', {inputValue: this.$state.user.email}).then(async ({ value }) => {
+        await this.$apiPost(`/user/update-email`, {email: value})
+        this.$notifySuccess(`Your email has been changed successfully`)
+        this.$state.user.email = value
       })
     },
   },
-  mounted() {
+  async mounted() {
     const {token} = this.$route.query
     if (!this.$state.user.email_confirmed && token) {
-      const loading = this.$loading({
-         lock: true,
-         text: 'Confirming email',
-         spinner: 'el-icon-loading',
-         background: 'rgba(0, 0, 0, 0.7)'
-      })
-      this.$http.post(`${this.$state.urls.api}/user/active-email`, {token}).then(({data}) => {
+      const loading = this.$loading({text: 'Confirming email'})
+      try {
+        await this.$apiPost(`/user/active-email`, {token})
         this.$notifySuccess(`Confirmed Successfully`)
         this.$state.user.email_confirmed = true
-      }, (e) => {
-        console.log(e);
-        this.$alert(`Confirm Failed. ${errorRequestMessage(e)}`)
-      }).then(() => {
+      } catch (e) {
+        throw e
+      } finally {
         loading.close()
-      })
+      }
     }
   },
 }

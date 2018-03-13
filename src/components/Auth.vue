@@ -2,36 +2,42 @@
 include ../common.pug
 .Auth(v-if="state.visible")
   el-dialog(:visible.sync='state.visible', width="430px" custom-class="auth-dialog")
-    form(v-if="state.mode==='login'" @submit.prevent="state.login($refs.recaptcha)")
-      .mbm(v-if="state.role==='student'")
-        .openid.openid-facebook
-          .icon-wrapper
-            span.icon.icon-facebook
-          | Log in with Facebook
-        GoogleSignin.openid.openid-google.mtm(@success="googleSignin")
-          .icon-wrapper
-            img(src="~@/assets/img/google-icon-colorful.png")
-          | Log in with Google
-        .dividing-line-title.mtm
-          .line
-          small.mhm or
-          .line
-      .form-group
-        label Email
-        +inputLg(v-model="state.loginFields.email.value" name="email")
-      .form-group
-        label Password
-        +inputLg(v-model="state.loginFields.password.value" type="password" name="password")
-      .form-group
-        Checkbox(v-model="state.loginFields.remember.value")
-        label.mls Remember Me
-        a.pull-right(@click="goResetPassword"): b Forgot Password?
-      GoogleRecaptcha(ref="recaptcha")
-      el-button.login-btn.btn.btn-primary.btn-block.btn-lg(native-type="submit" :loading="state.submitting") Log in
-      .flex.justify-sb.align-c.mtl
-        b Without an Account?
-        a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up as studnet' : 'Partner with Us'}}
-    form(v-else @submit.prevent="state.register($refs.recaptcha)")
+    form(v-if="state.mode==='login'" @submit.prevent="state.login($refs.recaptcha)" v-loading="state.formLoading")
+      //- select possible user
+      template(v-if="state.possibleUsers")
+        p The email of accounts below is same with yours. They may belongs to you. Please select your account. If no account below belongs to you, you can <a @click="dontSelectPossibleUser">create a new one</a>.
+        UserTable(:data="state.possibleUsers" v-model="userId")
+        el-button.btn.btn-primary.btn-block.btn-lg.mtm(:loading="state.submitting" @click="selectPossibleUser") Ok
+      template(v-else)
+        .mbm(v-if="state.role==='student'")
+          .openid.openid-facebook
+            .icon-wrapper
+              span.icon.icon-facebook
+            | Log in with Facebook
+          GoogleSignin.openid.openid-google.mtm(@success="state.googleSignin($event)")
+            .icon-wrapper
+              img(src="~@/assets/img/google-icon-colorful.png")
+            | Log in with Google
+          .dividing-line-title.mtm
+            .line
+            small.mhm or
+            .line
+        .form-group
+          label Email
+          +inputLg(v-model="state.loginFields.email.value" name="email")
+        .form-group
+          label Password
+          +inputLg(v-model="state.loginFields.password.value" type="password" name="password")
+        .form-group
+          Checkbox(v-model="state.loginFields.remember.value")
+          label.mls Remember Me
+          a.pull-right(@click="goResetPassword"): b Forgot Password?
+        GoogleRecaptcha(ref="recaptcha")
+        el-button.login-btn.btn.btn-primary.btn-block.btn-lg(native-type="submit" :loading="state.submitting") Log in
+        .flex.justify-sb.align-c.mtl
+          b Without an Account?
+          a(href="javascript:void(0)" @click="register").btn.btn-primary-outline {{state.role==='student' ? 'Sign up as studnet' : 'Partner with Us'}}
+    form(v-else @submit.prevent="state.register($refs.recaptcha)" v-loading="state.formLoading")
       template(v-if="registerStep===1")
         .mbm
           .openid.openid-facebook
@@ -75,7 +81,7 @@ include ../common.pug
         a(href="javascript:void(0)" @click="state.mode='login'").btn.btn-primary-outline Log in
     template(slot='title')
       .title {{state.mode === 'login' ? 'Log in' : 'Sign Up'}}
-      .roles(v-if="state.mode === 'login'")
+      .roles(v-if="state.mode === 'login' && !state.possibleUsers")
         .role(v-for="item in roles" :class="{active: state.role === item}" @click="state.role=item") {{studlyCase(item)}}
       .divider(v-else)
     span(slot='footer')
@@ -85,15 +91,18 @@ include ../common.pug
 import {studlyCase} from 'helper-js'
 import GoogleRecaptcha from '@/components/GoogleRecaptcha'
 import GoogleSignin from '@/components/GoogleSignin'
+import UserTable from '@/components/UserTable'
+import {localStorage2} from '@/utils'
 
 export default {
-  components: {GoogleRecaptcha, GoogleSignin},
+  components: {GoogleRecaptcha, GoogleSignin, UserTable},
   data() {
     return {
       self: this,
       state: this.$state.auth,
       roles: ['student', 'school'],
       registerStep: 1,
+      userId: null, // for possibleUsers
     }
   },
   // computed: {},
@@ -101,9 +110,9 @@ export default {
     'state.visible': {
       handler(value) {
         if (value) {
-          this.state.role = localStorage.getItem('user_role') || 'student'
+          this.state.role = localStorage2.get('user_role') || 'student'
         } else {
-          localStorage.setItem('user_role', this.state.role)
+          localStorage2.get('user_role', this.state.role)
         }
       }
     }
@@ -126,18 +135,31 @@ export default {
       this.state.visible = false
       this.$router.push({name: 'resetPassword'})
     },
-    // openid
-    googleSignin(googleUser) {
-      const token = googleUser.getAuthResponse().id_token
-      this.$http.post(`${this.$state.urls.api}/google/login`, {token}).then(({data}) => {
-        // this.$notifySuccess(`Sent Successfully`)
-        // this.sentCount++
-      }, (e) => {
-        console.log(e);
-        this.$alert(`Sent Failed. ${errorRequestMessage(e)}`)
-      }).then(() => {
-        // this.processing = false
-      })
+    async selectPossibleUser() {
+      if (!this.userId) {
+        this.$alert('Please select your account')
+      } else {
+        const type = this.state.processingThird
+        try {
+          this.formLoading = true
+          if (type === 'google') {
+            await this.state.linkGoogleAccount(this.userId)
+          } else if (type === 'facebook') {
+            await this.state.linkFacebookAccount(this.userId)
+          }
+          this.$notifySuccess(`Logined Successfully`)
+          this.state.visible = false
+          this.state.afterLogin()
+          this.state.possibleUsers = null
+        } catch (e) {
+          throw e
+        } finally {
+          this.formLoading = false
+        }
+      }
+    },
+    dontSelectPossibleUser() {
+      this.state.possibleUsers = null
     },
   },
   // created() {},

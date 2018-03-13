@@ -18,6 +18,10 @@ export default {
         next()
       } else {
         next(invalidRoute)
+        const vm = store.state.appVm
+        if (vm) {
+          vm.$alert(state.validations[e.index].getFirstError().message)
+        }
       }
     })
   },

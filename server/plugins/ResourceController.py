@@ -35,6 +35,9 @@ class ResourceController(object):
     # get data
     def select(self, id=None, *args, **kwargs):
         model = self.model
+        data = request_json()
+        if not id:
+            id = data.get('id')
         if id:
             # return one row
             item = model.objects.filter(id=id).first()

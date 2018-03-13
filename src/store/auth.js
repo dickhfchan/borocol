@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import store from './index'
-import {ajaxDataFilter, errorRequestMessage, getCurrentUser} from '@/utils'
+import {checkValidation, errorRequestMessage, getCurrentUser, sessionStorage2} from '@/utils'
 
 const auth = {
   visible: false,
@@ -57,68 +57,128 @@ const auth = {
     if (this.submitting) {
       return
     }
-    this.loginValidation.check().then(async data => {
+    checkValidation(this.loginValidation).then(async requestData => {
       this.submitting = true
-      data = ajaxDataFilter(data)
       const token = await recaptcha.getToken()
-      data.recaptcha = token
-      return vm.$http.post(`${vm.$state.urls.api}/user/login`, data).then(({data}) => {
-        vm.$notifySuccess(`Logined Successfully`)
-        vm.$state.authenticated = true
-        vm.$state.user = data.data
-        this.visible = false
-        if (vm.$state.intended) {
-          const to = vm.$state.intended
-          vm.$state.intended = null
-          if (vm.$route.name === 'unauthorized') {
-            vm.$router.push({path: to.fullPath})
-          }
-        }
-      }, (e) => {
-        console.log(e);
-        vm.$alert(`Logined Failed. ${errorRequestMessage(e)}`)
-      })
-    }, e => {
-      console.log(e);
-      if (e.message === 'invalid') {
-        vm.$alert(this.loginValidation.getFirstError().message)
-      }
-    }).then(() => {
+      requestData.recaptcha = token
+      await vm.$apiPost(`/user/login`, requestData)
+      await getCurrentUser()
+      vm.$notifySuccess(`Logined Successfully`)
+      this.visible = false
+      this.afterLogin()
       this.submitting = false
+      this.checkThirdAccount()
+    }).catch(e => {
+      this.submitting = false
+      throw e
     })
+  },
+  afterLogin() {
+    const vm = store.state.appVm
+    if (vm.$state.intended) {
+      const to = vm.$state.intended
+      vm.$state.intended = null
+      if (vm.$route.name === 'unauthorized') {
+        vm.$router.push({path: to.fullPath})
+      }
+    }
   },
   register(recaptcha) {
     const vm = store.state.appVm
     if (this.submitting) {
       return
     }
-    this.registrationValidation.check().then(async data => {
+    checkValidation(this.registrationValidation).then(async requestData => {
       this.submitting = true
-      data = ajaxDataFilter(data)
       const token = await recaptcha.getToken()
-      data.recaptcha = token
-      data.user_type = 'student'
-      return vm.$http.post(`${vm.$state.urls.api}/user/register`, data).then(({data}) => {
-        getCurrentUser(store, Vue).then(() => {
-          vm.$notifySuccess(`Registered Successfully`)
-          vm.$router.push({name: 'activeEmail'})
-          this.visible = false
-        }, (e) => {
-          console.log(e);
-          window.alert('Get data failed, please refresh')
-        })
-      }, (e) => {
-        console.log(e);
-        vm.$alert(`Register Failed. ${errorRequestMessage(e)}`)
-      })
-    }, e => {
-      console.log(e);
-      if (e.message === 'invalid') {
-        vm.$alert(this.registrationValidation.getFirstError().message)
-      }
-    }).then(() => {
+      requestData.recaptcha = token
+      requestData.user_type = 'student'
+      await vm.$apiPost('/user/register', requestData)
+      await getCurrentUser()
+      vm.$notifySuccess(`Registered Successfully`)
+      vm.$router.push({name: 'activeEmail'})
+      this.visible = false
+      this.checkThirdAccount()
+    }).catch(e => {
       this.submitting = false
+      throw e
     })
+  },
+  //
+  formLoading: false,
+  possibleUsers: null,
+  processingThird: null,
+  async googleSignin(googleUser) {
+    this.processingThird = 'google'
+    const vm = store.state.appVm
+    try {
+      this.formLoading = true
+      const token = googleUser.getAuthResponse().id_token
+      const data = await vm.$apiPost(`/google/login`, {token})
+      if (data.linked) {
+        await getCurrentUser()
+        vm.$notifySuccess(`Logined Successfully`)
+        this.visible = false
+        this.afterLogin()
+      } else if (data.possible_users.length === 0) {
+        vm.$alert('No linked account found, please sign up first')
+        const profile = googleUser.getBasicProfile()
+        sessionStorage2.set('google_profile', {
+          name: profile.getName(),
+          avatar: profile.getImageUrl(),
+          email: profile.getEmail(),
+        })
+      } else {
+        this.possibleUsers = data.possible_users
+      }
+    } catch (e) {
+      throw e
+    } finally {
+      this.formLoading = false
+    }
+  },
+  async linkGoogleAccount(user_id) {
+    const vm = store.state.appVm
+    await vm.$apiPost('/google/link', {user_id})
+    await getCurrentUser()
+  },
+  async linkFacebookAccount(user_id) {
+    const vm = store.state.appVm
+    await vm.$apiPost('/facebook/link', {user_id})
+    await getCurrentUser()
+  },
+  checkThirdAccount() {
+    const vm = store.state.appVm
+    let profile = sessionStorage2.get('google_profile')
+    let loading
+    if (profile) {
+      vm.$confirm(`Do you want link your Google account(name: ${profile.name}, email: ${profile.email})?`).then(async () => {
+        try {
+          loading = vm.$loading()
+          await this.linkGoogleAccount(vm.$state.user.id)
+          sessionStorage2.set('google_profile', null)
+        } catch (e) {
+          throw e
+        } finally {
+          loading.close()
+        }
+      })
+    } else {
+      profile = sessionStorage2.get('facebook_profile')
+      if (profile) {
+        vm.$confirm(`Do you want link your Facebook account(name: ${profile.name}, email: ${profile.email})?`).then(async () => {
+          try {
+            loading = vm.$loading()
+            await this.linkFacebookAccount(vm.$state.user.id)
+            sessionStorage2.set('facebook_profile', null)
+          } catch (e) {
+            throw e
+          } finally {
+            loading.close()
+          }
+        })
+      }
+    }
   },
 }
 

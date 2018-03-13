@@ -385,3 +385,10 @@ a{
 .modal-layer{
   z-index: 2001;
 }
+
+.avatar{
+  $side: 60px;
+  width: $side;
+  height: $side;
+  border-radius: 100%;
+}
