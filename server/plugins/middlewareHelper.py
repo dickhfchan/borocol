@@ -9,9 +9,9 @@ def stop(response):
     raise e
 
 # middlewares
-def actionHandler(next, *args, **kwargs):
+def actionHandler(nextStep, *args, **kwargs):
     try:
-        response = next()
+        response = nextStep()
     except StopException as e:
         response = e.response
     # complete response
