@@ -4,7 +4,7 @@ from middlewares import auth
 from plugins.route import group
 
 def restful(names):
-    return [{'path': '/' + v, 'action': v, 'methods': ['POST']} for v in names]
+    return [{'path': '/' + v.replace('_', '-'), 'action': v, 'methods': ['POST']} for v in names]
 
 #
 routes = [
@@ -19,25 +19,16 @@ routes = [
     *group({'prefix': app.config['api_prefix']}, [
         # auth
         *group({'controller': controllers.UserController, 'prefix': '/user'}, [
-            {'path': '/current_user', 'action': 'current_user', 'methods': ['GET']},
-            {'path': '/register', 'action': 'register', 'methods': ['POST']},
-            {'path': '/login', 'action': 'login', 'methods': ['POST']},
+            *restful(['current_user', 'register', 'login']),
             *group({'middlewares': [auth]}, [
-                {'path': '/logout', 'action': 'logout', 'methods': ['GET']},
-                {'path': '/active-email', 'action': 'active_email', 'methods': ['POST']},
-                {'path': '/send-activation-email', 'action': 'send_activation_email', 'methods': ['POST']},
-                {'path': '/update-email', 'action': 'update_email', 'methods': ['POST']},
+                *restful(['logout', 'active_email', 'send_activation_email', 'update_email'])
             ]),
             # reset password
-            {'path': '/send-reset-password-email', 'action': 'send_reset_password_email', 'methods': ['POST']},
-            {'path': '/check-reset-password-token', 'action': 'check_reset_password_token', 'methods': ['POST']},
-            {'path': '/reset-password', 'action': 'reset_password', 'methods': ['POST']},
+            *restful(['send_reset_password_email', 'check_reset_password_token', 'reset_password']),
         ]),
         # openid sign in and up
-        *group({'prefix': '/google', 'controller': controllers.GoogleAuthController}, [
-            {'path': '/login', 'action': 'login', 'methods': ['POST']},
-            {'path': '/link', 'action': 'link', 'methods': ['POST']},
-        ]),
+        *group({'prefix': '/google', 'controller': controllers.GoogleAuthController}, restful(['login', 'link', 'register'])),
+        #
         *group({'middlewares': [auth]}, [
             *group({'controller': controllers.CourseController, 'prefix': '/course'}, restful(['select', 'store', 'update', 'destroy'])),
         ]),

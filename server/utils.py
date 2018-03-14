@@ -8,6 +8,7 @@ from flask import current_app as app, request, render_template
 import http.client, urllib.request, urllib.parse, urllib.error
 import models
 from flask_login import current_user
+from plugins.middlewareHelper import stop
 
 def dict_pluck(data, keys):
     newDict = {}
