@@ -9,6 +9,7 @@ import http.client, urllib.request, urllib.parse, urllib.error
 import models
 from flask_login import current_user
 from plugins.middlewareHelper import stop
+from plugins.fileHelper import delete_tmp_files
 
 def dict_pluck(data, keys):
     newDict = {}
@@ -71,35 +72,6 @@ def sort_models(models):
     models.sort(key=lambda item: item.created_at, reverse=True)
     return models
 
-# tmp files
-def add_tmp_files(files):
-    from flask import current_app as app
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        tmp[fn] = int(time.time())
-    json.dump(tmp,f)
-    f.close()
-def delete_tmp_files(files):
-    from flask import current_app as app
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        if fn in tmp:
-            del tmp[fn]
-    json.dump(tmp,f)
-    f.close()
-
 # before assign data to a model; remove keys maintenanced by backend; convert timestamp to datetime
 # data0: dict    model: class
 def before_write(model, data0):
@@ -130,7 +102,7 @@ def saved(item):
                 files = files + item[fld]
             else:
                 files.append(item[fld])
-        deleteTmpFiles(files)
+        delete_tmp_files(files)
 
 # random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
