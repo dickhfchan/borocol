@@ -28,6 +28,11 @@ routes = [
         ]),
         # openid sign in and up
         *group({'prefix': '/google', 'controller': controllers.GoogleAuthController}, restful(['login', 'link', 'register'])),
+        # file
+        *group({'controller': controllers.FileController, 'prefix': '/file'}, [
+            *restful(['store']),
+            {'name': 'getFile', 'path': '/<year>/<month>/<date>/<filename>', 'action': 'get_file', 'methods': ['GET']},
+        ]),
         #
         *group({'middlewares': [auth]}, [
             *group({'controller': controllers.CourseController, 'prefix': '/course'}, restful(['select', 'store', 'update', 'destroy'])),

@@ -1,6 +1,5 @@
 from flask import current_app as app, request, send_from_directory
-from plugins.fileHelper import add_tmp_files
-from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path
+from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path, add_tmp_files
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in app.config['file_allowedExtensions']

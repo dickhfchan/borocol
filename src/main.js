@@ -11,7 +11,7 @@ import * as VueDataValidator from 'vue-data-validator'
 import Meta from 'vue-meta'
 import VueLazyload from 'vue-lazyload'
 // element-ui
-import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Table, TableColumn } from 'element-ui'
+import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Table, TableColumn, } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 // files

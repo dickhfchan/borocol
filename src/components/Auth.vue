@@ -44,7 +44,7 @@ include ../common.pug
             .icon-wrapper
               span.icon.icon-facebook
             | Sign up with Facebook
-          .openid.openid-google.mtm
+          GoogleSignin.openid.openid-google.mtm(@success="state.googleSignUp($event)")
             .icon-wrapper
               img(src="~@/assets/img/google-icon-colorful.png")
             | Sign up with Google

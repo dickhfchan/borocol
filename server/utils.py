@@ -9,7 +9,7 @@ import http.client, urllib.request, urllib.parse, urllib.error
 import models
 from flask_login import current_user
 from plugins.middlewareHelper import stop
-from plugins.fileHelper import delete_tmp_files
+from urllib.parse import urlparse
 
 def dict_pluck(data, keys):
     newDict = {}
@@ -53,12 +53,15 @@ def studly_case(st):
 
 # convert to dict; datetime to int, id to str, format decimal
 def to_dict(item):
+    from plugins.fileHelper import make_file_url
     columns = item._defined_columns
     r = {}
     for colName in columns:
         if hasattr(item, 'hidden') and colName in item.hidden:
             continue
         val = getattr(item, colName)
+        if hasattr(item, 'file_fields') and colName in item.file_fields:
+            val = make_file_url(val)
         if isinstance(val, datetime.datetime):
             r[colName] = int(time.mktime(val.timetuple()))
         elif isinstance(val, decimal.Decimal):
@@ -95,9 +98,10 @@ def before_write(model, data0):
 
 # after row saved
 def saved(item):
-    if hasattr(item, 'fileFields'):
+    from plugins.fileHelper import delete_tmp_files
+    if hasattr(item, 'file_fields'):
         files = [] # not empty
-        for fld in item.fileFields:
+        for fld in item.file_fields:
             if isinstance(item[fld], (list, tuple)):
                 files = files + item[fld]
             else:
@@ -157,6 +161,26 @@ def get_https_conn(domain):
         conn = http.client.HTTPSConnection(domain)
     return conn
 
+def request_bytes(url, method = 'GET', *args):
+    t = urlparse(url)
+    if t.scheme != 'https':
+        raise Exception('Only https supported')
+    pathAndQuery = t.path
+    if t.query:
+        pathAndQuery += '?' + t.query
+    try:
+        conn = get_https_conn(t.netloc)
+        conn.request(method, pathAndQuery, *args)
+        bytesData = conn.getresponse().read()
+    except Exception as e:
+        raise e
+    finally:
+        conn.close()
+    return bytesData
+
+def fname(arg):
+    pass
+
 def validate_recaptcha(token):
     conn = None
     data = None
@@ -186,9 +210,9 @@ def user_to_dict(user):
     item = to_dict(user)
     item['is_authenticated'] = user.is_authenticated
     item['is_anonymous'] = user.is_anonymous
-    profile = get_user_profile(user)
-    item['avatar'] = profile.avatar
-    item['name'] = '%s %s %s'%(profile.first_name, profile.middle_name or '', profile.last_name)
+    profile = to_dict(get_user_profile(user))
+    item['avatar'] = profile['avatar']
+    item['name'] = '%s %s %s'%(profile['first_name'], profile['middle_name'] or '', profile['last_name'])
     item['name'] = item['name'].replace('  ', ' ')
     return item
 

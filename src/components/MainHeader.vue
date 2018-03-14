@@ -7,10 +7,25 @@ include ../common.pug
         img(v-lazy="brand")
       .tool-bar.pull-right
         template(v-if="$state.authenticated")
-          a
-            img.avatar(v-lazy="$state.user.avatar || anonymousAvatar")
-          a(href="#")
-            span.mlm {{$state.user.name}}
+          .dropdown.right
+            a
+              img.avatar(v-lazy="$state.user.avatar || anonymousAvatar")
+              span.mlm {{$state.user.name}}
+            ul.dropdown-menu
+              li
+                a(href="javascript:void(0)" @click="$state.auth.logout()")
+                  span.icon.icon-logout.icon-fw.moveup2
+                  | Logout
+              //- li.divider
+              //- li
+              //-   a(href="javascript:void(0)")
+              //-     span.icon.icon-refund
+              //-     | Refund
+              //- li.divider
+              //- li
+              //-   a(href="javascript:void(0)")
+              //-     span.icon.icon-trash-o
+              //-     | Delete
         template(v-else)
           router-link(:to="{name: 'partnerWithUs'}") Partner with us
           .divider |
@@ -137,6 +152,11 @@ export default {
     // flex
     display: flex;
     align-items: center;
+  }
+  .dropdown-menu{
+    a{
+      text-transform: inherit;
+    }
   }
   .avatar{
     $side: 50px;

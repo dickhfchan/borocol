@@ -118,7 +118,8 @@ class school_profile(Model):
     updated_at = columns.DateTime()
 
 class student_profile(Model):
-
+    file_fields = ['avatar']
+    
     id      = columns.UUID(required=True, partition_key=True)
     user_id      = columns.UUID(required=False, index=True)
     status      = columns.Text(required=False, )
@@ -144,7 +145,7 @@ class student_profile(Model):
     updated_at = columns.DateTime()
 
 class course(Model):
-    fileFields = ['instructor_photo', 'cover', 'photos']
+    file_fields = ['instructor_photo', 'cover', 'photos']
 
     id      = columns.UUID(required=True, partition_key=True)
     school_id      = columns.UUID(required=False, )
@@ -197,7 +198,7 @@ class course(Model):
     updated_at = columns.DateTime()
 
 class accomodation(Model):
-    fileFields = ['photos']
+    file_fields = ['photos']
 
     id      = columns.UUID(required=True, partition_key=True)
     course_id      = columns.UUID(required=False, )

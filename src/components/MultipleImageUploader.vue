@@ -11,7 +11,7 @@
           v-model="files"
           :accept="accept"
           :name="name"
-          :post-action="$state.urls.serverBase + '/file'"
+          :post-action="$state.urls.api + '/file/store'"
           :drop="true"
           @input-file="inputFile"
           @input-filter="inputFilter"
@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     getAbsUrl(value) {
-      return value ? value.replace('~', `${this.$state.urls.serverBase}/file`) : null
+      return value ? value.replace(/^~/, `${this.$state.urls.serverBase}/file`) : null
     },
     getValueDetails(value) {
       this.files = value.map(v => {

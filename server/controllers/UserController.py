@@ -49,7 +49,7 @@ class UserController(ResourceController):
         if errorMsg:
             return failed(errorMsg)
         login_user(user)
-        return success('', {'id': str(user.id)})
+        return success()
     def login(self):
         data = request_json()
         # recaptcha

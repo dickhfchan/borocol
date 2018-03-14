@@ -72,7 +72,7 @@ export default {
           }
         } else {
           // Upload error
-          if (newFile.error && newFile.error !== oldFile.error) {
+          if (newFile.error) {
             log('error', newFile.error, newFile)
             this.uploadFailed && this.uploadFailed(newFile, oldFile)
             delete uploadingIds[newFile.id]

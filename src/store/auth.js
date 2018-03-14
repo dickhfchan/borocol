@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from './index'
 import {checkValidation, errorRequestMessage, getCurrentUser, sessionStorage2} from '@/utils'
+import {objectGet} from 'helper-js'
 
 const auth = {
   visible: false,
@@ -104,6 +105,14 @@ const auth = {
       throw e
     })
   },
+  async logout() {
+    const vm = store.state.appVm
+    await vm.$apiPost('/user/logout')
+    await getCurrentUser()
+    if (objectGet(vm.$route, 'meta.auth')) {
+      vm.$router.push({name: 'home'})
+    }
+  },
   //
   formLoading: false,
   possibleUsers: null,
@@ -178,6 +187,20 @@ const auth = {
           }
         })
       }
+    }
+  },
+  async googleSignUp(googleUser) {
+    const vm = store.state.appVm
+    try {
+      this.formLoading = true
+      const token = googleUser.getAuthResponse().id_token
+      const data = await vm.$apiPost(`/google/register`, {token})
+      await getCurrentUser()
+      vm.$notifySuccess(`Registered Successfully`)
+    } catch (e) {
+      throw e
+    } finally {
+      this.formLoading = false
     }
   },
 }

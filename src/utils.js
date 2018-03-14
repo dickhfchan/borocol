@@ -605,11 +605,9 @@ export function getRoutes() {
 }
 
 export function getCurrentUser() {
-  return Vue.apiGet('/user/current_user').then(data => {
-    if (data.data.is_authenticated) {
-      store.state.authenticated = true
-      store.state.user = data.data
-    }
+  return Vue.apiPost('/user/current-user').then(data => {
+    store.state.user = data.data
+    store.state.authenticated = data.data.is_authenticated
     return store.state.user
   })
 }

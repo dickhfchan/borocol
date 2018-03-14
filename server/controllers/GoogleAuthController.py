@@ -2,7 +2,9 @@ import json
 from flask import current_app as app, request, session
 from flask_login import login_user, current_user
 import models
-from utils import request_json, get_https_conn, success, failed, user_to_dict, sort_models
+from utils import request_json, get_https_conn, success, failed, user_to_dict, sort_models, stop, hash_pwd, str_rand
+from plugins.fileHelper import save_remote_pic
+from plugins.ResourceController import store, update
 
 # google api result
 # {
@@ -52,28 +54,7 @@ from utils import request_json, get_https_conn, success, failed, user_to_dict, s
 class GoogleAuthController():
     model = models.user
     def login(self):
-        data = request_json()
-        token = data.get('token', None)
-        if not token:
-            return failed('Token is required')
-        try:
-            conn = get_https_conn('www.googleapis.com')
-            conn.request('GET', '/oauth2/v3/tokeninfo?id_token=%s'%(token))
-            respData = conn.getresponse().read().decode('utf8')
-        except Exception as e:
-            raise e
-        finally:
-            conn.close()
-        info = json.loads(respData)
-        if info.get('error_description'):
-            return failed(info['error_description'])
-        if info['aud'] not in [app.config['google_singin_client_id']]:
-            return failed('Could not verify audience.')
-        if info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            return failed('Wrong issuer.')
-        # this is rare
-        if not info['email_verified']:
-            return failed('Your google email not verified.')
+        info = self.resolve_token()
         gid = info['sub']
         user = self.model.objects.filter(google_id=gid).first()
         if user:
@@ -109,3 +90,57 @@ class GoogleAuthController():
             user.email_confirmed = True
         user.save()
         return success()
+    def register(self):
+        info = self.resolve_token()
+        gid = info['sub']
+        user = self.model.objects.filter(google_id=gid).first()
+        if user:
+            return failed('You alreay registered with Google. Please sign in.')
+        if self.model.objects.filter(email=info['email']).count() > 0:
+            return failed('Your email alreay be registered. Please sign in.')
+        data = {
+            'email': info['email'],
+            'user_type': 'student',
+            'google_id': gid,
+            'password': hash_pwd(str_rand(16)),
+        }
+        try:
+            avatar = save_remote_pic(info['picture'])
+            user = store(self.model, data)
+            profileData = {
+                'user_id': user.id,
+                'avatar': avatar,
+                'first_name': info['given_name'],
+                'last_name': info['family_name'],
+            }
+            profile = store(models.student_profile, profileData)
+        except Exception as e:
+            return failed(str(e))
+        login_user(user)
+        return success()
+        
+    def resolve_token(self):
+        data = request_json()
+        token = data.get('token', None)
+        if not token:
+            stop(failed('Token is required'))
+        try:
+            conn = get_https_conn('www.googleapis.com')
+            conn.request('GET', '/oauth2/v3/tokeninfo?id_token=%s'%(token))
+            respData = conn.getresponse().read().decode('utf8')
+        except Exception as e:
+            print(e)
+            stop(failed(str(e)))
+        finally:
+            conn.close()
+        info = json.loads(respData)
+        if info.get('error_description'):
+            stop(failed(info['error_description']))
+        if info['aud'] not in [app.config['google_singin_client_id']]:
+            stop(failed('Could not verify audience.'))
+        if info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+            stop(failed('Wrong issuer.'))
+        # this is rare
+        if not info['email_verified']:
+            stop(failed('Your google email not verified.'))
+        return info
