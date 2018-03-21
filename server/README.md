@@ -57,8 +57,8 @@ server {
         }
 }
 ```
-## models
-models.py defined all models. You can edit it to change data table structure. To apply the changes, run sync-tables.py
+## models and materialized view
+models.py defined all models and materialized views. You can edit it to change data table structure. To apply the changes, run sync_tables_and_materialized_views.py
 
 ## timestamp
 timestamp is int, unit is second

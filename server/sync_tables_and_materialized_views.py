@@ -3,4 +3,4 @@ from cassandra.cqlengine import connection
 import models
 
 connection.setup([db_host], db_keyspace, lazy_connect=True)
-models.sync_tables()
+models.sync_tables_and_materialized_views()
