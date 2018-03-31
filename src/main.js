@@ -35,6 +35,28 @@ Vue.config.productionTip = store.state.isDevelopment
 Vue.config.debug = store.state.isDevelopment
 Vue.config.devtools = store.state.isDevelopment
 
+const injectDependency = (name, depd) => {
+  Vue[name] = Vue.prototype[`$${name}`] = depd
+}
+//
+injectDependency('state', store.state)
+const {state} = Vue
+//
+// log
+injectDependency('dd', (...args) => {
+  if (state.debug) {
+    console.log(...args)
+  }
+})
+injectDependency('ddw', (...args) => {
+  if (state.debug) {
+    console.warn(...args)
+  }
+})
+//
+injectDependency('setTitle', (title) => {
+  document.title = title ? `${title} - ${state.name}` : state.name
+})
 // axios
 initAxios(axios, store, Vue)
 function apiHttp(method, url, requestData, requestCompeleted) {
@@ -51,7 +73,6 @@ function apiHttp(method, url, requestData, requestCompeleted) {
   }, e => {
     requestCompeleted && requestCompeleted()
     Vue.alert(`Failed. ${errorRequestMessage(e)}`)
-    window.xx = e
     throw e
   })
 }
