@@ -1186,6 +1186,12 @@ export default {
       .carousel-btn {
         top: 36px;
       }
+      // superLarge
+      @media(min-width: $superLarge) {
+        .carousel-btn {
+          top: 60px;
+        }
+      }
 
       .carousel-item {
         .img-area {
@@ -1199,6 +1205,12 @@ export default {
     .carousel._2 {
       .carousel-btn {
         top: 120px;
+      }
+      // superLarge
+      @media(min-width: $superLarge) {
+        .carousel-btn {
+          top: 160px;
+        }
       }
 
       .carousel-item {
