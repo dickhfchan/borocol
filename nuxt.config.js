@@ -1,9 +1,7 @@
 const dotenv = require('dotenv')
 
 module.exports = {
-  env: {
-    baseUrl: dotenv.config('BASE_URL') || ''
-  },
+  env: require('dotenv').config().parsed,
   /*
   ** Headers of the page
   */

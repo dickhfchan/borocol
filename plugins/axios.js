@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import * as hp from 'helper-js'
 
-export default ({store, req}) => {
+export default ({store, req, env}) => {
   let baseURL = ''
   if (req) {
     // baseURL is needed when in nuxt middle server
@@ -36,6 +36,9 @@ export default ({store, req}) => {
       requestCompeleted && requestCompeleted()
       return Promise.resolve(resp.data, resp)
     }, e => {
+      if (env.devStatic) {
+        return
+      }
       requestCompeleted && requestCompeleted()
       if (process.browser) {
         Vue.alert(`Failed. ${errorRequestMessage(e)}`)

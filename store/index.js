@@ -20,7 +20,10 @@ export const mutations = {
 }
 
 export const actions = {
-  nuxtServerInit ({ state }, { req }) {
+  nuxtServerInit ({ state }, { req, env }) {
+    if (env.devStatic) {
+      return
+    }
     return Vue.apiGet('/initial-data').then(data => {
       Object.assign(state, ut.cloneObjAndCamelCaseKey(data.data))
     })
