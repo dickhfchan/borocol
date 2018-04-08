@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Table, TableColumn,
-  Badge, Dropdown, DropdownMenu, DropdownItem, Card, DatePicker,
+  Badge, Dropdown, DropdownMenu, DropdownItem, Card, DatePicker, Progress, Slider,
   // form
   Select, Option, Input, Form, FormItem, Checkbox, CheckboxButton, CheckboxGroup,
 } from 'element-ui'
@@ -34,6 +34,8 @@ export default () => {
   Vue.use(DropdownItem)
   Vue.use(Card)
   Vue.use(DatePicker)
+  Vue.use(Progress)
+  Vue.use(Slider)
   // form
   Vue.use(Select)
   Vue.use(Option)

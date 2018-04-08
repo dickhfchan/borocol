@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Icon from '@/global-components/Icon.vue'
+import QuestionCircle from '@/global-components/QuestionCircle'
 import AspectImage from '@/global-components/AspectImage.vue'
 import HasReadMore from '@/global-components/HasReadMore.vue'
 import FormItem from '@/global-components/FormItem.vue'
@@ -8,6 +9,7 @@ import FormError from '@/global-components/FormError.vue'
 
 export default () => {
   Vue.component('Icon', Icon)
+  Vue.component('QuestionCircle', QuestionCircle)
   Vue.component('AspectImage', AspectImage)
   Vue.component('HasReadMore', HasReadMore)
   Vue.component('FormItem', FormItem)

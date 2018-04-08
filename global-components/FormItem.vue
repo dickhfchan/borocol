@@ -1,16 +1,20 @@
 <template lang="pug">
-.form-item(v-if="field" :class="[field.getValidationClass && field.getValidationClass()]")
+.form-item(:class="[field.getValidationClass && field.getValidationClass()]")
   slot(:field="field")
     FormLabel(:field="field")
     slot(name="control" :field="field")
-      el-select(v-if="type==='select'" v-model="field.value" :placeholder="placeholder")
+      el-select(v-if="type==='select'" v-model="field.value"
+        :placeholder="placeholder" v-bind="controlAttrs"
+      )
         el-option(
           v-for="item in options"
           :key="item.text"
           :label="item.text"
           :value="item.value"
         )
-      el-input(v-else v-model="field.value" :type="type" :placeholder="placeholder")
+      el-input(v-else v-model="field.value" :type="type"
+        :placeholder="placeholder" v-bind="controlAttrs"
+      )
     FormError(:field="field")
 </template>
 
@@ -21,6 +25,7 @@ export default {
     type: {default: 'text'},
     placeholder: {},
     options: {}, // for select. [{text, value}, ...]
+    controlAttrs: {},
   },
   // components: {},
   // data() {

@@ -23,13 +23,12 @@ export default {
     return {
       mainMenu: [
         { icon: 'user-o', text: 'Profile', route: {name: 'profile'}},
-        { icon: 'heart-o', text: 'Reviews', route: {name: 'my-reviews'}, role: 'school'},
+        { icon: 'heart-o', text: 'Reviews', route: {name: 'my-reviews'}, role: 'school'}, // school reviews
         { icon: 'house', text: 'My Program', route: {name: 'my-program'}},
-        { icon: 'file-text', text: 'Orders', notificationCount: 2, route: {name: 'orders'}, role: 'school'},
-        { icon: 'plus-thin', text: 'Create A Program', route: {name: 'create-a-program'}, role: 'school'},
+        { icon: 'plus-thin', text: 'Create A Program', route: {name: 'create-program'}, role: 'school'},
         { icon: 'dialog', text: 'Chat Box', route: {name: 'chat-box'}},
+        { icon: 'file-text', text: 'Transaction', notificationCount: 2, route: {name: 'transaction'}, role: 'school'},
         { icon: 'cog', text: 'Settings', route: {name: 'settings'}},
-        { icon: 'inquiry', text: 'Inquiry', route: {name: 'inquiry'}},
       ],
     }
   },

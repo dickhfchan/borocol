@@ -29,10 +29,8 @@ CardContainer.student-profile
                 FormItem(:field="fields.gender" type="select" :options="genders")
               el-col.mbm(:sm="8")
                 FormItem(:field="fields.birthday")
-                  el-date-picker(
-                    slot="control"
+                  el-date-picker(slot="control" type="date"
                     v-model="fields.birthday.value"
-                    type="date"
                   )
               el-col.mbm(:sm="8")
                 FormItem(:field="fields.nationality")
