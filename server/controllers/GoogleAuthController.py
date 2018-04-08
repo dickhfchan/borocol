@@ -60,9 +60,8 @@ class GoogleAuthController():
         if user:
             login_user(user)
             return success(data={'linked':True})
-        possibleUsers = sort_models(self.model.objects.filter(email=info['email'])[:])
         session['google_user_info'] = info
-        return success(data={'linked':False, 'possible_users': [user_to_dict(v) for v in possibleUsers]})
+        return success(data={'linked':False})
     def link(self):
         data = request_json()
         info = session.get('google_user_info')
@@ -74,15 +73,6 @@ class GoogleAuthController():
             user = self.model.objects.filter(id=uid).first()
             if not user:
                 return failed('User not found with given id')
-            if user.email != info['email']:
-                return failed('Illegal request')
-            possibleUsers = self.model.objects.filter(email=user.email)
-            # other users with same email may be fake
-            for value in possibleUsers:
-                if value.id != user.id:
-                    if value.email_confirmed:
-                        value.email_confirmed = False
-                        value.save()
             login_user(user)
         gid = info['sub']
         user.google_id = gid
@@ -106,6 +96,7 @@ class GoogleAuthController():
         }
         try:
             avatar = save_remote_pic(info['picture'])
+            store(models.file, {'path': avatar, 'tmp': False})
             user = store(self.model, data)
             profileData = {
                 'user_id': user.id,

@@ -3,15 +3,18 @@ import models
 from plugins.ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
 from utils import dict_pluck, request_json, to_dict, sort_models, validate_recaptcha
-from utils import str_rand, user_to_dict, md5
+from utils import str_rand, user_to_dict, md5, get_user_profile, emailSchema, trim_dict, keys_match, some
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
 from flask_mail import Message
 from datetime import datetime
+import json
 
-class UserController(ResourceController):
+# this file has 2 controllers AuthController, UserController
+
+class AuthController(ResourceController):
     model = models.user
-    emailSchema = {'required': True, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255}
+    emailSchema = emailSchema
     passwordSchema = {'required': True, 'type': 'string', 'maxlength': 255}
     def register(self):
         data = request_json()
@@ -32,17 +35,16 @@ class UserController(ResourceController):
             return failed('Invalid input', {'error': v.errors})
         if data.get('user_type') != 'student':
             return failed('Invalid user_type')
-        q = self.model.objects.filter(email=data['email'])
-        isEmailTaken = any(v.email_confirmed for v in q[:])
-        if isEmailTaken:
-            return failed('Email already exists')
+        user = self.model.objects.filter(email=data['email']).first()
+        if user:
+            return failed('An account with this email already exists')
         data['password'] = hash_pwd(data['password'])
         try:
             user = store(self.model, data)
             profileData = dict_pluck(data, ['first_name', 'last_name'])
             profileData['user_id'] = user.id
             profile = store(models.student_profile, profileData)
-            self.do_send_activation_email(user.email, user.id)
+            self.do_send_confirmation_email(user.email, user.id)
         except Exception as e:
             print(e)
             errorMsg = str(e)
@@ -56,12 +58,10 @@ class UserController(ResourceController):
         errorMsg = validate_recaptcha(data['recaptcha'])
         if errorMsg:
             return failed(errorMsg)
-        possibleUsers = self.model.objects.filter(email=data['email'])[:]
-        possibleUsers = sorted(possibleUsers, key = lambda v: int(v.email_confirmed), reverse=True ) # put email_confirmed users on the top
-        if len(possibleUsers) == 0:
-            return failed('User not found')
-        user = next((item for item in possibleUsers if pwd_hashed_compare(data['password'], item.password)), None) # find first matched user
+        user = self.model.objects.filter(email=data['email']).first()
         if not user:
+            return failed('User not found')
+        if not pwd_hashed_compare(data['password'], user.password):
             return failed('Incorrect password')
         login_user(user, remember = data.get('remember'))
         return success()
@@ -74,25 +74,23 @@ class UserController(ResourceController):
             item = user_to_dict(current_user)
         else:
             item['is_anonymous'] = True
-        return success('', {'data': item})
-    # active email
-    def active_email(self):
+        return success(data = {'data': item})
+    # confirm email
+    def confirm_email(self):
         data = request_json()
         token = data.get('token', None)
         user = current_user
         errorMsg = None
         if user.email_confirmed:
-            errorMsg = 'Your email already active'
+            errorMsg = 'Your email already be confirmed'
         if token:
-            item = models.activation_email.objects().filter(token = token).first()
+            item = models.confirmation_email.objects().filter(token = token).first()
             if not item or item.email != user.email:
                 errorMsg = 'Illegal request'
             else:
                 expired = (datetime.now() - item.updated_at).seconds > 3600 * 1
                 if expired:
                     errorMsg = 'Link expired'
-                elif any(v.email_confirmed for v in self.model.objects().filter(email = item.email)):
-                    errorMsg = 'Email already exists'
                 else:
                     user.email_confirmed = True
                     user.save()
@@ -101,7 +99,7 @@ class UserController(ResourceController):
             errorMsg = 'Token is required'
         return failed(errorMsg) if errorMsg else success()
     #
-    def send_activation_email(self):
+    def send_confirmation_email(self):
         data = request_json()
         # recaptcha
         errorMsg = validate_recaptcha(data['recaptcha'])
@@ -110,7 +108,7 @@ class UserController(ResourceController):
         #
         errorMsg = None
         try:
-            self.do_send_activation_email(data['email'], current_user.id)
+            self.do_send_confirmation_email(data['email'], current_user.id)
         except Exception as e:
             print(e)
             errorMsg = str(e)
@@ -155,7 +153,7 @@ class UserController(ResourceController):
             item = update(models.reset_password_email, data, record.id)
         else:
             item = store(models.reset_password_email, data)
-        link = url_for('resetPassword', token = data['token'], _external = True) # generate absolute link
+        link = url_for('index', _external = True) + 'reset-password?token=' + data['token'] # generate absolute link
         print('reset password link:', link)
         try:
             msg = Message('[%s] Reset your account password'%(app.config['site_name']), recipients=[email])
@@ -179,9 +177,8 @@ class UserController(ResourceController):
         expired = (datetime.now() - item.updated_at).seconds > 3600 * 1
         if expired:
             return failed('Link expired')
-        # return possible users
-        possibleUsers = sort_models(self.model.objects.filter(email=item.email)[:])
-        return success(data = {'data': [user_to_dict(v) for v in possibleUsers]})
+        user = self.model.objects.filter(email=item.email).first()
+        return success(data = {'data': user_to_dict(user)})
     def reset_password(self):
         data = request_json()
         # recaptcha
@@ -206,31 +203,80 @@ class UserController(ResourceController):
         expired = (datetime.now() - record.updated_at).seconds > 3600 * 1
         if expired:
             return failed('Link expired')
-        # other users may used wrong email
-        for item in self.model.objects.filter(email = user.email):
-            item.email_confirmed = False
-            item.save()
         user.password = hash_pwd(data['password'])
         user.email_confirmed = True
         user.save()
         record.delete()
         return success()
     # private
-    def do_send_activation_email(self, email, userId):
+    def do_send_confirmation_email(self, email, userId):
         data = {
             'user_id': userId,
             'token': md5(str_rand(16)),
             'email': email,
         }
-        record = models.activation_email.objects.filter(user_id=userId).first()
+        record = models.confirmation_email.objects.filter(user_id=userId).first()
         if record:
-            item = update(models.activation_email, data, record.id)
+            item = update(models.confirmation_email, data, record.id)
         else:
-            item = store(models.activation_email, data)
+            item = store(models.confirmation_email, data)
         # generate absolute link
-        link = url_for('activeEmail', token = data['token'], _external = True)
-        print('active email link:', link)
+        link = url_for('index', _external = True) + 'confirm-email?token=' + data['token']
+        print('confirm email link:', link)
         msg = Message('[%s] Confirm Email Address'%(app.config['site_name']), recipients=[email])
-        msg.html = render_template('email/active-email.html', email = email, link = link)
+        msg.html = render_template('email/confirm-email.html', email = email, link = link)
         mail.send(msg)
         return item
+
+class UserController(AuthController):
+    def profile(self):
+        data = (request_json() or {}).get('data')
+        if not data:
+            # get
+            return success(data={'data': to_dict(get_user_profile(current_user))})
+        else:
+            # update
+            # validate
+            schema = {
+                'avatar': {'required': True, 'type': 'string', 'maxlength': 255},
+                'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
+                'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
+                'gender': {'required': True, 'type': 'string', 'maxlength': 255},
+                'birthday': {'required': True, 'type': 'number'},
+                'nationality': {'required': True, 'type': 'string', 'maxlength': 255},
+                'country_of_residence': {'required': True, 'type': 'string', 'maxlength': 255},
+                'email': self.emailSchema,
+                'phone': {'required': True, 'type': 'string', 'maxlength': 255},
+                'passport_info': {'required': True, 'maxlength': 1000},
+                'emergency_contact_person': {'required': True, 'maxlength': 1000},
+            }
+            v = make_validator(schema)
+            if not v.validate(data):
+                return failed('Invalid input', {'error': v.errors})
+            try:
+                t = data['passport_info']
+                trim_dict(t)
+                if not keys_match(t, ['number', 'issued_country', 'expiry_date']):
+                    print('124')
+                    return failed('Invalid input')
+                for k, v in t.items():
+                    if not v:
+                        return failed('The %s is required.'%(k.replace('_', ' ')))
+                t = data['emergency_contact_person']
+                trim_dict(t[0])
+                trim_dict(t[1])
+                keys = ['name', 'relationship', 'tel']
+                if not keys_match(t[0], keys) or not keys_match(t[1], keys):
+                    return failed('Invalid input')
+                for k, v in t[0]:
+                    if not v:
+                        return failed('The %s is required.'%(k.replace('_', ' ')))
+            except Exception as e:
+                print(e)
+                return failed('Invalid input')
+            # 
+            model = models.student_profile if current_user.user_type == 'student' else models.school_profile
+            profile = get_user_profile(current_user)
+            update(model, data, profile.id)
+            return success()
+        

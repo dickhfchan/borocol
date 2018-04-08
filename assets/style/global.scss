@@ -1,0 +1,16 @@
+// variables and mixins
+// 变量和mixin
+$primaryColor: #48ccce;
+$dangerColor: #f56c6c;
+$small: 768px !default;
+$medium: 992px !default;
+$large: 1200px !default;
+$large2: 1400px !default;
+$extraLarge: 1920px !default;
+@mixin mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

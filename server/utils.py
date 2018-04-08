@@ -62,7 +62,11 @@ def to_dict(item):
         val = getattr(item, colName)
         if hasattr(item, 'file_fields') and colName in item.file_fields:
             val = make_file_url(val)
-        if isinstance(val, datetime.datetime):
+            r[colName] = val
+        elif hasattr(item, 'json_fields') and colName in item.json_fields:
+            val = json.loads(val) if val else None
+            r[colName] = val
+        elif isinstance(val, datetime.datetime):
             r[colName] = int(time.mktime(val.timetuple()))
         elif isinstance(val, decimal.Decimal):
             r[colName] = float((val or decimal.Decimal('0.00')).quantize(decimal.Decimal('0.00')))
@@ -94,11 +98,14 @@ def before_write(model, data0):
     for col in dt_columns:
         if data.get(col):
             data[col] = datetime.datetime.fromtimestamp(data[col])
+    # json fields to str
+    if hasattr(model, 'json_fields'):
+        for fld in model.json_fields:
+            data[fld] = json.dumps(data[fld]) if data[fld] else None
     return data
 
 # after row saved
 def saved(item):
-    from plugins.fileHelper import delete_tmp_files
     if hasattr(item, 'file_fields'):
         files = [] # not empty
         for fld in item.file_fields:
@@ -106,7 +113,11 @@ def saved(item):
                 files = files + item[fld]
             else:
                 files.append(item[fld])
-        delete_tmp_files(files)
+        for fp in files:
+            item = models.file.objects.filter(path=fp).first()
+            if item:
+                item.tmp = False
+                item.save()
 
 # random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
@@ -120,7 +131,20 @@ def make_validator(schema, allow_unknown = True):
     v = Validator(schema)
     v.allow_unknown = allow_unknown
     return v
-
+emailSchema = {'required': True, 'type': 'string', 'regex': r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255}
+def keys_match(dc, keys):
+    keys = keys[:]
+    for k, v in dc.items():
+        if k not in keys:
+            return False
+        else:
+            keys.remove(k)
+    return len(keys) == 0
+def some(immutableVal, fun):
+    for val in immutableVal:
+        if fun(val):
+            return val
+    return False
 # hash password
 # return bytes
 def hash_pwd(pwd):
@@ -142,14 +166,18 @@ def failed(message = 'Failed', data = None, code = 400):
     if data:
         data2 = dict(data2, **data)
     return data2, code
+def trim_dict(dc):
+    for k,v in dc.items():
+        if isinstance(v, str):
+            dc[k] = v.strip()
 
 def request_json():
     data = request.get_json()
+    if not data:
+        return None
     for key in list(data.keys()):
         if isinstance(data[key], str):
             data[key] = data[key].strip()
-            if data[key] == '':
-                data[key] = None
     return data
 
 def get_https_conn(domain):
@@ -215,27 +243,6 @@ def user_to_dict(user):
     item['name'] = '%s %s %s'%(profile['first_name'], profile['middle_name'] or '', profile['last_name'])
     item['name'] = item['name'].replace('  ', ' ')
     return item
-
-def get_initial_data():
-    initialData = {'serverRoot': '', 'clientBase': '/'} # serverRoot cant end with /
-    initialData['recaptcha'] = {'sitekey': app.config['recaptcha_sitekey']}
-    initialData['google'] = {'signin': {'client_id': app.config['google_singin_client_id'] ,'secretkey': app.config['google_singin_secretkey']}}
-    initialData['site_name'] = app.config['site_name']
-    initialData['site_home_title'] = app.config['site_home_title']
-    # inject user info
-    if current_user.is_authenticated:
-        initialData['authenticated'] = True
-        initialData['user'] = user_to_dict(current_user)
-    return initialData
-
-def render_spa(fp, initialDataAppend = None):
-    html = render_template(fp)
-    initialData = get_initial_data()
-    if initialDataAppend:
-        initialData.update(initialDataAppend)
-    #
-    html = html.replace('<head>', '<head><script>var initialData = %s;</script>'%(json.dumps(initialData)))
-    return html
 
 def bubble_sort(list0, func):
     # 冒泡排序

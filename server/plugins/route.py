@@ -23,8 +23,8 @@ def registerMany(routes, globalMiddlewares, app):
                 nextAction = actions[index + 1]
                 return mdl(nextAction, *args, **kwargs)
             return action
-        args2 = None
-        kwargs2 = None
+        args2 = []
+        kwargs2 = {}
         def noArg(action):
             def actionWithoutArg():
                 return action(*args2, **kwargs2)

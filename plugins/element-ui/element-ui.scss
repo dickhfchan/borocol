@@ -1,0 +1,26 @@
+@import "./variables.scss";
+@import "~element-ui/packages/theme-chalk/src/display.scss";
+@import "~element-ui/packages/theme-chalk/src/index";
+//
+.el-input__inner{
+  display: block;
+}
+.el-date-editor.el-input{
+  width: 100%;
+}
+.el-select{
+  display: block;
+}
+.el-input--large{
+  .el-input__inner{
+    height: $--input-large-height;
+    line-height: $--input-large-height;
+  }
+}
+
+.el-button--large{
+  text-transform: uppercase;
+  font-size: $--button-large-font-size;
+  font-weight: $--button-large-font-weight;
+  padding: $--button-large-padding-vertical $--button-large-padding-horizontal;
+}

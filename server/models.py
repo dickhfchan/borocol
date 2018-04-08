@@ -16,6 +16,17 @@ class key_value(Model):
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
+class file(Model):
+
+    id      = columns.UUID(required=True, partition_key=True)
+
+    path      = columns.Text(required=False, index=True)
+
+    tmp      = columns.Boolean(required=False, )
+
+    created_at = columns.DateTime()
+    updated_at = columns.DateTime()
+
 class user(Model, UserMixin):
     hidden = ['password', 'google_id', 'facebook_id']
 
@@ -39,7 +50,7 @@ class user(Model, UserMixin):
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
 
-class activation_email(Model):
+class confirmation_email(Model):
 
     id      = columns.UUID(required=True, partition_key=True)
 
@@ -119,7 +130,8 @@ class school_profile(Model):
 
 class student_profile(Model):
     file_fields = ['avatar']
-    
+    json_fields = ['passport_info', 'emergency_contact_person']
+
     id      = columns.UUID(required=True, partition_key=True)
     user_id      = columns.UUID(required=False, index=True)
     status      = columns.Text(required=False, )
@@ -302,8 +314,10 @@ class user_by_email(user):
 # coonect database before do this
 def sync_tables_and_materialized_views():
     # tables
+    sync_table(key_value)
+    sync_table(file)
     sync_table(user)
-    sync_table(activation_email)
+    sync_table(confirmation_email)
     sync_table(reset_password_email)
     sync_table(course_subscriptions)
     sync_table(school_profile)

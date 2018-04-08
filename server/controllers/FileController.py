@@ -1,5 +1,7 @@
 from flask import current_app as app, request, send_from_directory
-from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path, add_tmp_files
+from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path
+from plugins.ResourceController import store, update
+import models
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in app.config['file_allowedExtensions']
@@ -18,6 +20,7 @@ class FileController():
             file.save(fullPath)
             # mark temperature
             # todo not deleteTmpFiles
-            add_tmp_files([filename])
+            if not models.file.objects.filter(path=filename).first():
+                store(models.file, {'path': filename, 'tmp': True})
             return {'result': 'success', 'data': filename}
         return {'result': 'failed', 'message': 'Disallowed file type' if file else 'No file'}, 400

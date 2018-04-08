@@ -9,19 +9,17 @@ def restful(names):
 #
 routes = [
     *group({'controller': controllers.IndexController}, [
-        {'path': '/', 'action': 'index'},
-        {'path': '/partner-with-us', 'action': 'partner_with_us'},
-        {'path': '/active-email', 'name': 'activeEmail', 'action': 'active_email'},
-        {'path': '/reset-password', 'name': 'resetPassword', 'action': 'reset_password'},
-        {'path': '/<t1>', 'action': 'spa'},
-        {'path': '/<t1>/<t2>', 'action': 'spa'},
+        {'path': '/', 'action': 'index', 'name': 'index'},
+        {'path': app.config['api_prefix'] + '/initial-data', 'action': 'initial_data'},
+        {'path': '/<t1>', 'action': 'index'},
+        {'path': '/<t1>/<t2>', 'action': 'index'},
     ]),
     *group({'prefix': app.config['api_prefix']}, [
         # auth
         *group({'controller': controllers.UserController, 'prefix': '/user'}, [
             *restful(['current_user', 'register', 'login']),
             *group({'middlewares': [auth]}, [
-                *restful(['logout', 'active_email', 'send_activation_email', 'update_email'])
+                *restful(['logout', 'confirm_email', 'send_confirmation_email', 'update_email'])
             ]),
             # reset password
             *restful(['send_reset_password_email', 'check_reset_password_token', 'reset_password']),
@@ -33,7 +31,10 @@ routes = [
             *restful(['store']),
             {'name': 'getFile', 'path': '/<year>/<month>/<date>/<filename>', 'action': 'get_file', 'methods': ['GET']},
         ]),
-        #
+        # user
+        *group({'controller': controllers.UserController, 'prefix': '/user', 'middlewares': [auth]}, [
+            *restful(['profile']),
+        ]),
         *group({'middlewares': [auth]}, [
             *group({'controller': controllers.CourseController, 'prefix': '/course'}, restful(['select', 'store', 'update', 'destroy'])),
         ]),

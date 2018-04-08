@@ -18,42 +18,15 @@ def make_fullpath(fullPath):
     return fullPath
 
 def make_file_url(url):
-    if url[0] == '~':
+    if url and url[0] == '~':
         y, m, d, fn = url[2:].split('/')
-        url = url_for('getFile', year=y, month=m,date=d,filename=fn, _external=True)
+        url = url_for('getFile', year=y, month=m,date=d,filename=fn)
     return url
 
 def make_dir_by_path(fullPath):
     dirname = path.dirname(fullPath)
     if not path.exists(dirname):
         makedirs(dirname)
-
-# tmp files
-def add_tmp_files(files):
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        tmp[fn] = int(time.time())
-    json.dump(tmp,f)
-    f.close()
-def delete_tmp_files(files):
-    tmpPath = app.config['file_uploadDir'] + '/tmp.json'
-    tmp = {}
-    if os.path.exists(tmpPath):
-        f = open(tmpPath, 'r')
-        tmp = json.load(f)
-        f.close()
-    f = open(tmpPath, 'w')
-    for fn in files:
-        if fn in tmp:
-            del tmp[fn]
-    json.dump(tmp,f)
-    f.close()
 
 def save_remote_pic(url):
     data = request_bytes(url)
