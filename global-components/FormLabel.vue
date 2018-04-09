@@ -1,13 +1,15 @@
 <template lang="pug">
 label.form-label
-  span.required-asterisk(v-if="field.required") *
-  span {{field.text}}
+  span.required-asterisk(v-if="field ? field.required : (required || required==='')") *
+  slot
+    span(v-if="field") {{field.text}}
 </template>
 
 <script>
 export default {
   props: {
     field: {},
+    required: {},
   },
   // components: {},
   // data() {

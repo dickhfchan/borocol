@@ -1,16 +1,13 @@
 <template lang="pug">
-span.icon.iconfont(:class="'icon-'+name" @click="$emit('click', $event)")
+el-input.phone-input(placeholder="todo")
 </template>
 
 <script>
 export default {
-  props: {
-    name: {},
+  components: {},
+  data() {
+    return {}
   },
-  // components: {},
-  // data() {
-  //   return {}
-  // },
   // computed: {},
   // watch: {},
   // methods: {},
@@ -20,4 +17,5 @@ export default {
 </script>
 
 <style lang="scss">
+.phone-input{}
 </style>

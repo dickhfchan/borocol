@@ -3,6 +3,7 @@ import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Tab
   Badge, Dropdown, DropdownMenu, DropdownItem, Card, DatePicker, Progress, Slider,
   // form
   Select, Option, Input, Form, FormItem, Checkbox, CheckboxButton, CheckboxGroup,
+  Radio, RadioGroup,
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -45,4 +46,6 @@ export default () => {
   Vue.use(Checkbox)
   Vue.use(CheckboxButton)
   Vue.use(CheckboxGroup)
+  Vue.use(Radio)
+  Vue.use(RadioGroup)
 }

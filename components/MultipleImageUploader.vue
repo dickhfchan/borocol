@@ -1,41 +1,39 @@
 <template lang="pug">
-.MultipleImageUploader
-  .flex
-    .left-arrow(:style="arrowStyle")
-      span.icon.icon-left-open-big(:class="{disabled: boxesInnerLeft >= 0 }" @click="showLeft")
-    .boxes(ref="boxes" :style="boxesStyle")
-      .boxes-inner(:style="boxesInnerStyle")
-        VueUploadComponent.VueUploadComponent(
-          :inputId="inputId"
-          ref="upload"
-          v-model="files"
-          :accept="accept"
-          :name="name"
-          :post-action="$state.urls.api + '/file/store'"
-          :drop="true"
-          @input-file="inputFile"
-          @input-filter="inputFilter"
-          :maximum="maximum"
-          :thread="thread"
-          :multiple="true"
-        )
-        .preview(v-for="(item, index) in files" :index="index"  :style="getBoxStyle()")
-          img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
-          .black-mask
-            .edit(v-show="!item.active")
-              span.icon.icon-search(title="Preview" @click="preview(item, index)")
-              span.icon.icon-trash-o.mls(title="Remove" @click="remove(item, index)")
-            span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
-        .box(v-for="i in uploadBoxCount" :style="getBoxStyle(i)")
-          .icon.icon-plus-thin
-    .right-arrow(:style="arrowStyle")
-      span.icon.icon-right-open-big(:class="{disabled: boxesInnerLeft <= minBoxesInnerLeft }"  @click="showRight")
+.multiple-image-uploader
+  .arrow.left-arrow(:style="arrowStyle")
+    Icon(name="angle-left")(:class="{disabled: boxesInnerLeft >= 0 }" @click="showLeft")
+  .boxes(ref="boxes" :style="boxesStyle")
+    .boxes-inner(:style="boxesInnerStyle")
+      VueUploadComponent.VueUploadComponent(
+        :inputId="inputId"
+        ref="upload"
+        v-model="files"
+        :accept="accept"
+        :name="name"
+        :post-action="$store.state.api + '/file/store'"
+        :drop="true"
+        @input-file="inputFile"
+        @input-filter="inputFilter"
+        :maximum="maximum"
+        :thread="thread"
+        :multiple="true"
+      )
+      .preview(v-for="(item, index) in files" :index="index"  :style="getBoxStyle()")
+        img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
+        .black-mask
+          .edit(v-show="!item.active")
+            Icon(name="search")(title="Preview" @click="preview(item, index)")
+            Icon(name="trash").mls(title="Remove" @click="remove(item, index)")
+          span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
+      .box(v-for="i in uploadBoxCount" :style="getBoxStyle(i)")
+        Icon(name="plus-thin")
+  .arrow.right-arrow(:style="arrowStyle")
+    Icon(name="angle-right")(:class="{disabled: boxesInnerLeft <= minBoxesInnerLeft }"  @click="showRight")
 </template>
 
 <script>
 import BaseUploader2 from './BaseUploader2'
 import valueDetails from './valueDetails'
-import mounted from './mounted'
 
 const ui = {
   props: {
@@ -75,7 +73,7 @@ const ui = {
       }
     },
     boxesInnerWidth() {
-      const n = (this.boxWidth + this.space) * this.files.length - this.space
+      const n = (this.boxWidth + this.space) * (this.files.length + this.uploadBoxCount) - this.space
       return n < this.boxesWidth ? this.boxesWidth : n
     },
     boxesInnerStyle() {
@@ -87,30 +85,7 @@ const ui = {
       return -(this.boxesInnerWidth - this.boxesWidth)
     },
   },
-  watch: {
-    // if boxSpace != null, boxesWidth will be assigned by computed, else boxes' initial width
-    boxSpace: {
-      immediate: true,
-      handler(value) {
-        this.mounted.then(() => {
-          if (value) {
-            this.boxesWidth = (this.boxWidth + value) * this.visibleBlockCount - value
-            this.boxesStyle = {
-              width: this.boxesWidth + 'px',
-            }
-          } else {
-            this.boxesStyle = {
-              width: 'auto',
-              flexGrow: '1',
-            }
-            this.$nextTick(() => {
-              this.boxesWidth = this.$refs.boxes.offsetWidth
-            })
-          }
-        })
-      }
-    }
-  },
+  // watch: {},
   methods: {
     getBoxStyle(index) {
       return {
@@ -129,10 +104,29 @@ const ui = {
       this.boxesInnerLeft = n <= this.minBoxesInnerLeft ? this.minBoxesInnerLeft : n
     },
   },
+  mounted() {
+    // if boxSpace != null, boxesWidth will be assigned by computed, else boxes' initial width
+    this.$watch('boxSpace', (value) => {
+      if (value) {
+        this.boxesWidth = (this.boxWidth + value) * this.visibleBlockCount - value
+        this.boxesStyle = {
+          width: this.boxesWidth + 'px',
+        }
+      } else {
+        this.boxesStyle = {
+          width: 'auto',
+          flexGrow: '1',
+        }
+        this.$nextTick(() => {
+          this.boxesWidth = this.$refs.boxes.offsetWidth
+        })
+      }
+    }, {immediate: true})
+  },
 }
 
 export default {
-  mixins: [valueDetails, mounted, ui],
+  mixins: [valueDetails, ui],
   extends: BaseUploader2,
   components: {},
   props: {
@@ -153,9 +147,6 @@ export default {
     },
   },
   methods: {
-    getAbsUrl(value) {
-      return value ? value.replace(/^~/, `${this.$state.urls.serverBase}/file`) : null
-    },
     getValueDetails(value) {
       this.files = value.map(v => {
         return {
@@ -170,6 +161,11 @@ export default {
       const {files} = this
       const arr = files.filter(v => !v.active && v.success && v.progress == 100).map(v => v.response.data || v.initialUrl)
       this.setValue(arr)
+      this.$nextTick(() => {
+        if (this.boxesInnerLeft > this.minBoxesInnerLeft) {
+          this.showRight()
+        }
+      })
       setTimeout(() => {
         console.log(this.value);
       }, 300);
@@ -213,8 +209,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@/assets/css/global.scss";
-.MultipleImageUploader{
+@import "~assets/style/global.scss";
+.multiple-image-uploader{
+  display: flex;
   .boxes{
     display: inline-block;
     vertical-align: top;
@@ -228,17 +225,17 @@ export default {
   }
   .box{
     display: inline-block;
-    border: $bd1 dashed 2px;
+    border: #ddd dashed 2px;
     text-align: center;
     position: relative;
     pointer-events: none;
   }
   .icon-plus-thin{
     font-size: 30px;
-    color: $bd1;
+    color: #ddd;
   }
   .VueUploadComponent{
-    @extend %mask;
+    @include mask;
     opacity: 0;
     margin: 0;
     cursor: pointer;
@@ -248,7 +245,7 @@ export default {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    border: 1px solid $bd1;
+    border: 1px solid #ddd;
     &:hover{
       .black-mask{
         display: flex;
@@ -259,7 +256,7 @@ export default {
     position: absolute;
   }
   .black-mask{
-    @extend %mask;
+    @include mask;
     display: none;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
@@ -280,15 +277,14 @@ export default {
   .box.last{
     margin-right: 0;
   }
-  // arrow
-  .left-arrow, .right-arrow{
+  .arrow{
     width: 30px;
     flex-shrink: 0;
     text-align: center;
-    font-size: 18px;
     .icon{
+      font-size: 30px;
       cursor: pointer;
-      color: #909090;
+      color: #aaa;
       &:hover{
         color: #000;
       }

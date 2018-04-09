@@ -18,7 +18,9 @@ CardContainer.create-program
     el-progress(:text-inside='true', :stroke-width='20', :percentage="progress", color="#fc0")
     .cp-body
       el-row(:gutter="80")
-        el-col(:sm="15" :md="16" :lg="17")
+        //- left
+        el-col.mbm(:sm="15" :md="16" :lg="17")
+          //- page 1
           div(v-if="page===1")
             el-row(:gutter="16")
               el-col.mbm(:md="8")
@@ -39,6 +41,7 @@ CardContainer.create-program
               el-col.mtl.hidden-sm-and-down
               el-col.mbm(:md="25")
                 FormItem(:field="pageCur.fields.title")
+          //- page 2
           div(v-else-if="page===2")
             el-row(:gutter="16")
               el-col.mbm(:md="8")
@@ -60,36 +63,214 @@ CardContainer.create-program
                 FormItem(:field="pageCur.fields.description" type="textarea"
                   :controlAttrs="{rows:8}"
                 )
+          //- page 3
+          div(v-else-if="page===3")
+            FormLabel Introduce the host/ instructor to your guests.
+            .mtm
+              el-checkbox(v-model="pageCur.autoFill")
+              span.mls I am the Host/ Instructor, please auto fill in details from my profile.
+            .mbm
+            h2 Main
+            .mbm
+            .instructor-layout
+              .instructor-layout-inputs
+                el-row(:gutter="16")
+                  el-col.mbm(:sm="12")
+                    .form-item
+                      FormLabel Name
+                      el-input(v-model="pageCur.fields.instructors.value[0].name" placeholder="First Name, Last Name")
+                  el-col.mbm(:sm="12")
+                    .form-item
+                      FormLabel Contact Number
+                      PhoneInput(v-model="pageCur.fields.instructors.value[0].phone")
+                  el-col.mbm
+                    el-input(type="textarea" :rows="3" v-model="pageCur.fields.instructors.value[0].description"
+                      placeholder="e.g., Selena has 10 years experiene in teaching diving skills...."
+                    )
+              .instructor-layout-photo
+                ImageUploader(v-model="pageCur.fields.instructors.value[0].photo")
+            .mbm
+            h2 Second
+            .mbm
+            .instructor-layout
+              .instructor-layout-inputs
+                el-row(:gutter="16")
+                  el-col.mbm(:sm="12")
+                    .form-item
+                      FormLabel Name
+                      el-input(v-model="pageCur.fields.instructors.value[1].name" placeholder="First Name, Last Name")
+                  el-col.mbm(:sm="12")
+                    .form-item
+                      FormLabel Contact Number
+                      PhoneInput(v-model="pageCur.fields.instructors.value[1].phone")
+                  el-col.mbm
+                    el-input(type="textarea" :rows="3" v-model="pageCur.fields.instructors.value[1].description"
+                      placeholder="e.g., Selena has 10 years experiene in teaching diving skills...."
+                    )
+              .instructor-layout-photo
+                ImageUploader(v-model="pageCur.fields.instructors.value[1].photo")
+            .mbm
+            FormItemInline(:field="pageCur.fields.language" placeholder="English, Spanish")
+          //- page 4
+          div(v-else-if="page===4")
+            .mbm
+              FormLabel(required) Fill in the address
+            .address-area
+              .mbm
+                FormItemInline(:field="pageCur.fields.street")
+              el-row(:gutter="16")
+                el-col.mbm(:md="8")
+                  FormItemInline(:field="pageCur.fields.city")
+                el-col.mbm(:md="16")
+                  FormItemInline(:field="pageCur.fields.province")
+                el-col.mbm(:md="8")
+                  FormItemInline(:field="pageCur.fields.zipCode")
+                el-col.mbm(:md="8")
+                  FormItemInline(:field="pageCur.fields.country")
+                    NationSelect(slot="control" v-model="pageCur.fields.country.value")
+                el-col.mbm(:md="8")
+                  el-input.api-key(v-model="pageCur.fields.apiKey.value")
+                    img.api-key-img(src="~assets/img/google-map.png" slot="prepend")
+            FormItem.mbm(:field="pageCur.fields.locationDescription" type="textarea" :controlAttrs="{rows:3}")
+            el-row(:gutter="16")
+              el-col.mbm(:md="12")
+                FormItem.mbm(:field="pageCur.fields.howToGetThere" type="textarea"
+                  :controlAttrs="{rows:5}"
+                  placeholder="e.g., Please book your flight to arrive at JFK Airport, New York."
+                )
+              el-col.mbm(:md="12")
+                FormItem.mbm(:field="pageCur.fields.whereToMeet" type="textarea"
+                  :controlAttrs="{rows:5}"
+                  placeholder="e.g., (This is an “Auto Message”) We will meet up at Plaza Hotel’s Reception at 2:00 p.m. on Jul 8, 2017."
+                )
+          //- page 5
+          div(v-else-if="page===5")
+            FormItem.mbm(:field="pageCur.fields.schedule" type="textarea"
+              :controlAttrs="{rows:6}"
+              placeholder="Day1\nDay2\nDay3"
+            )
+            FormItemInline.mbm(:field="pageCur.fields.mealsIncluded")
+              el-radio-group(slot="control" v-model="pageCur.fields.mealsIncluded.value")
+                el-radio(:label="false") No
+                el-radio(:label="true") Yes
+            el-checkbox-group.mbm(v-model="pageCur.fields.meals.value")
+              el-checkbox(label="breakfast") Breakfast
+              el-checkbox(label="lunch") Lunch
+              el-checkbox(label="bunch") Bunch
+              el-checkbox(label="dinner") Dinner
+              el-checkbox(label="snacks") Snacks
+            FormItem(:field="pageCur.fields.weatherArrangement" type="textarea"
+              :controlAttrs="{rows: 5}"
+            )
+          //- page 6
+          div(v-else-if="page===6")
+            FormItem.mbm(:field="pageCur.fields.provide" type="textarea"
+              :controlAttrs="{rows:6}"
+              placeholder="- Equipment\n- Airport Pickup\n- Towels"
+            )
+            FormItem.mbm(:field="pageCur.fields.guestNeedsToBring" type="textarea"
+              :controlAttrs="{rows:6}"
+              placeholder="- Goggle\n- Swimsuits"
+            )
+            FormItemInline.mbm(:field="pageCur.fields.issueCertificate" break-line)
+              el-radio-group(slot="control" v-model="pageCur.fields.issueCertificate.value")
+                el-radio(:label="false") No
+                el-radio(:label="true") Yes
+            el-input(v-model="pageCur.fields.certificate.value" type="textarea"
+              :rows="5" placeholder="With at least 70% attendance..."
+            )
+          //- page 7
+          div(v-else-if="page===7")
+            FormItem.mbm(:field="pageCur.fields.entryRequirment" type="textarea"
+              :controlAttrs="{rows:5}"
+              placeholder="- Skill level\n- Occupations"
+            )
+            FormItemInline.mbm(:field="pageCur.fields.requestFormEnabled" break-line)
+              el-radio-group(slot="control" v-model="pageCur.fields.requestFormEnabled.value")
+                el-radio(:label="false") No
+                el-radio(:label="true") Yes
+            .request-form
+              .request-form-item.mbm
+                el-checkbox(v-model="pageCur.fields.requestForm.value[0].enabled")
+                span.rf1 Question 1:
+                el-input(v-model="pageCur.fields.requestForm.value[0].value"
+                  type="textarea" :rows="2"
+                )
+              .request-form-item.mbm
+                el-checkbox(v-model="pageCur.fields.requestForm.value[1].enabled")
+                span.rf1 Question 2:
+                el-input(v-model="pageCur.fields.requestForm.value[1].value"
+                  type="textarea" :rows="2"
+                )
+          //- page 7
+          div(v-else-if="page===8")
+            FormItemInline.mbm(:field="pageCur.fields.type" break-line)
+              el-select.inline-input(slot="control" v-model="pageCur.fields.type.value")
+                el-option(v-for="item in pageCur.fields.type.options"
+                  :key="item.text"
+                  :label="item.text"
+                  :value="item.value"
+                )
+            el-row(:gutter="16")
+              el-col.mbm(:md="12")
+                FormItemInline(:field="pageCur.fields.name")
+              el-col.mbm(:md="12")
+                FormItemInline(:field="pageCur.fields.tel")
+                  PhoneInput(slot="control" v-model="pageCur.fields.tel.value")
+            FormItemInline.mbm(:field="pageCur.fields.address")
+            FormItem.mbm(:field="pageCur.fields.facilities")
+              el-checkbox-group(slot="control" v-model="pageCur.fields.facilities.value")
+                el-checkbox(label="wifi") Wifi
+                el-checkbox(label="gym") Gym
+                el-checkbox(label="air-conditionor") Air-conditionor
+                el-checkbox(label="heater") Heater
+                el-checkbox(label="balcony") Balcony
+                el-checkbox(label="free parking") Free parking
+                el-checkbox(label="washing machine") Washing machine
+                el-checkbox(label="drying machine") Drying Machine
+                el-checkbox(label="swimming pool") Swimming pool
+                el-checkbox(label="kitchen") Kitchen
+            FormItem.mbm(:field="pageCur.fields.description" type="textarea"
+              placeholder="ABC Resorts is located at Country side…."
+            )
+            FormItemInline.mbm(:field="pageCur.fields.photos")
+              MultipleImageUploader(slot="control" v-model="pageCur.fields.photos.value" :boxSpace="16")
 
-        el-col.hidden-xs-only(:sm="9" :md="8" :lg="7")
+        //- right
+        el-col(:sm="9" :md="8" :lg="7")
           .cp-tips
             .tip
               .tip-title
                 Icon(name="idea")
                 | Tips
               .tip-text {{pageCur.tips && pageCur.tips[0] || 'More information more chance to attract your student!'}}
-            .tip.mtl
+            .tip
               .tip-title
                 Icon(name="idea")
                 | Tips
               .tip-text {{pageCur.tips && pageCur.tips[1] || 'More information more chance to attract your student!'}}
-          .cp-actions.mtl
+          .cp-actions
             a.cp-action(@click="page--") Back
-            a.cp-action.cp-action-next(@click="page++")
+            a.cp-action.cp-action-next(@click="next")
               Icon(name="arrow-right")
 </template>
 
 <script>
 import CardContainer from '@/components/CardContainer'
 import ImageUploader from '@/components/ImageUploader';
+import MultipleImageUploader from '@/components/MultipleImageUploader';
 import NationSelect from '@/components/NationSelect';
+import PhoneInput from '@/components/PhoneInput';
+import FormItemInline from '@/components/FormItemInline';
 import * as ut from '@/plugins/utils'
 
 export default {
-  components: {CardContainer, ImageUploader, NationSelect},
+  middleware: 'auth',
+  components: {CardContainer, ImageUploader, MultipleImageUploader,
+    NationSelect, PhoneInput, FormItemInline},
   data() {
     return {
-      page: 2,
+      page: 8,
       pages: [
         {
           withAccom: true,
@@ -108,7 +289,7 @@ export default {
           },
         },
         {
-          step: 2,
+          step: 1,
           title: 'Start with the basic 1.2',
           fields: {
             gender: {text: 'Gender', rules: 'required'},
@@ -116,6 +297,163 @@ export default {
             timeRange: {text: 'How many hour will It take to complete this program?',
               nameInMessage: 'Time Range', rules: 'required', value:[null, null]}, // todo validate
             description: {text: 'Description of the program (What we will do)', nameInMessage: 'description', rules: 'required'},
+          },
+        },
+        {
+          step: 1,
+          autoFill: false,
+          title: 'Start with the basic 1.3',
+          tips:['If the host is a different person from the one who registered this account, please tick “Main” or “Second” to fill in profile.',
+            'Contact number will only be shown on the confirmation page once the guest successfully book the program.',
+          ],
+          fields: {
+            language: {text: 'This Program Will be Offered in', nameInMessage: 'language', rules: 'required'},
+            instructors: {
+              value: [
+                {name: '', phone: '', description: '', photo: ''},
+                {name: '', phone: '', description: '', photo: ''},
+              ],
+            },
+          },
+        },
+        {
+          step: 1,
+          title: 'Start with the basic 1.4',
+          tips:['How to insert API Key',
+            'More information more chance to attract your student!',
+          ],
+          fields: {
+            street: {
+              rules: 'required',
+              text: 'Street',
+            },
+            city: {
+              rules: 'required',
+              text: 'City',
+            },
+            province: {
+              rules: 'required',
+              text: 'State/ Province/ Region',
+              nameInMessage: 'province',
+            },
+            zipCode: {
+              rules: 'required',
+              text: 'Zip Code',
+            },
+            country: {
+              rules: 'required',
+              text: 'Country',
+            },
+            apiKey: {
+              rules: 'required',
+              text: 'API Key',
+            },
+            locationDescription: {
+              rules: 'required',
+              text: 'Describe the location/ venue',
+            },
+            howToGetThere: {
+              rules: 'required',
+              text: 'How to get there?',
+            },
+            whereToMeet: {
+              rules: 'required',
+              text: 'Where to meet up your guest?',
+            },
+          },
+        },
+        {
+          step: 2,
+          title: 'General Details 2.1',
+          fields: {
+            schedule: {
+              rules: 'required',
+              text: 'Tell your guests the itinerary / daily schedule',
+              nameInMessage: 'schedule',
+            },
+            mealsIncluded: {
+              text: 'Are meals included?',
+              value: true,
+            },
+            meals: {
+              rules: '',// todo
+              value: [],
+            },
+            weatherArrangement: {
+              text: 'Is there any bad weather arrangement?',
+            },
+          },
+        },
+        {
+          step: 2,
+          title: 'General Details 2.2',
+          fields: {
+            provide: {
+              rules: '',
+              text: 'What You’ll Provide?',
+            },
+            guestNeedsToBring: {
+              rules: '',
+              text: 'What Your Guest Needs to Bring?',
+            },
+            issueCertificate: {
+              value: true,
+              text: 'Will you issue certificate to your guests?',
+            },
+            certificate: {
+              rules: '', // todo
+            },
+          },
+        },
+        {
+          step: 2,
+          title: 'General Details 2.3',
+          fields: {
+            entryRequirment: {
+              text: 'Is there any entry requirment?',
+            },
+            requestFormEnabled: {
+              text: 'Would you like to set up a request form?',
+            },
+            requestForm: {
+              rules: '', //todo
+              value: [{enabled: false, value: ''}, {enabled: false, value: ''}],
+            },
+          },
+        },
+        // Accomodation 8
+        {
+          step: 3,
+          title: 'Accomodation',
+          fields: {
+            type: {
+              text: 'Select the type of accomodation you provide',
+              nameInMessage: 'accomodation type',
+              value: 'hotel',
+              options: [
+                {value: 'hotel', text: 'Hotel'},
+              ],
+            },
+            name: {
+              text: 'Name',
+            },
+            tel: {
+              text: 'Tel',
+            },
+            address: {
+              text: 'Address',
+            },
+            facilities: {
+              text: 'What facilities do they offer?',
+              value: [],
+            },
+            description: {
+              text: 'Description',
+            },
+            photos: {
+              text: 'Upload photos',
+              value: ['1','2','3'],
+            },
           },
         },
       ],
@@ -133,6 +471,14 @@ export default {
       } else {
         this.page++
       }
+    },
+    async next() {
+      if (this.pageCur.validation) {
+        await this.$checkValidation(this.pageCur.validation).then(data => {
+          // todo
+        })
+      }
+      this.page++
     },
   },
   // created() {},
@@ -183,11 +529,25 @@ export default {
   }
   .title{
     display: inline-block;
-    padding-left: 30px;
+    margin-left: 30px;
+  }
+  @media(max-width: $medium) {
+    height: auto;
+    line-height: 50px;
+    font-size: 18px;
+    .step{
+      width: 80px;
+    }
+    .title{
+      margin-left: 5px;
+    }
   }
 }
 .cp-body{
   padding: 50px 100px;
+  @media(max-width: $medium) {
+    padding: 20px;
+  }
 }
 .cp-tips{
   .tip{
@@ -196,6 +556,7 @@ export default {
     border-style: solid;
     border-radius: 3px;
     padding: 15px 20px;
+    margin-bottom: 30px;
   }
   .tip-title{
     font-size: 22px;
@@ -208,6 +569,23 @@ export default {
     margin-top: 20px;
     color: #888;
     line-height: 25px;
+  }
+  @media(max-width: $medium) {
+    .tip{
+      padding: 5px 10px;
+      border-width: 1px;
+      margin-bottom: 10px;
+    }
+    .tip-title{
+      font-size: 18px;
+      .icon{
+        font-size: 20px;
+        margin-right: 10px;
+      }
+    }
+    .tip-text{
+      margin-top: 5px;
+    }
   }
 }
 .cp-actions{
@@ -292,6 +670,59 @@ export default {
     display: inline-block;
     width: 1.6em;
     text-align: center;
+  }
+}
+.page3{}
+.instructor-layout{
+  display: flex;
+}
+.instructor-layout-photo{
+  margin-left: 40px;
+  flex-shrink: 0;
+}
+@media(max-width: $medium) {
+  .instructor-layout{
+    display: block;
+  }
+  .instructor-layout-photo{
+    margin-left: 0;
+  }
+}
+.page4{}
+.address-area{
+  .form-label{
+    font-weight: 400;
+  }
+  .required-asterisk{
+    display: none;
+  }
+}
+.api-key{
+  .el-input-group__prepend{
+    padding: 0;
+  }
+  .api-key-img{
+    float: left;
+  }
+}
+.page7{}
+.request-form-item{
+  display: flex;
+  align-items: center;
+}
+.rf1{
+  margin-left: 1em;
+  margin-right: 2em;
+  flex-shrink: 0;
+}
+@media(max-width: $small) {
+  .request-form-item{
+    display: block;
+  }
+  .request-form{
+    .el-textarea{
+      margin-top: .5em;
+    }
   }
 }
 </style>

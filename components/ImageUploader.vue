@@ -104,9 +104,6 @@ export default {
     },
   },
   methods: {
-    getAbsUrl(value) {
-      return value ? value.replace(/^~/, this.$store.state.api + `/file`) : null
-    },
     getValueDetails(value) {
       this.src = this.getAbsUrl(value)
     },

@@ -43,6 +43,7 @@ CardContainer.student-profile
               FormItem(:field="fields.email")
             el-col.mbm(:sm="7")
               FormItem(:field="fields.phone")
+                PhoneInput(slot="control" v-model="fields.phone.value")
             el-col(:span="24")
               .form-item
                 .form-label
@@ -94,12 +95,13 @@ CardContainer.student-profile
 import CardContainer from '@/components/CardContainer'
 import ImageUploader from '@/components/ImageUploader';
 import NationSelect from '@/components/NationSelect';
+import PhoneInput from '@/components/PhoneInput';
 import * as ut from '@/plugins/utils'
 
 // todo auto add international area code to phone after countryOfResidence changed
 // todo 自动prepend国际区号到手机号
 export default {
-  components: {CardContainer, ImageUploader, NationSelect},
+  components: {CardContainer, ImageUploader, NationSelect, PhoneInput},
   props: ['data'],
   data() {
     return {

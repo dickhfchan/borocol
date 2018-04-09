@@ -24,3 +24,20 @@
   font-weight: $--button-large-font-weight;
   padding: $--button-large-padding-vertical $--button-large-padding-horizontal;
 }
+
+.inline-input{
+  display: inline-block;
+  width: auto;
+}
+
+.el-checkbox + .el-checkbox {
+  margin-left: 0;
+}
+.el-checkbox-group{
+  .el-checkbox{
+    margin-right: 1em;
+  }
+  .el-checkbox:last-child{
+    margin-right: 0;
+  }
+}
