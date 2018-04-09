@@ -270,7 +270,7 @@ export default {
     NationSelect, PhoneInput, FormItemInline},
   data() {
     return {
-      page: 8,
+      page: 0,
       pages: [
         {
           withAccom: true,
@@ -452,7 +452,7 @@ export default {
             },
             photos: {
               text: 'Upload photos',
-              value: ['1','2','3'],
+              value: [],
             },
           },
         },
