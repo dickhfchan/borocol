@@ -104,6 +104,7 @@ ENV/
 bin/
 include/
 local/
+/pip-selfcheck.json
 
 # gunicorn pid
 .pid
