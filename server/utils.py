@@ -101,7 +101,7 @@ def before_write(model, data0):
     # json fields to str
     if hasattr(model, 'json_fields'):
         for fld in model.json_fields:
-            data[fld] = json.dumps(data[fld]) if data[fld] else None
+            data[fld] = json.dumps(data[fld]) if data.get(fld) else None
     return data
 
 # after row saved

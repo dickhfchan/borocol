@@ -5,6 +5,7 @@ import models
 from utils import request_json, get_https_conn, success, failed, user_to_dict, sort_models, stop, hash_pwd, str_rand
 from plugins.fileHelper import save_remote_pic
 from plugins.ResourceController import store, update
+import logging
 
 # google api result
 # {
@@ -106,6 +107,7 @@ class GoogleAuthController():
             }
             profile = store(models.student_profile, profileData)
         except Exception as e:
+            logging.exception('google register failed')
             return failed(str(e))
         login_user(user)
         return success()
