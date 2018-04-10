@@ -5,9 +5,11 @@ import * as hp from 'helper-js'
 export default ({store, req, env}) => {
   let baseURL = ''
   if (req) {
-    // baseURL is needed when in nuxt middle server
-    // if the server is not behind proxy or no header x-forwarded-proto, it can't get proto, may cause error
-    baseURL = req.headers['x-forwarded-proto'] + '://' + req.headers.host
+    // x-base-url is set in nginx config, pls check nginx-config-example.conf
+    baseURL = req.headers['x-base-url']
+    if (!baseURL) {
+      throw new Error('header x-base-url is required')
+    }
   }
   const axiosInstance = axios.create({
     baseURL: baseURL,
@@ -29,10 +31,16 @@ export default ({store, req, env}) => {
       url = url.substr(1)
     }
     url = store.state.api + '/' + url
+    const opt = {url, method, headers: {}}
     if (requestData) {
       requestData = resolveRequestData(requestData)
+      if ('get,delete'.includes(method)) {
+        opt.params = requestData
+      } else {
+        opt.data = requestData
+      }
     }
-    return Vue.http[method](url, requestData).then((resp) => {
+    return Vue.http.request(opt).then((resp) => {
       requestCompeleted && requestCompeleted()
       return Promise.resolve(resp.data, resp)
     }, e => {
