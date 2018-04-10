@@ -1,7 +1,8 @@
 const dotenv = require('dotenv')
+const env = require('dotenv').config().parsed
 
 module.exports = {
-  env: require('dotenv').config().parsed,
+  env,
   /*
   ** Headers of the page
   */
