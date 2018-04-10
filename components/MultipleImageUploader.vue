@@ -1,7 +1,7 @@
 <template lang="pug">
 .multiple-image-uploader
   .arrow.left-arrow(:style="arrowStyle")
-    Icon(name="angle-left")(:class="{disabled: boxesInnerLeft >= 0 }" @click="showLeft")
+    Icon(name="angle-left" :class="{disabled: boxesInnerLeft >= 0 }" @click="showLeft")
   .boxes(ref="boxes" :style="boxesStyle")
     .boxes-inner(:style="boxesInnerStyle")
       VueUploadComponent.VueUploadComponent(
@@ -22,13 +22,13 @@
         img.preview-img(:src="item.url" :style="item.imgStyle" @load="imgLoaded(item, index)")
         .black-mask
           .edit(v-show="!item.active")
-            Icon(name="search")(title="Preview" @click="preview(item, index)")
-            Icon(name="trash").mls(title="Remove" @click="remove(item, index)")
+            Icon(name="search" title="Preview" @click="preview(item, index)")
+            Icon.mls(name="trash" title="Remove" @click="remove(item, index)")
           span(v-if="!item.simulated" v-show="item.active") {{item.progress.replace(/\..+$/, '')}}%
       .box(v-for="i in uploadBoxCount" :style="getBoxStyle(i)")
         Icon(name="plus-thin")
   .arrow.right-arrow(:style="arrowStyle")
-    Icon(name="angle-right")(:class="{disabled: boxesInnerLeft <= minBoxesInnerLeft }"  @click="showRight")
+    Icon(name="angle-right" :class="{disabled: boxesInnerLeft <= minBoxesInnerLeft }"  @click="showRight")
 </template>
 
 <script>
