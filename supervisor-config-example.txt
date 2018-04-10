@@ -7,9 +7,9 @@ autorestart = true   ; 程序异常退出后自动重启
 startretries = 3     ; 启动失败自动重试次数，默认是 3
 ; user = hadoop          ; 用哪个用户启动
 ; 默认为 false，如果设置为 true，当进程收到 stop 信号时，会自动将该信号发给该进程的子进程。如果这个配置项为 true，那么也隐含 killasgroup 为 true。例如在 Debug 模式使用 Flask 时，Flask 不会将接收到的 stop 信号也传递给它的子进程，因此就需要设置这个配置项。
-stopasgroup=false             ; send stop signal to the UNIX process
+stopasgroup=true             ; send stop signal to the UNIX process
 ; 默认为 false，如果设置为 true，当进程收到 kill 信号时，会自动将该信号发给该进程的子进程。如果这个程序使用了 python 的 multiprocessing 时，就能自动停止它的子线程。
-killasgroup=false             ; SIGKILL the UNIX process group (def false)
+killasgroup=true             ; SIGKILL the UNIX process group (def false)
 # https://www.jianshu.com/p/bf2b3f4dec73
 redirect_stderr = true  ; 把 stderr 重定向到 stdout，默认 false
 stdout_logfile_maxbytes = 1MB  ; stdout 日志文件大小，默认 50MB
@@ -27,9 +27,9 @@ autorestart = true   ; 程序异常退出后自动重启
 startretries = 3     ; 启动失败自动重试次数，默认是 3
 ; user = hadoop          ; 用哪个用户启动
 ; 默认为 false，如果设置为 true，当进程收到 stop 信号时，会自动将该信号发给该进程的子进程。如果这个配置项为 true，那么也隐含 killasgroup 为 true。例如在 Debug 模式使用 Flask 时，Flask 不会将接收到的 stop 信号也传递给它的子进程，因此就需要设置这个配置项。
-stopasgroup=false             ; send stop signal to the UNIX process
+stopasgroup=true             ; send stop signal to the UNIX process
 ; 默认为 false，如果设置为 true，当进程收到 kill 信号时，会自动将该信号发给该进程的子进程。如果这个程序使用了 python 的 multiprocessing 时，就能自动停止它的子线程。
-killasgroup=false             ; SIGKILL the UNIX process group (def false)
+killasgroup=true             ; SIGKILL the UNIX process group (def false)
 # https://www.jianshu.com/p/bf2b3f4dec73
 redirect_stderr = true  ; 把 stderr 重定向到 stdout，默认 false
 stdout_logfile_maxbytes = 1MB  ; stdout 日志文件大小，默认 50MB
