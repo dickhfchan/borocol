@@ -25,10 +25,10 @@ file_allowedExtensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp']
 # for server to access google or other api
 server_side_request_proxy = False
 # mail
-MAIL_SERVER = 'smtp.mailtrap.io'
-MAIL_PORT = '2525'
-MAIL_USERNAME = '0ae55e5821a6db'
-MAIL_PASSWORD = '51593ff1131ed6'
+MAIL_SERVER = ''
+MAIL_PORT = ''
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
 MAIL_DEFAULT_SENDER_NAME = site_name
 MAIL_DEFAULT_SENDER_ADDRESS = ''
 MAIL_DEFAULT_SENDER = MAIL_DEFAULT_SENDER_NAME, MAIL_DEFAULT_SENDER_ADDRESS
