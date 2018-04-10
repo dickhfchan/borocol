@@ -1,6 +1,6 @@
 <template lang="pug">
 CardContainer.create-program
-  .page0.text-center.pal(v-if="page===0")
+  .page0.text-center(v-if="page===0")
     .title I want to create
     ._1
       b.text-box(:class="{active:pages[0].withAccom}" @click="pages[0].withAccom=true") A Program<br>"With" Accomodation <QuestionCircle/>
@@ -606,6 +606,10 @@ export default {
   }
 }
 .page0{
+  padding: 100px 10px;
+  @media(max-width: $medium) {
+    padding: 50px 10px;
+  }
   .title{
     font-size: 40px;
     font-weight: 500;
