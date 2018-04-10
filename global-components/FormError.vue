@@ -16,12 +16,11 @@ export default {
   // },
   computed: {
     visible() {
-      const fields = this.fields || [this.field]
-      if (!fields[0].isValidationErrorsVisible) {
-        // not inited
-        return false
+      const fields = this.field ? [this.field] : this.fields
+      if (fields && fields[0] && fields[0].isValidationErrorsVisible) {
+        return fields[0].isValidationErrorsVisible(fields)
       }
-      return fields.some(fld => fld.isValidationErrorsVisible())
+      return false
     },
     errors() {
       const fields = this.fields || [this.field]

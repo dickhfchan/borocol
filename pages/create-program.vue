@@ -13,7 +13,7 @@ CardContainer.create-program
     el-button.confirm-btn(type="primary" size="large" @click="page0confirm") Confirm
   div(v-else :class="'page' + page")
     .cp-header
-      .step Step {{pageCur.step}}
+      .step Step {{stepText}}
       .title {{pageCur.title}}
     el-progress(:text-inside='true', :stroke-width='20', :percentage="progress", color="#fc0")
     .cp-body
@@ -202,7 +202,7 @@ CardContainer.create-program
                 el-input(v-model="pageCur.fields.requestForm.value[1].value"
                   type="textarea" :rows="2"
                 )
-          //- page 7
+          //- page 8
           div(v-else-if="page===8")
             FormItemInline.mbm(:field="pageCur.fields.type" break-line)
               el-select.inline-input(slot="control" v-model="pageCur.fields.type.value")
@@ -235,7 +235,15 @@ CardContainer.create-program
             )
             FormItemInline.mbm(:field="pageCur.fields.photos")
               MultipleImageUploader(slot="control" v-model="pageCur.fields.photos.value" :boxSpace="16")
-
+          //- page 9
+          div(v-else-if="page===9") todo
+          //- page 10 Additional Options
+          div(v-else-if="page===10")
+            h2 Additional Options
+            el-row(type="flex")
+              el-checkbox(v-model="earlyBird.enabled")
+          //- page 11
+          div(v-else-if="page===11") todo
         //- right
         el-col(:sm="9" :md="8" :lg="7")
           .cp-tips
@@ -262,6 +270,7 @@ import MultipleImageUploader from '@/components/MultipleImageUploader';
 import NationSelect from '@/components/NationSelect';
 import PhoneInput from '@/components/PhoneInput';
 import FormItemInline from '@/components/FormItemInline';
+import * as hp from 'helper-js'
 import * as ut from '@/plugins/utils'
 
 export default {
@@ -270,7 +279,7 @@ export default {
     NationSelect, PhoneInput, FormItemInline},
   data() {
     return {
-      page: 0,
+      page: 10,
       pages: [
         {
           withAccom: true,
@@ -456,12 +465,113 @@ export default {
             },
           },
         },
+        // below step is dynamic
+        {
+          step: 4,
+          title: 'Pricing & Quota',
+          fields: {
+            groupSize: {
+              rules: 'required|integer',
+              text: 'Group Size',
+            },
+            seats: {
+              rules: 'required|integer',
+              text: 'How many seats available on Borocol',
+              nameInMessage: 'seats',
+            },
+            rooms: {
+              rules: 'required', // todo
+              value: [
+                {enabled: false, type: 'shared half', quota: null, price: null},
+                {enabled: false, type: 'shared 3 ppl', quota: null, price: null},
+                {enabled: false, type: 'private double bed', quota: null, price: null},
+              ],
+            },
+            name: {
+              text: 'Name',
+            },
+            tel: {
+              text: 'Tel',
+            },
+            address: {
+              text: 'Address',
+            },
+            facilities: {
+              text: 'What facilities do they offer?',
+              value: [],
+            },
+            description: {
+              text: 'Description',
+            },
+            photos: {
+              text: 'Upload photos',
+              value: [],
+            },
+          },
+        },
+        // 4/5 Additional Options
+        {
+          step: 5,
+          title: 'Pricing & Quota',
+          fields: {
+            // todo validate
+            earlyBird: {
+              value: {enabled: false, rate: null, quota: null, endDate: null},
+            },
+            downPayment: {
+              value: {enabled: false, rate: null, rest: null},
+            },
+          },
+        },
+        // 5/6 Make your Program Looks more Attractive
+        {
+          step: 6,
+          title: 'Pricing & Quota',
+          fields: {
+            cover: {
+              rules: 'required',
+              text: 'Cover Photo',
+            },
+            photos: {
+              rules: 'required|minLength:2',
+              text: 'Photos (Min. 3)',
+              nameInMessage: 'photos',
+              value: [],
+            },
+            youtubeVideoLink: {
+              text: 'Insert a “Youtube” video link',
+            },
+            tags: {
+              rules: '',
+              text: 'Tags',
+              value: [],
+            },
+          },
+        },
       ],
     }
   },
   computed: {
     pageCur() { return this.pages[this.page] },
-    progress() { return Math.floor(this.page / (this.pages.length - 1) * 100) },
+    stepText() {
+      let {step} = this.pageCur
+      if (this.page > 8) {
+        return this.withAccom ? step : (step - 1)
+      }
+      return step
+    },
+    progress() {
+      let {page} = this
+      let len = this.pages.length - 1
+      if (page > 8 && !this.withAccom) {
+        page--
+        len--
+      }
+      return Math.floor(page / len * 100)
+    },
+    // raise
+    earlyBird() { return this.pages[10].fields.earlyBird.value },
+    downPayment() { return this.pages[10].fields.downPayment.value },
   },
   // watch: {},
   methods: {

@@ -1,10 +1,11 @@
 <template lang="pug">
 .form-item.form-item-inline(
-  :class="[field.getValidationClass && field.getValidationClass(), {'fi-break-line': breakLine || breakLine===''}]"
+  :class="[vldClass, {'fi-break-line': breakLine || breakLine===''}]"
 )
   slot(:field="field")
     .fii-layout
-      FormLabel.fii-label(:field="field")
+      slot(name="label")
+        FormLabel.fii-label(:field="field")
       .fii-control
         slot(name="control" :field="field")
           el-select(v-if="type==='select'" v-model="field.value"

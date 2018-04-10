@@ -1,7 +1,8 @@
 <template lang="pug">
-.form-item(:class="[field.getValidationClass && field.getValidationClass()]")
+.form-item(:class="[vldClass]")
   slot(:field="field")
-    FormLabel(:field="field")
+    slot(name="label")
+      FormLabel(:field="field")
     slot(name="control" :field="field")
       el-select(v-if="type==='select'" v-model="field.value"
         :placeholder="placeholder" v-bind="controlAttrs"
@@ -15,13 +16,14 @@
       el-input(v-else v-model="field.value" :type="type"
         :placeholder="placeholder" v-bind="controlAttrs"
       )
-    FormError(:field="field")
+    FormError(:field="field" :fields="fields")
 </template>
 
 <script>
 export default {
   props: {
     field: {},
+    fields: {},
     type: {default: 'text'},
     placeholder: {},
     options: {}, // for select. [{text, value}, ...]
@@ -31,7 +33,15 @@ export default {
   // data() {
   //   return {}
   // },
-  // computed: {},
+  computed: {
+    vldClass() {
+      const fields = this.field ? [this.field] : this.fields
+      if (fields && fields[0] && fields[0].getValidationClass) {
+        return fields[0].getValidationClass(fields)
+      }
+      return ''
+    },
+  },
   // watch: {},
   // methods: {},
   // created() {},
