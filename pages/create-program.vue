@@ -349,7 +349,7 @@ import * as hp from 'helper-js'
 import * as ut from '@/plugins/utils'
 
 export default {
-  middleware: 'auth',
+  middleware: ['auth', 'isSchool'],
   components: {CardContainer, ImageUploader, MultipleImageUploader,
     NationSelect, PhoneInput, FormItemInline},
   data() {
