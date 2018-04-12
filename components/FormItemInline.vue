@@ -8,7 +8,7 @@
         FormLabel.fii-label(:field="field")
       .fii-control
         slot(name="control" :field="field")
-          el-select(v-if="type==='select'" v-model="field.value"
+          el-select(v-if="type==='select'" v-model="value"
             :placeholder="placeholder" v-bind="controlAttrs"
           )
             el-option(
@@ -17,7 +17,7 @@
               :label="item.text"
               :value="item.value"
             )
-          el-input(v-else v-model="field.value" :type="type"
+          el-input(v-else v-model="value" :type="type"
             :placeholder="placeholder" v-bind="controlAttrs"
           )
     FormError(:field="field")

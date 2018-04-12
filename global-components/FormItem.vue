@@ -4,7 +4,7 @@
     slot(name="label")
       FormLabel(:field="field")
     slot(name="control" :field="field")
-      el-select(v-if="type==='select'" v-model="field.value"
+      el-select(v-if="type==='select'" v-model="value"
         :placeholder="placeholder" v-bind="controlAttrs"
       )
         el-option(
@@ -13,7 +13,7 @@
           :label="item.text"
           :value="item.value"
         )
-      el-input(v-else v-model="field.value" :type="type"
+      el-input(v-else v-model="value" :type="type"
         :placeholder="placeholder" v-bind="controlAttrs"
       )
     FormError(:field="field" :fields="fields")
@@ -40,6 +40,14 @@ export default {
         return fields[0].getValidationClass(fields)
       }
       return ''
+    },
+    value: {
+      get() { return this.field && this.field.value },
+      set(value) {
+        if (this.field) {
+          this.field.value = value
+        }
+      },
     },
   },
   // watch: {},

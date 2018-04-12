@@ -3,9 +3,9 @@ CardContainer.create-program
   .page0.text-center(v-if="page===0")
     .title I want to create
     ._1
-      b.text-box(:class="{active:pages[0].withAccom}" @click="pages[0].withAccom=true") A Program<br>"With" Accomodation <QuestionCircle/>
+      b.text-box(:class="{active:withAccom}" @click="withAccom=true") A Program<br>"With" Accomodation <QuestionCircle/>
       .or OR
-      b.text-box(:class="{active:!pages[0].withAccom}" @click="pages[0].withAccom=false") A Program<br>"Without" Accomodation <QuestionCircle/></span>
+      b.text-box(:class="{active:!withAccom}" @click="withAccom=false") A Program<br>"Without" Accomodation <QuestionCircle/></span>
     ._2
       el-checkbox(v-model="pages[0].agreed")
       span.mls I acknowledge that Borocol will take service charge (13%) on per succesful application. I hereby agree to “<a><b>Terms of Service</b></a>” and understanding the purpose of collecting personal data.
@@ -236,14 +236,84 @@ CardContainer.create-program
             FormItemInline.mbm(:field="pageCur.fields.photos")
               MultipleImageUploader(slot="control" v-model="pageCur.fields.photos.value" :boxSpace="16")
           //- page 9
-          div(v-else-if="page===9") todo
+          div(v-else-if="page===9")
+            .group-size-seat-price
+              FormItemInline.mbm(:field="pageCur.fields.groupSize")
+              FormItemInline.mbm(:field="pageCur.fields.seatQuota")
+              FormItemInline.mbm(v-if="!withAccom" :field="pageCur.fields.price" placeholder="USD")
+            FormItem(v-if="withAccom" :field="pageCur.fields.rooms")
+              el-row.rooms.mtm(slot="control" :gutter="16")
+                template(v-for="(item, i) in rooms")
+                  el-col.mbm(:sm="12" :lg="8")
+                    el-checkbox.mrm(v-model="item.enabled")
+                    el-select(v-model="item.type")
+                      el-option(v-for="v in roomTypes" :key="v.text"
+                        :value="v.value"
+                      ) {{v.text}}
+                  el-col.mbm(:sm="12")
+                    span.mrs Quota
+                    el-input.mrm.quota-input(v-model="item.quota")
+                    span.mrs Price
+                    el-input.price-input(v-model="item.price" placeholder="USD")
           //- page 10 Additional Options
           div(v-else-if="page===10")
-            h2 Additional Options
+            h2.mbl Additional Options
             el-row(type="flex")
               el-checkbox(v-model="earlyBird.enabled")
+              .checkbox-right.mlm
+                FormLabel I’d like to offer “<b class="yellow">Early Bird</b>” discount.
+                el-row(:gutter="16")
+                  el-col.mbm(:sm="12")
+                    el-row(type="flex" align="middle")
+                      span.mrs Discount Rate
+                      el-select.discount-select(v-model="earlyBird.discount")
+                        el-option(:value="0.1") 10% off
+                        el-option(:value="0.2") 20% off
+                        el-option(:value="0.3") 30% off
+                        el-option(:value="0.4") 40% off
+                        el-option(:value="0.5") 50% off
+                  el-col.mbm(:sm="12")
+                    el-row(type="flex" align="middle")
+                      span.mrs Quota
+                      el-input.quota-input(v-model="earlyBird.quota")
+            el-row.mtm(type="flex")
+              el-checkbox(v-model="downPayment.enabled")
+              .checkbox-right.mlm
+                FormLabel I’d like to provide “<b class="primary">Down Payment</b>” option.
+                div
+                  span.mrs Down Payment Rate
+                  el-select.discount-select(v-model="downPayment.discount")
+                    el-option(:value="0.1") 10% off
+                    el-option(:value="0.2") 20% off
+                    el-option(:value="0.3") 30% off
+                    el-option(:value="0.4") 40% off
+                    el-option(:value="0.5") 50% off
+                  .mtm
+                    .mbm How would you like your guest to pay the rest of the fee?
+                    el-input(type="textarea" :rows="3"
+                      v-model="downPayment.rest"
+                      placeholder="Please have your check or cash ready on the arrival day."
+                    )
+                  FormItemInline.mtm(break-line)
+                    FormLabel(slot="label") Registration End Day
+                    el-date-picker.date-picker1(slot="control" type="date" v-model="earlyBird.endDate")
           //- page 11
-          div(v-else-if="page===11") todo
+          div(v-else-if="page===11")
+            FormLabel Upload photos of your program (Min. 3)
+            .cover-photos.mts
+              .mrl
+                .text-center Cover Photo
+                ImageUploader(v-model="pageCur.fields.cover.value")
+              div
+                div &nbsp;
+                MultipleImageUploader(v-model="pageCur.fields.photos.value" :boxSpace="16")
+            FormItem.mtl(:field="pageCur.fields.youtubeVideoLink")
+            FormItem.mtl(:field="pageCur.fields.tags")
+              el-select(slot="control" v-model="pageCur.fields.tags.value"
+                multiple filterable allow-create default-first-option
+                placeholder="Input or select tag"
+              )
+                el-option(v-for="item in hotTags" :key='item' :value="item") {{item}}
         //- right
         el-col(:sm="9" :md="8" :lg="7")
           .cp-tips
@@ -256,11 +326,16 @@ CardContainer.create-program
               .tip-title
                 Icon(name="idea")
                 | Tips
-              .tip-text {{pageCur.tips && pageCur.tips[1] || 'More information more chance to attract your student!'}}
+              .tip-text(v-if="page===9")
+                b.teal How to deal with the odd number situation?
+                p You will never know how many guest will be participating in your program, For the odd number, we suggest our host to reserve an extra bedroom to solve this problem.
+              .tip-text(v-else) {{pageCur.tips && pageCur.tips[1] || 'More information more chance to attract your student!'}}
           .cp-actions
             a.cp-action(@click="page--") Back
-            a.cp-action.cp-action-next(@click="next")
+            a.cp-action.cp-action-next(v-if="page < 11" @click="next")
               Icon(name="arrow-right")
+            a.cp-action.cp-action-next.primary(v-else @click="preview")
+              | Preview
 </template>
 
 <script>
@@ -279,10 +354,10 @@ export default {
     NationSelect, PhoneInput, FormItemInline},
   data() {
     return {
-      page: 10,
+      withAccom: true,
+      page: 11,
       pages: [
         {
-          withAccom: true,
           agreed: false,
         },
         {
@@ -465,50 +540,43 @@ export default {
             },
           },
         },
+        // 9
         // below step is dynamic
         {
           step: 4,
           title: 'Pricing & Quota',
+          // todo get site name from config
+          tips: ['Please make sure you have enough seat for people to register through our platform (Borocol).'],
           fields: {
             groupSize: {
               rules: 'required|integer',
-              text: 'Group Size',
+              text: 'How many guest in total will be participating in this program? (Group Size)',
+              nameInMessage: 'group size',
             },
-            seats: {
+            seatQuota: {
               rules: 'required|integer',
-              text: 'How many seats available on Borocol',
-              nameInMessage: 'seats',
+              // todo get site name from config
+              text: 'How many seat will be available for guest to register on Borocol?',
+              nameInMessage: 'seat quota',
+            },
+            price: {
+              rules: 'integer',
+              // todo validate, required if without accomodation
+              text: 'How much do you charge per guest? (Price)',
+              nameInMessage: 'price',
             },
             rooms: {
               rules: 'required', // todo
+              text: 'Please select room type, price & quota: ',
               value: [
                 {enabled: false, type: 'shared half', quota: null, price: null},
                 {enabled: false, type: 'shared 3 ppl', quota: null, price: null},
                 {enabled: false, type: 'private double bed', quota: null, price: null},
               ],
             },
-            name: {
-              text: 'Name',
-            },
-            tel: {
-              text: 'Tel',
-            },
-            address: {
-              text: 'Address',
-            },
-            facilities: {
-              text: 'What facilities do they offer?',
-              value: [],
-            },
-            description: {
-              text: 'Description',
-            },
-            photos: {
-              text: 'Upload photos',
-              value: [],
-            },
           },
         },
+        // 10
         // 4/5 Additional Options
         {
           step: 5,
@@ -516,13 +584,14 @@ export default {
           fields: {
             // todo validate
             earlyBird: {
-              value: {enabled: false, rate: null, quota: null, endDate: null},
+              value: {enabled: false, discount: null, quota: null, endDate: null},
             },
             downPayment: {
-              value: {enabled: false, rate: null, rest: null},
+              value: {enabled: false, discount: null, rest: null},
             },
           },
         },
+        // 11
         // 5/6 Make your Program Looks more Attractive
         {
           step: 6,
@@ -549,6 +618,13 @@ export default {
           },
         },
       ],
+      roomTypes: [
+        {value: 'shared half' ,text: 'Shared Room(Half)'},
+        {value: 'shared 3 ppl' ,text: 'Shared Room (3 ppl)'},
+        {value: 'private double bed' ,text: 'Private Room (Double Bed)'},
+      ],
+      // todo get from server
+      hotTags: ['Design', 'IT'],
     }
   },
   computed: {
@@ -570,6 +646,7 @@ export default {
       return Math.floor(page / len * 100)
     },
     // raise
+    rooms() { return this.pages[9].fields.rooms.value },
     earlyBird() { return this.pages[10].fields.earlyBird.value },
     downPayment() { return this.pages[10].fields.downPayment.value },
   },
@@ -589,6 +666,9 @@ export default {
         })
       }
       this.page++
+    },
+    preview() {
+      // todo
     },
   },
   // created() {},
@@ -679,6 +759,8 @@ export default {
     margin-top: 20px;
     color: #888;
     line-height: 25px;
+    font-size: 13px;
+    font-weight: 500;
   }
   @media(max-width: $medium) {
     .tip{
@@ -715,6 +797,31 @@ export default {
     font-size: 36px;
   }
 }
+.quota-input{
+  width: 100px;
+  display: inline-block;
+}
+.price-input{
+  width: 120px;
+  display: inline-block;
+}
+.discount-select{
+  width: 150px;
+  display: inline-block;
+}
+.date-picker1{
+  max-width: 200px;
+}
+.primary{
+  color: $primaryColor;
+}
+.yellow{
+  color: #ffcc00;
+}
+.teal{
+  color: teal;
+}
+//
 .page0{
   padding: 100px 10px;
   @media(max-width: $medium) {
@@ -838,5 +945,32 @@ export default {
       margin-top: .5em;
     }
   }
+}
+.page9{}
+.group-size-seat-price{
+  .fii-label{
+    flex-shrink: 1;
+  }
+  .fii-control{
+    text-align: right;
+  }
+  .el-input{
+    width: 70px;
+  }
+}
+.rooms{
+  .el-col{
+    display: flex;
+    align-items: center;
+  }
+}
+.page10{}
+.checkbox-right{
+  flex-grow: 1;
+}
+.page11{}
+.cover-photos{
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
