@@ -1,5 +1,4 @@
-const dotenv = require('dotenv')
-const env = require('dotenv').config().parsed
+const env = require('./env')
 
 module.exports = {
   env,
@@ -11,7 +10,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport1', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' },
     ],
     link: [
@@ -36,7 +35,7 @@ module.exports = {
     "plugins": [["component", [
       {
         "libraryName": "element-ui",
-        "styleLibraryName": "theme-default"
+        "styleLibraryName": "~plugins/element-ui/compile/theme"
       },
       'transform-async-to-generator',
       'transform-runtime'
