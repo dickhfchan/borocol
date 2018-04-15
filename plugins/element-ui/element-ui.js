@@ -7,7 +7,9 @@ import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Tab
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-import './element-ui.scss'
+import './compile/theme/index.css'
+import './compile/theme/display.css'
+import './extend.scss'
 
 export default () => {
   locale.use(lang)

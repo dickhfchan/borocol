@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.3.4"
+  },
+  "scripts": {
+    "export-variables": "et -i",
+    "build": "et"
+  }
+}
