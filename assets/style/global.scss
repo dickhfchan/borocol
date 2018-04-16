@@ -14,3 +14,9 @@ $extraLarge: 1920px !default;
   right: 0;
   bottom: 0;
 }
+
+$--input-large-height: 54px !default;
+$--button-large-font-size: 17px !default;
+$--button-large-font-weight: 700 !default;
+$--button-large-padding-vertical: ($--input-large-height - $--button-large-font-size - 2px) / 2 !default;
+$--button-large-padding-horizontal: 20px !default;
