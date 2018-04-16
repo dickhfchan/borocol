@@ -6,6 +6,8 @@ import HasReadMore from '@/global-components/HasReadMore.vue'
 import FormItem from '@/global-components/FormItem.vue'
 import FormLabel from '@/global-components/FormLabel.vue'
 import FormError from '@/global-components/FormError.vue'
+import Row from '@/global-components/Row.vue'
+import Col from '@/global-components/Col.vue'
 
 export default () => {
   Vue.component('Icon', Icon)
@@ -15,4 +17,6 @@ export default () => {
   Vue.component('FormItem', FormItem)
   Vue.component('FormLabel', FormLabel)
   Vue.component('FormError', FormError)
+  Vue.component('Row', Row)
+  Vue.component('Col', Col)
 }

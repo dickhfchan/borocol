@@ -1,3 +1,4 @@
+<!-- for home page -->
 <template lang="pug">
 .carousel2
   ._1(@mouseenter="cr && cr.stopAutoPlay()" @mouseleave="cr && cr.startAutoPlay()")

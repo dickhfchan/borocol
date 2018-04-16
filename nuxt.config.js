@@ -27,9 +27,7 @@ module.exports = {
   loading: { color: '#48ccce' },/*
   ** Global CSS
   */
-  css: [
-    'css-spacing/css/css-spacing.css',
-  ],
+  css: [],
   //
   babel:{
     "plugins": [["component", [
@@ -48,7 +46,9 @@ module.exports = {
   plugins: [
     '@/plugins/axios',
     '@/plugins/element-ui/element-ui',
+    '@/plugins/css-spacing', // can't place before element ui
     {src: '@/plugins/attach-screen-size-to-body', ssr: false},
+    '@/plugins/vue-extend',
     '@/plugins/global-components',
     '@/plugins/main',
     {src: '@/plugins/main-server', ssr: true},

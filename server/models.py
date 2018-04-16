@@ -155,7 +155,7 @@ class student_profile(Model):
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
-
+    
 class course(Model):
     file_fields = ['instructor_photo', 'cover', 'photos']
 

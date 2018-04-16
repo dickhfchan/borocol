@@ -1,8 +1,9 @@
 <template lang="pug">
 .card-container
   .container
-    el-card.content-card
-      slot
+    slot(name="card")
+      el-card.content-card
+        slot
 </template>
 
 <script>
@@ -20,6 +21,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~assets/style/global.scss";
 .card-container{
   background: url('~assets/img/school-bg.jpg');
   background-size: cover;
@@ -32,8 +34,20 @@ export default {
 .card-container-title{
   font-size: 70px;
   font-weight: 300;
+  @media(max-width: $medium) {
+    font-size: 30px;
+  }
 }
 .content-card{
   min-height: 300px;
+  > .el-card__body{
+    padding: 3em;
+    @media(max-width: $medium) and (min-width: $small) {
+      padding: 2em;
+    }
+    @media(max-width: $small) {
+      padding: 1em;
+    }
+  }
 }
 </style>

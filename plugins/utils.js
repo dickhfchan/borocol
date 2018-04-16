@@ -25,3 +25,15 @@ export function setDataToFields(data, fields) {
     }
   }
 }
+
+// source: https://gist.github.com/maxwihlborg/1911a28f988444db3ddc
+export function debounce(fn, wait = 100) {
+	let timeout;
+	return function() {
+		const ctx = this, args = arguments;
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+		    fn.apply(ctx, args);
+		}, wait);
+	};
+};

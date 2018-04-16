@@ -19,7 +19,6 @@ export const mutations = {
   }
 }
 
-global.xx=Vue
 export const actions = {
   nuxtServerInit ({ state }, { req, env }) {
     if (env.devStatic) {

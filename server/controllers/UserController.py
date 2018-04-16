@@ -3,7 +3,7 @@ import models
 from plugins.ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
 from utils import dict_pluck, request_json, to_dict, sort_models, validate_recaptcha
-from utils import str_rand, user_to_dict, md5, get_user_profile, emailSchema, trim_dict, keys_match, some
+from utils import str_rand, user_to_dict, md5, get_user_profile, rules, trim_dict, keys_match, some
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
 from flask_mail import Message
@@ -14,8 +14,6 @@ import json
 
 class AuthController(ResourceController):
     model = models.user
-    emailSchema = emailSchema
-    passwordSchema = {'required': True, 'type': 'string', 'maxlength': 255}
     def register(self):
         data = request_json()
         # recaptcha
@@ -24,10 +22,10 @@ class AuthController(ResourceController):
             return failed(errorMsg)
         #
         schema = {
-            'email': self.emailSchema,
+            'email': rules['email'],
             'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
             'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
-            'password': self.passwordSchema,
+            'password': rules['password'],
             'user_type': {'required': True, 'type': 'string', 'allowed': ['school', 'student']},
         }
         v = make_validator(schema)
@@ -116,7 +114,7 @@ class AuthController(ResourceController):
     def update_email(self):
         data = request_json()
         schema = {
-            'email': self.emailSchema,
+            'email': rules['email'],
         }
         v = make_validator(schema)
         if not v.validate(data):
@@ -134,7 +132,7 @@ class AuthController(ResourceController):
             return failed(errorMsg)
         # validate
         schema = {
-            'email': self.emailSchema,
+            'email': rules['email'],
         }
         v = make_validator(schema)
         if not v.validate(data):
@@ -189,7 +187,7 @@ class AuthController(ResourceController):
         schema = {
             'user_id': {'required': True, 'type': 'string'},
             'token': {'required': True, 'type': 'string'},
-            'password': self.passwordSchema,
+            'password': rules['password'],
         }
         v = make_validator(schema)
         if not v.validate(data):
@@ -241,11 +239,11 @@ class UserController(AuthController):
                 'avatar': {'required': True, 'type': 'string', 'maxlength': 255},
                 'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
                 'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
-                'gender': {'required': True, 'type': 'string', 'maxlength': 255},
+                'gender': rules['gender'],
                 'birthday': {'required': True, 'type': 'number'},
                 'nationality': {'required': True, 'type': 'string', 'maxlength': 255},
                 'country_of_residence': {'required': True, 'type': 'string', 'maxlength': 255},
-                'email': self.emailSchema,
+                'email': rules['email'],
                 'phone': {'required': True, 'type': 'string', 'maxlength': 255},
                 'passport_info': {'required': True, 'maxlength': 1000},
                 'emergency_contact_person': {'required': True, 'maxlength': 1000},

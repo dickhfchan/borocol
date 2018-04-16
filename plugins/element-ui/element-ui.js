@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Table, TableColumn,
   Badge, Dropdown, DropdownMenu, DropdownItem, Card, DatePicker, Progress, Slider,
+  Tabs, TabPane,
   // form
   Select, Option, Input, Form, FormItem, Checkbox, CheckboxButton, CheckboxGroup,
-  Radio, RadioGroup,
+  Radio, RadioGroup, Rate, Pagination,
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -39,6 +40,9 @@ export default () => {
   Vue.use(DatePicker)
   Vue.use(Progress)
   Vue.use(Slider)
+  Vue.use(Tabs)
+  Vue.use(TabPane)
+  Vue.component('el-tab-panel', TabPane)
   // form
   Vue.use(Select)
   Vue.use(Option)
@@ -50,4 +54,6 @@ export default () => {
   Vue.use(CheckboxGroup)
   Vue.use(Radio)
   Vue.use(RadioGroup)
+  Vue.use(Rate)
+  Vue.use(Pagination)
 }

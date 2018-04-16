@@ -131,7 +131,11 @@ def make_validator(schema, allow_unknown = True):
     v = Validator(schema)
     v.allow_unknown = allow_unknown
     return v
-emailSchema = {'required': True, 'type': 'string', 'regex': r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255}
+rules = {
+    'email': {'required': True, 'type': 'string', 'regex': r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', 'maxlength': 255},
+    'password': {'required': True, 'type': 'string', 'maxlength': 255},
+    'gender': {'required': True, 'type': 'string', 'maxlength': 255, 'allowed': ['male', 'female']},
+}
 def keys_match(dc, keys):
     keys = keys[:]
     for k, v in dc.items():

@@ -98,12 +98,14 @@ div
           a(href="#")
             Icon(name="pinterest")
   Auth
+  TestPanel
 </template>
 
 <script>
 import Auth from '~/components/Auth.vue'
+import TestPanel from '~/components/TestPanel.vue'
 export default {
-  components: {Auth},
+  components: {Auth, TestPanel},
   data() {
     return {
       userDropDownMenu: [
@@ -160,6 +162,38 @@ a{
 }
 .text-center{
   text-align: center;
+}
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+.clearfix{
+  clear: both;
+}
+.space{
+  // vertical
+  height: 1em;
+  @media(max-width: $medium) {
+    height: .5em;
+  }
+}
+// flex helper
+.flex{
+  display: flex;
+}
+.flex-0{
+  flex-shrink: 0;
+}
+.flex-s0{
+  flex-shrink: 0;
+}
+.flex-g1{
+  flex-grow: 1;
+}
+.flex-1{
+  flex: 1;
 }
 
 // common
@@ -243,20 +277,6 @@ $pageHeaderColor: #000;
   }
 }
 .user-dropdown-menu{
-  .el-dropdown-menu__item{
-    padding: 0;
-  }
-  .el-dropdown-menu__item--divided:before{
-    margin: 0;
-  }
-  a{
-    color: #353535;
-    display: block;
-    padding: 0 20px;
-    &:hover{
-      text-decoration: none;
-    }
-  }
 }
 .page-header-inner--xs{
   display: flex;
