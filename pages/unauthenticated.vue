@@ -1,6 +1,6 @@
 <template lang="pug">
-CardContainer.unauthorized.text-center
-  h1 Unauthorized
+CardContainer.unauthenticated.text-center
+  h1 Unauthenticated
   .mtl
   el-button.login-btn(size="large" type="primary" @click="$store.dispatch('auth/show')") Login
 </template>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss">
-.unauthorized{
+.unauthenticated{
   .container{
     max-width: 500px;
   }

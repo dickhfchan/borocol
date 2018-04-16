@@ -10,5 +10,5 @@ globalMiddlewares = [actionHandler]
 # auth
 def auth(next, *args, **kwargs):
     if not current_user.is_authenticated:
-        return failed('Unauthorized',code = 401)
+        return failed('Unauthenticated',code = 401)
     return next()

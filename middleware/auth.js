@@ -3,6 +3,6 @@ export default function ({ store, route, redirect, env }) {
     if (env.devStatic) {
       return
     }
-    return redirect({name: 'unauthorized'}, {intended: route.fullPath})
+    return redirect({name: 'unauthenticated'}, {intended: route.fullPath})
   }
 }

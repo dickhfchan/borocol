@@ -175,7 +175,7 @@ export default {
     afterLogin() {
       const {intended} = this.$route.query
       if (intended) {
-        if (this.$route.name === 'unauthorized') {
+        if (this.$route.name === 'unauthenticated') {
           this.$router.push(intended)
         }
       }
