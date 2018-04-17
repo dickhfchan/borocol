@@ -179,6 +179,9 @@ a{
     height: .5em;
   }
 }
+.relative{
+  position: relative;
+}
 // flex helper
 .flex{
   display: flex;
@@ -218,8 +221,8 @@ a{
   }
 }
 .btn-block {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 .avatar{
   $side: 45px;
@@ -237,6 +240,19 @@ a{
     flex-grow: 1;
     background: #ddd;
   }
+}
+
+.review-visa-icon{
+  background: #69a2dd;
+}
+.accomodation-icon {
+  background: #968ecb;
+}
+.insurance-icon {
+  background: #63cace;
+}
+.downpayment-icon {
+  background: #a6c875;
 }
 
 //

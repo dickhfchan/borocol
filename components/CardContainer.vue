@@ -2,8 +2,9 @@
 .card-container
   .container
     slot(name="card")
-      el-card.content-card
-        slot
+      .el-card.content-card
+        .el-card__body.relative
+          slot
 </template>
 
 <script>

@@ -9,6 +9,7 @@ CardContainer.pal.routes-page
    li: router-link(:to="{name: 'school-reviews'}") school-reviews
    li: router-link(:to="{name: 'my-courses'}") my-courses
    li: router-link(:to="{name: 'liked-courses'}") liked-courses
+   li: router-link(:to="{name: 'my-course-visa'}") my-course-visa
 </template>
 
 <script>
