@@ -8,6 +8,7 @@ import FormLabel from '@/global-components/FormLabel.vue'
 import FormError from '@/global-components/FormError.vue'
 import Row from '@/global-components/Row.vue'
 import Col from '@/global-components/Col.vue'
+import CloseBtn from '@/global-components/CloseBtn.vue'
 
 export default () => {
   Vue.component('Icon', Icon)
@@ -19,4 +20,5 @@ export default () => {
   Vue.component('FormError', FormError)
   Vue.component('Row', Row)
   Vue.component('Col', Col)
+  Vue.component('CloseBtn', CloseBtn)
 }
