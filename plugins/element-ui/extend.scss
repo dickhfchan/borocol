@@ -40,6 +40,9 @@
   }
 }
 // dropdown
+.el-dropdown{
+  font-size: inherit;
+}
 .el-dropdown-menu__item{
   padding: 0;
   > a{

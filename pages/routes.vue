@@ -11,6 +11,7 @@ CardContainer.pal.routes-page
    li: router-link(:to="{name: 'liked-courses'}") liked-courses
    li: router-link(:to="{name: 'my-course-visa'}") my-course-visa
    li: router-link(:to="{name: 'my-course-classmate'}") my-course-classmate
+   li: router-link(:to="{name: 'transaction'}") transaction
 </template>
 
 <script>
