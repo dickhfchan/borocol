@@ -219,8 +219,8 @@
       el-row(:gutter="16").related.mtl
         el-col(:sm="12")
           .course-card2
-            a.course-card2__img-area(href="#")
-              img.img(src="https://picsum.photos/500/300?image=407")
+            .course-card2__img-area(href="#")
+              AspectImage(src="https://picsum.photos/500/300?image=401" :aspect="1.7")
               .mark Early Bird Sale
               .course-card2__collect.collected
                 Icon(name="heart")
@@ -243,8 +243,8 @@
                 .course-card2__price USD 600,000
         el-col(:sm="12")
           .course-card2
-            a.course-card2__img-area(href="#")
-              img.img(src="https://picsum.photos/500/300?image=407")
+            .course-card2__img-area(href="#")
+              AspectImage(src="https://picsum.photos/500/300?image=403" :aspect="1.7")
               .mark Early Bird Sale
               .course-card2__collect
                 Icon(name="heart-o")

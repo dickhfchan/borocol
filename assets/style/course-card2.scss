@@ -12,26 +12,30 @@
   }
   .share-btn{
     position: absolute;
-    top: 65px;
+    top: 70px;
     right: 10px;
-    padding: 2px 3px;
+    padding: 3px 5px;
     text-transform: none;
     background: grey;
     border-color: grey;
+    color: #fff;
     &:hover{
       background: darken(grey, 10%);
+    }
+    .icon{
+      font-size: 12px;
     }
   }
 }
 .course-card2__img-area{
-  height: 47.333%;
-  display: block;
+  // height: 47.333%;
+  // display: block;
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  .img{
-    width: 100%;
-  }
+  // .img{
+  //   width: 100%;
+  // }
   .mark{
     background-color: #ffb200;
     position: absolute;
