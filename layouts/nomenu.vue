@@ -182,6 +182,9 @@ a{
 .relative{
   position: relative;
 }
+.inline-block{
+  display: inline-block;
+}
 // flex helper
 .flex{
   display: flex;

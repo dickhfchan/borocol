@@ -54,6 +54,7 @@ module.exports = {
     {src: '@/plugins/main-server', ssr: true},
     {src: '@/plugins/main-client', ssr: false},
     {src: '@/plugins/vue-data-validator', ssr: false},
+    {src: '@/plugins/vue-dom-portal', ssr: false},
   ],
   /*
   ** Build configuration
