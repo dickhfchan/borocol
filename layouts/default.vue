@@ -26,7 +26,7 @@ export default {
         { icon: 'heart-o', text: 'Reviews', route: {name: 'my-reviews'}, role: 'school'}, // school reviews
         { icon: 'house', text: 'My Program', route: {name: 'my-program'}},
         { icon: 'plus-thin', text: 'Create A Program', route: {name: 'create-program'}, role: 'school'},
-        { icon: 'dialog', text: 'Chat Box', route: {name: 'chat-box'}},
+        { icon: 'dialog', text: 'Chat Box', route: {name: 'message'}},
         { icon: 'file-text', text: 'Transaction', notificationCount: 2, route: {name: 'transaction'}, role: 'school'},
         { icon: 'cog', text: 'Settings', route: {name: 'settings'}},
       ],

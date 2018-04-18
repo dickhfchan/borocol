@@ -28,9 +28,6 @@ export default {
   background-size: cover;
   background-attachment: fixed;
   padding: 50px 0 200px 0;
-  // &.no-bg{
-  //   background: none;
-  // }
 }
 .card-container-title{
   font-size: 70px;
