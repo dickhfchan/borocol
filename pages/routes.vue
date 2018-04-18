@@ -15,6 +15,9 @@ CardContainer.pal.routes-page
    li: router-link(:to="{name: 'message'}") message
    li: router-link(:to="{name: 'course'}") course
    li: router-link(:to="{name: 'course-filter'}") course-filter
+   li: router-link(:to="{name: 'about'}") about
+   li: router-link(:to="{name: 'press'}") press
+   li: router-link(:to="{name: 'career'}") career
 </template>
 
 <script>
