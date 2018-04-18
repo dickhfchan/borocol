@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { Row, Col, Button, Alert, MessageBox, Notification, Dialog, Loading, Table, TableColumn,
   Badge, Dropdown, DropdownMenu, DropdownItem, Card, DatePicker, Progress, Slider,
-  Tabs, TabPane, Popover, Tooltip,
+  Tabs, TabPane, Popover, Tooltip, Breadcrumb, BreadcrumbItem,
   // form
   Select, Option, Input, Form, FormItem, Checkbox, CheckboxButton, CheckboxGroup,
   Radio, RadioGroup, Rate, Pagination,
@@ -45,6 +45,8 @@ export default () => {
   Vue.component('el-tab-panel', TabPane)
   Vue.use(Popover)
   Vue.use(Tooltip)
+  Vue.use(Breadcrumb)
+  Vue.use(BreadcrumbItem)
   // form
   Vue.use(Select)
   Vue.use(Option)

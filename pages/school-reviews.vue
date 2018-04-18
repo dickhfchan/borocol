@@ -55,7 +55,7 @@ CardContainer.school-reviews
             el-input(type="textarea" :rows="5" placeholder="Share your experience")
             el-button.btn3.submit-btn.mtm.pull-right(type="primary") Submit
             .clearfix
-    el-pagination.pull-right(layout="prev, pager, next" :total="50" :page-size="10")
+    el-pagination.pull-right(:total="50" :page-size="10")
     .clearfix
 </template>
 
