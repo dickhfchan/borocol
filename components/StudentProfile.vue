@@ -106,6 +106,7 @@ export default {
       fields: {
         avatar: {
           rules: 'required',
+          type: 'file',
         },
         firstName: {
           rules: 'required',
@@ -194,6 +195,7 @@ export default {
       this.$checkValidation(this.validation).then(async requestData => {
         this.loading = true
         await this.$apiPost(`/user/profile`, {data: requestData})
+        await this.$store.dispatch('auth/fetchUser')
         this.$alert(`Saved Successfully`)
         this.loading = false
       }).catch(e => {
@@ -202,10 +204,26 @@ export default {
       })
     }
   },
-  // created() {},
-  mounted() {
+  created() {
     ut.setDataToFields(this.data, this.fields)
+  },
+  mounted() {
     this.$validate(this.validation, this.fields)
+    this.$testPanel({
+      fill: () => {
+        this.$testFill(this.fields)
+        this.fields.gender.value = 'male'
+        this.fields.nationality.value = 'US'
+        this.fields.phone.value = '+1 214214'
+        this.fields.countryOfResidence.value = 'US'
+        this.passportInfo.number = 'test'
+        this.passportInfo.issuedCountry = 'US'
+        this.passportInfo.expiryDate = new Date
+        this.ecp[0].name = 'test'
+        this.ecp[0].relationship = 'test'
+        this.ecp[0].tel = '+1234125'
+      },
+    })
   },
 }
 </script>

@@ -258,7 +258,6 @@ class UserController(AuthController):
                 t = data['passport_info']
                 trim_dict(t)
                 if not keys_match(t, ['number', 'issued_country', 'expiry_date']):
-                    print('124')
                     return failed('Invalid input')
                 for k, v in t.items():
                     if not v:
@@ -269,7 +268,7 @@ class UserController(AuthController):
                 keys = ['name', 'relationship', 'tel']
                 if not keys_match(t[0], keys) or not keys_match(t[1], keys):
                     return failed('Invalid input')
-                for k, v in t[0]:
+                for k, v in t[0].items():
                     if not v:
                         return failed('The %s is required.'%(k.replace('_', ' ')))
             except Exception as e:

@@ -78,6 +78,8 @@ function resolveRequestData(requestData) {
     if (!parent) return
     if (value instanceof Date) {
       value = parseInt(value.getTime() / 1000)
+    } else if (Number.isInteger(value) && value.toString().length === 13) {
+      value = value / 1000
     }
     if (hp.isString(key)) {
       key = hp.snakeCase(key)

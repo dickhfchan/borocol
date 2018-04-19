@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import * as hp from 'helper-js'
 export default {
   components: {},
   data() {
@@ -23,6 +24,29 @@ export default {
     Vue.testPanel = Vue.prototype.$testPanel = (obj) => {
       this.btns = Object.keys(obj).map(key => ({text: key, action: obj[key]}))
     }
+    Vue.testFill = Vue.prototype.$testFill = (fields) => {
+      if (!this.visible) {
+        return
+      }
+      Object.values(fields).forEach(v => {
+        if (v.value != null) {
+          return
+        }
+        if (v.type === 'file') {
+          v.value = 'https://picsum.photos/40/40?image=401'
+        } else if (v.type === 'date') {
+          v.value = new Date()
+        } else if (v.rules) {
+          if (v.rules.includes('email')) {
+            v.value = `example@example.com`
+          } else if (v.rules.includes('accepted')) {
+            v.value = true
+          }
+        } else {
+          v.value = hp.strRand(5)
+        }
+      })
+    }
   },
   // mounted() {},
 }
@@ -38,7 +62,7 @@ export default {
   bottom: 0;
   z-index: 9999;
   display: flex;
-  opacity: 0.3;
+  opacity: 0.6;
   &:hover{
     opacity: 0.9;
   }

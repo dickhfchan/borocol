@@ -1,7 +1,7 @@
 <template lang="pug">
 el-input.phone-input(v-model="value2")
   el-dropdown(trigger="click" slot="prepend" ref="dropdown")
-    span.el-dropdown-link(:title="selectedCountry ? selectedCountry.name : null")
+    span.el-dropdown-link(:title="selectedCountriesText")
       | {{areaCode || 'area'}}
       i.el-icon-arrow-down.el-icon--right
     el-dropdown-menu.phone-input__country-dropdown(slot="dropdown")
@@ -14,6 +14,7 @@ el-input.phone-input(v-model="value2")
 <script>
 import countries from '@/plugins/countries.json'
 import valueDetails from './valueDetails'
+let mappingByAreaCode
 
 export default {
   mixins: [valueDetails],
@@ -49,13 +50,25 @@ export default {
     value3() {
       return this.areaCode + ' ' + this.value2
     },
-    selectedCountry() {
+    selectedCountries() {
+      if (!mappingByAreaCode) {
+        const obj = mappingByAreaCode = {}
+        this.countries.forEach(v => {
+          if (!obj[v.area_code]) {
+            obj[v.area_code] = []
+          }
+          obj[v.area_code].push(v)
+        })
+      }
       const ac = this.areaCode
       if (!ac) {
-        return null
+        return []
       } else {
-        return this.countries.find(v => v.area_code === ac)
+        return mappingByAreaCode[ac]
       }
+    },
+    selectedCountriesText() {
+      return this.selectedCountries ? this.selectedCountries.map(v => v.name).join(', ') : ''
     },
   },
   watch: {
