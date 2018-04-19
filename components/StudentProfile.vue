@@ -98,8 +98,6 @@ import NationSelect from '@/components/NationSelect';
 import PhoneInput from '@/components/PhoneInput';
 import * as ut from '@/plugins/utils'
 
-// todo auto add international area code to phone after countryOfResidence changed
-// todo 自动prepend国际区号到手机号
 export default {
   components: {CardContainer, ImageUploader, NationSelect, PhoneInput},
   props: ['data'],
@@ -141,7 +139,7 @@ export default {
           text: 'Email',
         },
         phone: {
-          rules: 'required|numeric',
+          rules: 'required|phone',
           text: 'Phone',
         },
         passportInfo: {
