@@ -39,7 +39,7 @@ class AuthController(ResourceController):
         data['password'] = hash_pwd(data['password'])
         try:
             user = store(self.model, data)
-            profileData = dict_pluck(data, ['first_name', 'last_name'])
+            profileData = dict_pluck(data, ['first_name', 'last_name', 'email'])
             profileData['user_id'] = user.id
             profile = store(models.student_profile, profileData)
             self.do_send_confirmation_email(user.email, user.id)
@@ -122,6 +122,9 @@ class AuthController(ResourceController):
         current_user.email = data['email']
         current_user.email_confirmed = False
         current_user.save()
+        profile = get_user_profile(current_user)
+        profile.email = data['email']
+        profile.save()
         return success()
     # forgot password
     def send_reset_password_email(self):
@@ -275,6 +278,10 @@ class UserController(AuthController):
             # 
             model = models.student_profile if current_user.user_type == 'student' else models.school_profile
             profile = get_user_profile(current_user)
+            if current_user.email != data['email']:
+                current_user.email = data['email']
+                current_user.email_confirmed = False
+                current_user.save()
             update(model, data, profile.id)
             return success()
         

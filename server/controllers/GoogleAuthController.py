@@ -93,13 +93,14 @@ class GoogleAuthController():
             'email': info['email'],
             'user_type': 'student',
             'google_id': gid,
-            'password': hash_pwd(str_rand(16)),
+            'password': hash_pwd(str_rand(16)), 
         }
         try:
             avatar = save_remote_pic(info['picture'])
             store(models.file, {'path': avatar, 'tmp': False})
             user = store(self.model, data)
             profileData = {
+                'email': info['email'],
                 'user_id': user.id,
                 'avatar': avatar,
                 'first_name': info['given_name'],
