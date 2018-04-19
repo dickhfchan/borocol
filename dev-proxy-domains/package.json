@@ -1,0 +1,10 @@
+{
+  "name": "dev",
+  "version": "1.0.37",
+  "description": "",
+  "author": "phphe <phphe@outlook.com> (https://github.com/phphe)",
+  "devDependencies": {},
+  "dependencies": {
+    "http-proxy": "^1.16.2"
+  }
+}

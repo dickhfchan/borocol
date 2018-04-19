@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev-proxy-domains": "node dev-proxy-domains/server.js",
     "build": "nuxt build",
     "analyze": "nuxt build --analyze",
     "start": "nuxt start",
