@@ -30,7 +30,6 @@
     div(slot="footer")
       el-button(@click="modalClose" size="small") Cancel
       el-button.mlm(type="primary" @click="modalOk" size="small") Ok
-  </span>
 </template>
 
 <script>
