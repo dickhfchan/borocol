@@ -249,7 +249,7 @@ class UserController(AuthController):
                 'email': rules['email'],
                 'phone': {'required': True, 'type': 'string', 'maxlength': 255},
                 'passport_info': {'required': True, 'maxlength': 1000},
-                'emergency_contact_person': {'required': True, 'maxlength': 1000},
+                'emergency_contact_persons': {'required': True, 'maxlength': 1000},
             }
             v = make_validator(schema)
             if not v.validate(data):
@@ -262,7 +262,7 @@ class UserController(AuthController):
                 for k, v in t.items():
                     if not v:
                         return failed('The %s is required.'%(k.replace('_', ' ')))
-                t = data['emergency_contact_person']
+                t = data['emergency_contact_persons']
                 trim_dict(t[0])
                 trim_dict(t[1])
                 keys = ['name', 'relationship', 'tel']

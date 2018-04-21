@@ -9,7 +9,7 @@
     v-model="files"
     :accept="accept"
     :name="name"
-    :post-action="$store.state.api + '/file/store'"
+    :post-action="action"
     :drop="true"
     @input-file="inputFile"
     @input-filter="inputFilter"
@@ -51,7 +51,6 @@ export default {
   },
   data() {
     return {
-      inputId: `VueUploadComponent_${this._uid}`,
       // preview
       hovering: false,
       editVisible: false,
@@ -61,18 +60,9 @@ export default {
       // modal
       modalVisible: false,
       modalTitle: '',
-      modalOptions: {
-        size: 'lg',
-        closeWhenClickBack: false,
-        okText: "Save",
-        closeText: "Cancel",
-      },
     }
   },
   computed: {
-    accept() {
-      return this.extensions.map(v => `image/${v}`).join(',')
-    },
   },
   watch: {
     modalVisible: {

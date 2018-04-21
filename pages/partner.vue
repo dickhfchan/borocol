@@ -78,20 +78,170 @@
           .part3-left
             b Customer Support
           .part3-right Our support team is always happy to assist both you and your customer in any cases.
+  Dialog(title="Partner with Us" width="80%" v-model='dialogVisible')
+    .space
+    form(@submit.prevent="submit")
+      el-row(:gutter="32")
+        el-col(:sm="12")
+          FormItem.mbm(:field="fields.name")
+          FormItem.mbm(:field="fields.address")
+          el-row(:gutter="16")
+            el-col(:sm="12")
+              FormItem.mbm(:field="fields.city")
+            el-col(:sm="12")
+              FormItem.mbm(:field="fields.country")
+                NationSelect(slot="control" v-model="fields.country.value")
+          FormItem.mbm(:field="fields.email")
+          FormItem.mbm(:field="fields.introduction" type="textarea" :controlAttrs="{rows:3}")
+          FormItem.mbm(:field="fields.website")
+        el-col(:sm="12")
+          el-row(:gutter="16")
+            //- 1
+            el-col(:span="24")
+              .form-item
+                .form-label
+                  span.required-asterisk *
+                  span Contact Person 1
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[0].lastName" placeholder="Last Name")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[0].firstName" placeholder="First Name")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[0].title" placeholder="Title")
+            el-col(:sm="16").mbm
+              el-input(v-model="cp[0].email" placeholder="Email")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[0].tel" placeholder="Tel")
+            //- 2
+            el-col(:span="24")
+              .form-item
+                .form-label
+                  span Contact Person 2
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[1].lastName" placeholder="Last Name")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[1].firstName" placeholder="First Name")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[1].title" placeholder="Title")
+            el-col(:sm="16").mbm
+              el-input(v-model="cp[1].email" placeholder="Email")
+            el-col(:sm="8").mbm
+              el-input(v-model="cp[1].tel" placeholder="Tel")
+          .space
+          .space
+          FormItem(:field="fields.registrationDocument")
+            FileUploader(slot="control" v-model="fields.registrationDocument.value" :extensions="['pdf']")
+          el-row.mtm(type="flex")
+            el-checkbox(v-model="fields.agreed.value")
+            small.mlm By signing up, I agree to Brocol Terms of Service, No Discrimination Policy, Payments Terms of Service, Privacy Policy, Refund Policy, and Host Guarantee Terms.
+          .space
+          .space
+          el-button.btn-block(type="primary" size="large") SUBMIT
 </template>
 
 <script>
+import Dialog from '@/components/Dialog'
+import NationSelect from '@/components/NationSelect';
+import FileUploader from '@/components/FileUploader';
+
 export default {
   layout: 'nomenu',
-  components: {},
+  components: {Dialog, NationSelect, FileUploader},
   data() {
-    return {}
+    return {
+      dialogVisible: true,
+      validation: {},
+      fields: {
+        name: {
+          text: 'Name of School/ Insitution',
+          rules: 'required',
+          nameInMessage: 'name',
+        },
+        address: {
+          text: 'Address',
+          rules: 'required',
+        },
+        city: {
+          text: 'City',
+          rules: 'required',
+        },
+        country: {
+          text: 'Country',
+          rules: 'required',
+        },
+        email: {
+          text: 'Email  (This will be used for receiving notifications)',
+          rules: 'required',
+          nameInMessage: 'email',
+        },
+        introduction: {
+          text: 'Introduction (Such as course types)',
+          rules: 'required',
+          nameInMessage: 'introduction',
+        },
+        website: {
+          text: 'Official Website',
+          rules: 'required',
+        },
+        contactPersons: {
+          type: 'json',
+          rules: 'required|required2',
+          value: [
+            {
+              lastName: null,
+              firstName: null,
+              title: null,
+              email: null,
+              tel: null,
+            },
+            {
+              lastName: null,
+              firstName: null,
+              title: null,
+              email: null,
+              tel: null,
+            },
+          ],
+          customRules: {
+            required2({value}) {
+              return Object.values(value[0]).every(v => v)
+            },
+          },
+          messages: {
+            required2({value}) {
+              for (const key in value[0]) {
+                if (!value[0][key]) {
+                  return `The ${key} of contact person 1 is required`
+                }
+              }
+            },
+          },
+        },
+        registrationDocument: {
+          text: 'Business Registration Document (BR)',
+          nameInMessage: 'business registration document',
+          rules: 'required',
+          type: 'file',
+        },
+        agreed: {
+          rules: 'required|accepted',
+        },
+      },
+    }
   },
-  // computed: {},
+  computed: {
+    cp() {return this.fields.contactPersons.value},
+  },
   // watch: {},
-  // methods: {},
+  methods: {
+    submit() {
+      // todo
+    },
+  },
   // created() {},
-  // mounted() {},
+  mounted() {
+    this.$validate(this.validation, this.fields)
+  },
 }
 </script>
 

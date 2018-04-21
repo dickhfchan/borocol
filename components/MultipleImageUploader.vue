@@ -10,7 +10,7 @@
         v-model="files"
         :accept="accept"
         :name="name"
-        :post-action="$store.state.api + '/file/store'"
+        :post-action="action"
         :drop="true"
         @input-file="inputFile"
         @input-filter="inputFilter"
@@ -47,7 +47,6 @@ const ui = {
       boxesWidth: null,
       boxesInnerLeft: 0,
       boxesStyle: {width: null},
-      inputId: `VueUploadComponent_${this._uid}`,
     }
   },
   computed: {

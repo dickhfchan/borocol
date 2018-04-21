@@ -34,6 +34,7 @@ export default {
          this.$emit('success', googleUser)
        }, (error) => {
          console.warn(error);
+         window.alert(error.error)
        });
      });
     }

@@ -16,13 +16,13 @@ VueUploadComponent.VueUploadComponent(
 import VueUploadComponent from 'vue-upload-component'
 import valueDetails from './valueDetails'
 import * as hp from 'helper-js'
+import mimetypes from '@/plugins/mimetypes.json'
 
 export default {
   components: {VueUploadComponent},
   props: {
     name: {default: 'file'},
-    extensions: {default: is => []}, // only for image
-    mimes: {},
+    extensions: {default: is => []},
     filter: {},
     debug: {default: true},
   },
@@ -36,7 +36,11 @@ export default {
   },
   computed: {
     accept() {
-      return (this.mimes || (this.extensions && this.extensions.map(v => `image/${v}`)) || []).join(',')
+      let mimes = []
+      if (this.extensions) {
+        mimes = this.extensions.map(v => getMimeFromExt(v))
+      }
+      return mimes.join(',')
     },
     uploading() {
       return this.upload && this.upload.uploading
@@ -140,4 +144,19 @@ export default {
 }
 function isFalseAndDefined(v) {
   return v !== undefined && !v
+}
+
+const extMimeMapping = {}
+for (const key in mimetypes) {
+  for (const ext of mimetypes[key]) {
+    const mime = key.endsWith('&') ? key.replace('&', ext) : key
+    extMimeMapping[ext] = mime
+  }
+}
+function getMimeFromExt(ext) {
+  ext = ext.toLowerCase()
+  if (ext[0] === '.') {
+    ext = ext.slice(1)
+  }
+  return extMimeMapping[ext]
 }

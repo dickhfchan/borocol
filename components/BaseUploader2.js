@@ -1,7 +1,13 @@
 import BaseUploader from './BaseUploader.js'
+import * as ut from '@/plugins/utils'
 
 export default {
   extends: BaseUploader,
+  data() {
+    return {
+      action: this.$store.state.api + '/file/store',
+    }
+  },
   methods: {
     getAbsUrl(value) {
       return value ? value.replace(/^~/, this.$store.state.api + `/file`) : null
@@ -10,7 +16,7 @@ export default {
       this.$alert('Your choice is not allowed')
     },
     uploadFailed(newFile, oldFile) {
-      const message = newFile.response.data && newFile.response.data.message || newFile.response.toString() || ''
+      const message = ut.errorRequestMessage({response: newFile.response})
       if (message) {
         this.$alert(`Upload Failed. ${message}`)
       }

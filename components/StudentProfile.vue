@@ -98,6 +98,7 @@ import ImageUploader from '@/components/ImageUploader';
 import NationSelect from '@/components/NationSelect';
 import GenderSelect from '@/components/GenderSelect';
 import PhoneInput from '@/components/PhoneInput';
+import * as hp from 'helper-js'
 import * as ut from '@/plugins/utils'
 
 export default {
@@ -155,8 +156,8 @@ export default {
             expiryDate: null,
           },
         },
-        emergencyContactPerson: {
-          rules: 'required',
+        emergencyContactPersons: {
+          rules: 'required|required2',
           type: 'json',
           value: [
             {
@@ -170,6 +171,20 @@ export default {
               tel: null,
             },
           ],
+          customRules: {
+            required2({value}) {
+              return Object.values(value[0]).every(v => v)
+            },
+          },
+          messages: {
+            required2({value}) {
+              for (const key in value[0]) {
+                if (!value[0][key]) {
+                  return `The ${key} of emergency contact person 1 is required`
+                }
+              }
+            },
+          },
         },
         declared: {
           rules: 'required|accepted',
@@ -182,7 +197,7 @@ export default {
   computed: {
     // raise
     passportInfo() {return this.fields.passportInfo.value},
-    ecp() {return this.fields.emergencyContactPerson.value},
+    ecp() {return this.fields.emergencyContactPersons.value},
   },
   // watch: {},
   methods: {

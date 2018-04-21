@@ -50,28 +50,13 @@ export default ({store, req, env}) => {
       }
       requestCompeleted && requestCompeleted()
       if (process.browser) {
-        Vue.alert(`Failed. ${errorRequestMessage(e)}`)
+        Vue.alert(`Failed. ${ut.errorRequestMessage(e)}`)
       }
       throw e
     })
   }
   Vue.apiGet = Vue.prototype.$apiGet = (url, requestCompeleted) => apiHttp('get', url, undefined, requestCompeleted)
   Vue.apiPost = Vue.prototype.$apiPost = (...args) => apiHttp('post', ...args)
-}
-
-function errorRequestMessage(error, msg) {
-  const data = hp.objectGet(error, 'response.data')
-  if (data) {
-    if (hp.isString(data)) {
-      // ignore error page html content
-      if (!data.startsWith('<!DOCTYPE')) {
-        return data
-      }
-    } else if (data.message) {
-      return data.message
-    }
-  }
-  return  error.message || msg || ''
 }
 
 function resolveRequestData(requestData) {

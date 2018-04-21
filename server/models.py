@@ -130,7 +130,7 @@ class school_profile(Model):
 
 class student_profile(Model):
     file_fields = ['avatar']
-    json_fields = ['passport_info', 'emergency_contact_person']
+    json_fields = ['passport_info', 'emergency_contact_persons']
 
     id      = columns.UUID(required=True, partition_key=True)
     user_id      = columns.UUID(required=False, index=True)
@@ -150,8 +150,8 @@ class student_profile(Model):
     country_of_residence = columns.Text(required=False, )
     email = columns.Text(required=False, )
     phone = columns.Text(required=False, )
-    passport_info = columns.Text(required=False, )
-    emergency_contact_person = columns.Text(required=False, )
+    passport_info = columns.Text(required=False, default='{"number":null,"issuedCountry":null,"expiryDate":null}')
+    emergency_contact_persons = columns.Text(required=False, default='[{"name":null,"relationship":null,"tel":null},{"name":null,"relationship":null,"tel":null}]')
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
