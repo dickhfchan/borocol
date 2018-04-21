@@ -35,17 +35,18 @@ CardContainer.create-program
                   )
               el-col.mtl.hidden-sm-and-down
               el-col.mbm(:md="15")
-                FormItem(:field="pageCur.fields.categoryId" type="select")
+                FormItem(:field="pageCur.fields.categoryId" type="select" :options="[{value: 1, text: 'todo'}]")
               el-col.mbm(:md="9")
-                FormItem(:field="pageCur.fields.level" type="select")
+                FormItem(:field="pageCur.fields.level" type="select" :options="[{value: 1, text: 'todo'}]")
               el-col.mtl.hidden-sm-and-down
               el-col.mbm(:md="25")
                 FormItem(:field="pageCur.fields.title")
           //- page 2
           div(v-else-if="page===2")
-            el-row(:gutter="16")
+            el-row(:gutter="24")
               el-col.mbm(:md="8")
-                FormItem(:field="pageCur.fields.gender" type="select")
+                FormItem(:field="pageCur.fields.gender")
+                  GenderSelect(slot="control" v-model="pageCur.fields.gender.value")
               el-col.mbm(:md="16")
                 FormItem(:field="pageCur.fields.ageRange")
                   el-slider(slot="control" range :min="16" :max='100'
@@ -343,6 +344,7 @@ import CardContainer from '@/components/CardContainer'
 import ImageUploader from '@/components/ImageUploader';
 import MultipleImageUploader from '@/components/MultipleImageUploader';
 import NationSelect from '@/components/NationSelect';
+import GenderSelect from '@/components/GenderSelect';
 import PhoneInput from '@/components/PhoneInput';
 import FormItemInline from '@/components/FormItemInline';
 import * as hp from 'helper-js'
@@ -351,11 +353,11 @@ import * as ut from '@/plugins/utils'
 export default {
   middleware: ['auth', 'isSchool'],
   components: {CardContainer, ImageUploader, MultipleImageUploader,
-    NationSelect, PhoneInput, FormItemInline},
+    NationSelect, GenderSelect, PhoneInput, FormItemInline},
   data() {
     return {
       withAccom: true,
-      page: 11,
+      page: 3,
       pages: [
         {
           agreed: false,

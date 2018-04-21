@@ -3,7 +3,7 @@
   .container
     slot(name="card")
       .el-card.content-card
-        .el-card__body.relative
+        .el-card__body.card-container__card-body.relative
           slot
 </template>
 
@@ -38,14 +38,14 @@ export default {
 }
 .content-card{
   min-height: 300px;
-  > .el-card__body{
-    padding: 3em;
-    @media(max-width: $medium) and (min-width: $small) {
-      padding: 2em;
-    }
-    @media(max-width: $small) {
-      padding: 1em;
-    }
+}
+.card-container__card-body{
+  padding: 3em;
+  @media(max-width: $medium) and (min-width: $small) {
+    padding: 2em;
+  }
+  @media(max-width: $small) {
+    padding: 1em;
   }
 }
 </style>
