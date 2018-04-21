@@ -11,17 +11,10 @@ export function cloneObjAndCamelCaseKey(obj) {
 }
 
 export function setDataToFields(data, fields) {
-  data = cloneObjAndCamelCaseKey(data)
   for (const key in fields) {
     const fld = fields[key]
-    if (data[key] != null && !fld.hasOwnProperty('value')) {
-      let val = data[key]
-      if (hp.isNumber(data[key]) && data[key].toString().length === 10) {
-        // timestamp
-        // to millisecond
-        val = val * 1000
-      }
-      Vue.set(fld, 'value', val)
+    if (data.hasOwnProperty(key)) {
+      Vue.set(fld, 'value', data[key])
     }
   }
 }
@@ -36,4 +29,4 @@ export function debounce(fn, wait = 100) {
 		    fn.apply(ctx, args);
 		}, wait);
 	};
-};
+}

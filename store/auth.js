@@ -22,7 +22,7 @@ export const actions = {
   },
   fetchUser({rootState}) {
     return Vue.apiPost('/user/current-user').then(data => {
-      const user = ut.cloneObjAndCamelCaseKey(data.data)
+      const user = data.data
       rootState.user = user
       rootState.authenticated = user.isAuthenticated
       return rootState.user

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import * as hp from 'helper-js'
+import * as ut from '@/plugins/utils'
 
 export default ({store, req, env}) => {
   let baseURL = ''
@@ -42,7 +43,7 @@ export default ({store, req, env}) => {
     }
     return Vue.http.request(opt).then((resp) => {
       requestCompeleted && requestCompeleted()
-      return Promise.resolve(resp.data, resp)
+      return Promise.resolve(resolveResponseData(resp.data), resp)
     }, e => {
       if (env.devStatic) {
         return
@@ -83,6 +84,21 @@ function resolveRequestData(requestData) {
     }
     if (hp.isString(key)) {
       key = hp.snakeCase(key)
+    }
+    return {key, value}
+  })
+}
+
+function resolveResponseData(respData) {
+  return hp.mapObjectTree(respData, (value, key, parent) => {
+    if (!parent) return
+    if (hp.isNumber(value) && value.toString().length === 10) {
+      // timestamp
+      // to millisecond
+      value = value * 1000
+    }
+    if (hp.isString(key)) {
+      key = hp.camelCase(key)
     }
     return {key, value}
   })

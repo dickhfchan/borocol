@@ -25,7 +25,7 @@ export const actions = {
       return
     }
     return Vue.apiGet('/initial-data').then(data => {
-      Object.assign(state, ut.cloneObjAndCamelCaseKey(data.data))
+      Object.assign(state, data.data)
     })
   }
 }
