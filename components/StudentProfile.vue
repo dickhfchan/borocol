@@ -26,7 +26,8 @@ CardContainer.student-profile
                   el-input(v-model="fields.lastName.value" placeholder="* Last Name")
                   FormError(:field="fields.lastName")
               el-col.mbm(:sm="8")
-                FormItem(:field="fields.gender" type="select" :options="genders")
+                FormItem(:field="fields.gender")
+                  GenderSelect(slot="control" v-model="fields.gender.value")
               el-col.mbm(:sm="8")
                 FormItem(:field="fields.birthday")
                   el-date-picker(slot="control" type="date"
@@ -95,11 +96,12 @@ CardContainer.student-profile
 import CardContainer from '@/components/CardContainer'
 import ImageUploader from '@/components/ImageUploader';
 import NationSelect from '@/components/NationSelect';
+import GenderSelect from '@/components/GenderSelect';
 import PhoneInput from '@/components/PhoneInput';
 import * as ut from '@/plugins/utils'
 
 export default {
-  components: {CardContainer, ImageUploader, NationSelect, PhoneInput},
+  components: {CardContainer, ImageUploader, NationSelect, GenderSelect, PhoneInput},
   props: ['data'],
   data() {
     return {
@@ -175,10 +177,6 @@ export default {
       },
       validation: {},
       loading: false,
-      genders: [
-        {text: 'Male', value: 'male'},
-        {text: 'Female', value: 'female'},
-      ],
     }
   },
   computed: {
