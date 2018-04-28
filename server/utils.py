@@ -11,6 +11,9 @@ from flask_login import current_user
 from plugins.middlewareHelper import stop
 from urllib.parse import urlparse
 
+def dt2ts(dt):
+    return int(time.mktime(dt.timetuple()))
+
 def dict_pluck(data, keys):
     newDict = {}
     for key in keys:
@@ -114,10 +117,11 @@ def saved(item):
             else:
                 files.append(item[fld])
         for fp in files:
-            item = models.file.objects.filter(path=fp).first()
-            if item:
-                item.tmp = False
-                item.save()
+            if fp:
+                item = models.file.objects.filter(path=fp).first()
+                if item:
+                    item.tmp = False
+                    item.save()
 
 # random string, from https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def str_rand(size=6, chars=string.ascii_uppercase + string.digits):
