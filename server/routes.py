@@ -24,6 +24,10 @@ routes = [
             # reset password
             *restful(['send_reset_password_email', 'check_reset_password_token', 'reset_password']),
         ]),
+        # school
+        *group({'controller': controllers.SchoolController, 'prefix': '/school'}, [
+            *restful(['register']),
+        ]),
         # openid sign in and up
         *group({'prefix': '/google', 'controller': controllers.GoogleAuthController}, restful(['login', 'link', 'register'])),
         # file

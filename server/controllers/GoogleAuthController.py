@@ -75,6 +75,8 @@ class GoogleAuthController():
             if not user:
                 return failed('User not found with given id')
             login_user(user)
+        if user.user_type != 'student':
+            return failed('Only link to student account.')
         gid = info['sub']
         user.google_id = gid
         if user.email == info['email']:

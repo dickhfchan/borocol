@@ -10,8 +10,10 @@ import Vue from 'vue'
 
 export default {
   async asyncData ({ store, params }) {
+    const data = (await Vue.apiPost('/user/profile')).data
+    data.email = store.state.user.email
     return {
-      data: (await Vue.apiPost('/user/profile')).data
+      data,
     }
   },
   middleware: 'auth',

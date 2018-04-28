@@ -38,9 +38,11 @@ export default {
           v.value = new Date()
         } else if (v.rules) {
           if (v.rules.includes('email')) {
-            v.value = `example@example.com`
+            v.value = `example_${hp.strRand(5)}@example.com`
           } else if (v.rules.includes('accepted')) {
             v.value = true
+          } else {
+            v.value = hp.strRand(5)
           }
         } else {
           v.value = hp.strRand(5)

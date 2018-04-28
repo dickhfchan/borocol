@@ -39,7 +39,7 @@ class AuthController(ResourceController):
         data['password'] = hash_pwd(data['password'])
         try:
             user = store(self.model, data)
-            profileData = dict_pluck(data, ['first_name', 'last_name', 'email'])
+            profileData = dict_pluck(data, ['first_name', 'last_name'])
             profileData['user_id'] = user.id
             profile = store(models.student_profile, profileData)
             self.do_send_confirmation_email(user.email, user.id)
@@ -57,6 +57,8 @@ class AuthController(ResourceController):
         if errorMsg:
             return failed(errorMsg)
         user = self.model.objects.filter(email=data['email']).first()
+        if user.user_type != data['user_type']:
+            user = None
         if not user:
             return failed('User not found')
         if not pwd_hashed_compare(data['password'], user.password):
@@ -122,9 +124,6 @@ class AuthController(ResourceController):
         current_user.email = data['email']
         current_user.email_confirmed = False
         current_user.save()
-        profile = get_user_profile(current_user)
-        profile.email = data['email']
-        profile.save()
         return success()
     # forgot password
     def send_reset_password_email(self):
@@ -237,43 +236,45 @@ class UserController(AuthController):
             return success(data={'data': to_dict(get_user_profile(current_user))})
         else:
             # update
-            # validate
-            schema = {
-                'avatar': {'required': True, 'type': 'string', 'maxlength': 255},
-                'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
-                'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
-                'gender': rules['gender'],
-                'birthday': {'required': True, 'type': 'number'},
-                'nationality': {'required': True, 'type': 'string', 'maxlength': 255},
-                'country_of_residence': {'required': True, 'type': 'string', 'maxlength': 255},
-                'email': rules['email'],
-                'phone': {'required': True, 'type': 'string', 'maxlength': 255},
-                'passport_info': {'required': True, 'maxlength': 1000},
-                'emergency_contact_persons': {'required': True, 'maxlength': 1000},
-            }
-            v = make_validator(schema)
-            if not v.validate(data):
-                return failed('Invalid input', {'error': v.errors})
-            try:
-                t = data['passport_info']
-                trim_dict(t)
-                if not keys_match(t, ['number', 'issued_country', 'expiry_date']):
+            if current_user.user_type == 'student':
+                # validate
+                schema = {
+                    'avatar': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'first_name': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'last_name': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'gender': rules['gender'],
+                    'birthday': {'required': True, 'type': 'number'},
+                    'nationality': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'country_of_residence': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'email': rules['email'],
+                    'phone': {'required': True, 'type': 'string', 'maxlength': 255},
+                    'passport_info': {'required': True, 'maxlength': 1000},
+                    'emergency_contact_persons': {'required': True, 'maxlength': 1000},
+                }
+                v = make_validator(schema)
+                if not v.validate(data):
+                    return failed('Invalid input', {'error': v.errors})
+                try:
+                    t = data['passport_info']
+                    trim_dict(t)
+                    if not keys_match(t, ['number', 'issued_country', 'expiry_date']):
+                        return failed('Invalid input')
+                    for k, v in t.items():
+                        if not v:
+                            return failed('The %s is required.'%(k.replace('_', ' ')))
+                    t = data['emergency_contact_persons']
+                    trim_dict(t[0])
+                    trim_dict(t[1])
+                    keys = ['name', 'relationship', 'tel']
+                    if not keys_match(t[0], keys) or not keys_match(t[1], keys):
+                        return failed('Invalid input')
+                    for k, v in t[0].items():
+                        if not v:
+                            return failed('The %s is required.'%(k.replace('_', ' ')))
+                except Exception as e:
+                    print(e)
                     return failed('Invalid input')
-                for k, v in t.items():
-                    if not v:
-                        return failed('The %s is required.'%(k.replace('_', ' ')))
-                t = data['emergency_contact_persons']
-                trim_dict(t[0])
-                trim_dict(t[1])
-                keys = ['name', 'relationship', 'tel']
-                if not keys_match(t[0], keys) or not keys_match(t[1], keys):
-                    return failed('Invalid input')
-                for k, v in t[0].items():
-                    if not v:
-                        return failed('The %s is required.'%(k.replace('_', ' ')))
-            except Exception as e:
-                print(e)
-                return failed('Invalid input')
+            # todo validate school profile
             # 
             model = models.student_profile if current_user.user_type == 'student' else models.school_profile
             profile = get_user_profile(current_user)

@@ -92,38 +92,25 @@ class course_subscriptions(Model):
     updated_at = columns.DateTime()
 
 class school_profile(Model):
+    file_fields = ['logo', 'photos']
+    json_fields = ['contact_persons']
 
     id      = columns.UUID(required=True, partition_key=True)
 
     user_id      = columns.UUID(required=False, index=True)
 
-    status      = columns.Text(required=False, )
-
-    contact_persons      = columns.Text(required=False, )
-
-    school_name      = columns.Text(required=False, )
-
-    registration_document      = columns.Text(required=False, )
-
-    stripe_details      = columns.Text(required=False, )
-
-    address1      = columns.Text(required=False, )
-
-    address2      = columns.Text(required=False, )
-
+    status    = columns.Text(required=False, )
+    name      = columns.Text(required=False, )
+    address      = columns.Text(required=False, )
     city      = columns.Text(required=False, )
-
     country      = columns.Text(required=False, )
-
     introduction      = columns.Text(required=False, )
-
-    logo      = columns.Text(required=False, )
-
-    school_photos      = columns.Text(required=False, )
-
-    subscriptions      = columns.Text(required=False, )
-
     website      = columns.Text(required=False, )
+    contact_persons      = columns.Text(required=False, default='[{"last_name":null,"first_name":null,"title":null,"email":null,"tel":null},{"last_name":null,"first_name":null,"title":null,"email":null,"tel":null}]')
+    registration_document      = columns.Text(required=False, )
+    stripe      = columns.Text(required=False, )
+    logo      = columns.Text(required=False, )
+    photos = columns.List(columns.Text, required=True, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
@@ -148,9 +135,8 @@ class student_profile(Model):
     birthday = columns.DateTime(required=False, )
     nationality = columns.Text(required=False, )
     country_of_residence = columns.Text(required=False, )
-    email = columns.Text(required=False, )
     phone = columns.Text(required=False, )
-    passport_info = columns.Text(required=False, default='{"number":null,"issuedCountry":null,"expiryDate":null}')
+    passport_info = columns.Text(required=False, default='{"number":null,"issued_country":null,"expiry_date":null}')
     emergency_contact_persons = columns.Text(required=False, default='[{"name":null,"relationship":null,"tel":null},{"name":null,"relationship":null,"tel":null}]')
 
     created_at = columns.DateTime()

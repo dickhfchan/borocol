@@ -37,6 +37,9 @@ export default {
   }
   .el-dialog__body{
     padding: 90px 70px;
+    @media(max-width: $medium) {
+      padding: 20px;
+    }
   }
 }
 

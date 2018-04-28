@@ -161,6 +161,7 @@ export default {
         this.loading = true
         const token = await recaptcha.getToken()
         requestData.recaptcha = token
+        requestData.userType = this.state.role
         await this.$apiPost(`/user/login`, requestData)
         await this.$store.dispatch('auth/fetchUser')
         this.$notifySuccess(`Logined Successfully`)

@@ -6,7 +6,7 @@
         .big-title Create a Listing for Free
         .medium-title Spend less money on marketing but actually making more.
         .small-title.mtl Let the world know your program in a cost-effective way.
-        el-button.partner-btn(type="danger") Partner with Us
+        el-button.partner-btn(type="danger" @click="dialogVisible=true") Partner with Us
   .main
     .container.container-sm
       .paragraph-title How to become a Host?
@@ -136,20 +136,22 @@
             small.mlm By signing up, I agree to Brocol Terms of Service, No Discrimination Policy, Payments Terms of Service, Privacy Policy, Refund Policy, and Host Guarantee Terms.
           .space
           .space
-          el-button.btn-block(type="primary" size="large") SUBMIT
+          GoogleRecaptcha(ref="recaptcha")
+          el-button.btn-block(type="primary" size="large" :loading="loading" native-type="submit") SUBMIT
 </template>
 
 <script>
 import Dialog from '@/components/Dialog'
 import NationSelect from '@/components/NationSelect';
 import FileUploader from '@/components/FileUploader';
+import GoogleRecaptcha from '@/components/GoogleRecaptcha'
 
 export default {
   layout: 'nomenu',
-  components: {Dialog, NationSelect, FileUploader},
+  components: {Dialog, NationSelect, FileUploader, GoogleRecaptcha},
   data() {
     return {
-      dialogVisible: true,
+      dialogVisible: false,
       validation: {},
       fields: {
         name: {
@@ -171,7 +173,7 @@ export default {
         },
         email: {
           text: 'Email  (This will be used for receiving notifications)',
-          rules: 'required',
+          rules: 'required|email',
           nameInMessage: 'email',
         },
         introduction: {
@@ -227,6 +229,7 @@ export default {
           rules: 'required|accepted',
         },
       },
+      loading: false,
     }
   },
   computed: {
@@ -235,12 +238,39 @@ export default {
   // watch: {},
   methods: {
     submit() {
-      // todo
+      if (this.loading) {
+        return
+      }
+      const {recaptcha} = this.$refs
+      this.$checkValidation(this.validation).then(async requestData => {
+        this.loading = true
+        const token = await recaptcha.getToken()
+        requestData.recaptcha = token
+        await this.$apiPost(`/school/register`, requestData)
+        this.dialogVisible = false
+        this.$alert('Please wait a few business days for the account to be reviewed.', '')
+        this.loading = false
+      }).catch(e => {
+        this.loading = false
+        return Promise.reject(e)
+      })
     },
   },
   // created() {},
   mounted() {
     this.$validate(this.validation, this.fields)
+    this.$testPanel({
+      fill: () => {
+        this.dialogVisible = true
+        this.$testFill(this.fields)
+        this.fields.country.value = 'US'
+        this.cp[0].lastName = 'test'
+        this.cp[0].firstName = 'test'
+        this.cp[0].title= 'Admin'
+        this.cp[0].email= 'example@example.com'
+        this.cp[0].tel = '+1234125'
+      },
+    })
   },
 }
 </script>

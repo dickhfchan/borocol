@@ -7,3 +7,4 @@ from FileController import FileController
 from CourseController import CourseController
 from UserController import UserController
 from GoogleAuthController import GoogleAuthController
+from SchoolController import SchoolController
