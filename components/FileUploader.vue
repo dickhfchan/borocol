@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getValueDetails(value) {
-      this.url = this.getAbsUrl(value)
+      this.url = value
     },
     added(newFile) {
       this.startUploadFile(newFile)
@@ -55,7 +55,7 @@ export default {
       this.progress = newFile.progress.slice(0, -3)
     },
     failed(newFile) {
-      this.url = this.getAbsUrl(this.value) // restore url
+      this.url = this.value // restore url
     },
     success(newFile) {
       this.$emit('input', newFile.response.data)

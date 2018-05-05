@@ -151,7 +151,7 @@ export default {
         return {
           simulated: true, // not a fiel instance of VueUploadComponent, just a simulation
           initialUrl: v,
-          url: this.getAbsUrl(v),
+          url: v,
         }
       })
     },
@@ -180,7 +180,7 @@ export default {
       this.remove(newFile)
     },
     success(newFile) {
-      newFile.url = this.getAbsUrl(newFile.response.data)
+      newFile.url = newFile.response.data
       this.filesChanged(newFile)
     },
     imgLoaded(item, index) {

@@ -1,5 +1,5 @@
 from flask import current_app as app, request, send_from_directory
-from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path
+from plugins.fileHelper import make_filename, make_fullpath, make_dir_by_path, make_file_url
 from plugins.ResourceController import store, update
 import models
 
@@ -15,6 +15,7 @@ class FileController():
         if file and allowed_file(file.filename):
             filename = make_filename(file.filename)
             fullPath = make_fullpath(filename)
+            fullUrl = make_file_url(filename)
             make_dir_by_path(fullPath)
             # save
             file.save(fullPath)
@@ -22,5 +23,5 @@ class FileController():
             # todo not deleteTmpFiles
             if not models.file.objects.filter(path=filename).first():
                 store(models.file, {'path': filename, 'tmp': True})
-            return {'result': 'success', 'data': filename}
+            return {'result': 'success', 'data': fullUrl}
         return {'result': 'failed', 'message': 'Disallowed file type' if file else 'No file'}, 400

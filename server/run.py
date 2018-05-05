@@ -1,6 +1,8 @@
 # module
 from flask import Flask
 from cassandra.cqlengine import connection
+import sys
+import argparse
 # from flask_session import Session
 # file
 import config
@@ -35,5 +37,21 @@ with app.app_context():
     registerMany(routes, globalMiddlewares, app)
 
 # bootstrap app
-if __name__ == '__main__':
-    app.run(host=app_host,port=app_port, debug=app_debug, threaded=True)
+with app.app_context():
+    if __name__ == '__main__':
+        if len(sys.argv) == 1:
+            app.run(host=app_host,port=app_port, debug=app_debug, threaded=True)
+        else:
+            parser = argparse.ArgumentParser()
+            # when arg is default, user not input the arg
+            DEFAULT_ARG = 'DEFAULT_ARG'
+            parser.add_argument('--remigrate', nargs='?', default=DEFAULT_ARG)
+            parser.add_argument('--seed', nargs='?', default=DEFAULT_ARG)
+            args = parser.parse_args()
+            # remigrate
+            if args.remigrate != DEFAULT_ARG:
+                import plugins.remigrate
+            # load seeder
+            if args.seed != DEFAULT_ARG:
+                from plugins.seeder import execute
+                execute('seeds.%s'%(args.seed or 'index'))

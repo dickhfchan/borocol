@@ -9,9 +9,6 @@ export default {
     }
   },
   methods: {
-    getAbsUrl(value) {
-      return value ? value.replace(/^~/, this.$store.state.api + `/file`) : null
-    },
     prevented() {
       this.$alert('Your choice is not allowed')
     },

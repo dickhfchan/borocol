@@ -11,6 +11,12 @@ from flask_login import current_user
 from plugins.middlewareHelper import stop
 from urllib.parse import urlparse
 
+def list_get(ls, index, default = None):
+    try:
+        return ls[index]
+    except IndexError:
+        return default
+
 def dt2ts(dt):
     return int(time.mktime(dt.timetuple()))
 
@@ -53,6 +59,55 @@ def camel_case(st):
 # upper case first char of str
 def studly_case(st):
     return st[0].upper() + st[1:]
+# get and set by dot path
+# obj eg: [{a:1,b: 'str'}], {a:[{a:1,b: 'str'}]}
+# dotPath eg: 1.a, *.a, a.1.a, a.*.b, the end can't be *
+# return list
+def getByDotPath(obj, dotPath):
+    cur = [obj]
+    dotPaths = dotPath.split('.')
+    curPath = None
+    while len(dotPaths):
+        curPath = dotPaths.pop(0)
+        if isinstance(cur[0], list):
+            if curPath != '*':
+                curPath = int(curPath)
+        if curPath == '*':
+            t = []
+            for v in cur:
+                for v2 in v:
+                    t.append(v2)
+            cur = t
+        else:
+            cur = [v[curPath] for v in cur]
+    return cur
+def setByDotPath(obj, dotPath, valueOrGetter):
+    cur = [obj]
+    dotPaths = dotPath.split('.')
+    curPath = None
+    while True:
+        curPath = dotPaths.pop(0)
+        if isinstance(cur[0], list):
+            if curPath != '*':
+                curPath = int(curPath)
+        if len(dotPaths) == 0:
+            break
+        if curPath == '*':
+            t = []
+            for v in cur:
+                for v2 in v:
+                    t.append(v2)
+            cur = t
+        else:
+            cur = [v[curPath] for v in cur]
+    for v in cur:
+        val = valueOrGetter
+        if callable(valueOrGetter):
+            val = valueOrGetter(v[curPath])
+        if val == None:
+            del v[curPath]
+        else:
+            v[curPath] = val
 
 # convert to dict; datetime to int, id to str, format decimal
 def to_dict(item):
@@ -60,16 +115,8 @@ def to_dict(item):
     columns = item._defined_columns
     r = {}
     for colName in columns:
-        if hasattr(item, 'hidden') and colName in item.hidden:
-            continue
         val = getattr(item, colName)
-        if hasattr(item, 'file_fields') and colName in item.file_fields:
-            val = make_file_url(val)
-            r[colName] = val
-        elif hasattr(item, 'json_fields') and colName in item.json_fields:
-            val = json.loads(val) if val else None
-            r[colName] = val
-        elif isinstance(val, datetime.datetime):
+        if isinstance(val, datetime.datetime):
             r[colName] = int(time.mktime(val.timetuple()))
         elif isinstance(val, decimal.Decimal):
             r[colName] = float((val or decimal.Decimal('0.00')).quantize(decimal.Decimal('0.00')))
@@ -77,6 +124,15 @@ def to_dict(item):
             r[colName] = str(val)
         else:
             r[colName] = val
+    if hasattr(item, 'json_fields'):
+        for colName in item.json_fields:
+            r[colName] = json.loads(r[colName]) if r[colName] else None
+    if hasattr(item, 'file_fields'):
+        for dotPath in item.file_fields:
+            setByDotPath(r, dotPath, lambda v: make_file_url(v))
+    if hasattr(item, 'hidden'):
+        for dotPath in item.hidden:
+            setByDotPath(r, dotPath, None)
     return r
 def sort_models(models):
     models.sort(key=lambda item: item.created_at, reverse=True)
@@ -85,6 +141,7 @@ def sort_models(models):
 # before assign data to a model; remove keys maintenanced by backend; convert timestamp to datetime
 # data0: dict    model: class
 def before_write(model, data0):
+    from plugins.fileHelper import get_filename_from_url
     data = {}
     # pick fields in model
     columns = model._defined_columns
@@ -101,6 +158,17 @@ def before_write(model, data0):
     for col in dt_columns:
         if data.get(col):
             data[col] = datetime.datetime.fromtimestamp(data[col])
+    # remove extra info from file url
+    if hasattr(model, 'file_fields'):
+        def convert(v):
+            if not v:
+                return None
+            elif isinstance(v, (list, tuple)):
+                return [get_filename_from_url(v2) for v2 in v]
+            else:
+                return get_filename_from_url(v)
+        for dotPath in model.file_fields:
+            setByDotPath(data, dotPath, convert)
     # json fields to str
     if hasattr(model, 'json_fields'):
         for fld in model.json_fields:
@@ -110,12 +178,24 @@ def before_write(model, data0):
 # after row saved
 def saved(item):
     if hasattr(item, 'file_fields'):
-        files = [] # not empty
-        for fld in item.file_fields:
-            if isinstance(item[fld], (list, tuple)):
-                files = files + item[fld]
+        files = []
+        for dotPath in item.file_fields:
+            if '.' in dotPath:
+                dotPaths = dotPath.split('.')
+                fldName = dotPaths.pop(0)
+                fld = item[fldName]
+                if fld:
+                    files.append(getByDotPath(json.loads(fld), '.'.join(dotPaths)))
             else:
-                files.append(item[fld])
+                files.append(item[dotPath])
+        t = []
+        for v in files:
+            if isinstance(v, (list, tuple)):
+                t += v
+            else:
+                t.append(v)
+        files = v
+        # 
         for fp in files:
             if fp:
                 item = models.file.objects.filter(path=fp).first()

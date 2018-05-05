@@ -1,3 +1,5 @@
+# hidden and file_fields can be dot path
+# json_fields can't be dot path
 from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table as sync_table
@@ -92,7 +94,7 @@ class course_subscriptions(Model):
     updated_at = columns.DateTime()
 
 class school_profile(Model):
-    file_fields = ['logo', 'photos']
+    file_fields = ['logo', 'photos', 'registration_document']
     json_fields = ['contact_persons']
 
     id      = columns.UUID(required=True, partition_key=True)
@@ -143,7 +145,8 @@ class student_profile(Model):
     updated_at = columns.DateTime()
     
 class course(Model):
-    file_fields = ['instructor_photo', 'cover', 'photos']
+    file_fields = ['instructors.*.photo', 'cover', 'photos']
+    json_fields = ['instructors']
 
     id      = columns.UUID(required=True, partition_key=True)
     school_id      = columns.UUID(required=False, )
@@ -153,13 +156,16 @@ class course(Model):
     level = columns.Text(required=True, )
     start_date = columns.DateTime(required=True, )
     end_date = columns.DateTime(required=True, )
+    # 
     description = columns.Text(required=False, )
-    group_size = columns.Integer(required=True, )
+    # group_size = columns.Integer(required=True, )
     gender = columns.Text(required=False, )
     age_range = columns.List(columns.Integer, required=False, )
-    hours = columns.Integer(required=True, )
-    language = columns.Text(required=True, )
-    instructor_photo = columns.Text(required=False, )
+    hours = columns.List(columns.Integer, required=False, )
+    # 
+    language = columns.Text(required=False, )
+    instructors = columns.Text(required=False, default='[{"name":null,"phone":null,"description":null,"photo":null},{"name":null,"phone":null,"description":null,"photo":null}]')
+    # 
     instructor_info = columns.Text(required=False, )
     issue_certificate = columns.Boolean(required=True, )
     certificate = columns.Text(required=False, )

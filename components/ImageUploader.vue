@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     getValueDetails(value) {
-      this.src = this.getAbsUrl(value)
+      this.src = value
     },
     modalClose () {
       this.modalVisible = false
@@ -115,7 +115,7 @@ export default {
       this.progress = newFile.progress.slice(0, -3)
     },
     failed(newFile) {
-      this.src = this.getAbsUrl(this.value) // restore src
+      this.src = this.value // restore src
     },
     success(newFile) {
       this.$emit('input', newFile.response.data)
