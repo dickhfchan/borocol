@@ -209,7 +209,7 @@ export default {
         this.loading = true
         await this.$apiPost(`/user/profile`, {data: requestData})
         await this.$store.dispatch('auth/fetchUser')
-        this.$alert(`Saved Successfully`)
+        this.$alert(`Saved Successfully`, '')
         this.loading = false
       }).catch(e => {
         this.loading = false
