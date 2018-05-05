@@ -54,11 +54,11 @@ CardContainer.create-program
                   )
               el-col.mtl.hidden-sm-and-down
               el-col.mbm
-                FormLabel(:field="pageCur.fields.timeRange")
+                FormLabel(:field="pageCur.fields.hours")
                 .time-range.mlm
-                  el-input(v-model="pageCur.fields.timeRange.value[0]" type="number")
+                  el-input(v-model.number="pageCur.fields.hours.value[0]" type="number")
                   .divider -
-                  el-input(v-model="pageCur.fields.timeRange.value[1]" type="number")
+                  el-input(v-model.number="pageCur.fields.hours.value[1]" type="number")
               el-col.mtl.hidden-sm-and-down
               el-col.mbm
                 FormItem(:field="pageCur.fields.description" type="textarea"
@@ -355,9 +355,10 @@ export default {
   components: {CardContainer, ImageUploader, MultipleImageUploader,
     NationSelect, GenderSelect, PhoneInput, FormItemInline},
   data() {
+    const {siteName} = this.$store.state
     return {
       withAccom: true,
-      page: 3,
+      page: 11,
       pages: [
         {
           agreed: false,
@@ -380,8 +381,25 @@ export default {
           fields: {
             gender: {text: 'Gender', rules: 'required'},
             ageRange: {text: 'Age', value: [16, 32]},
-            timeRange: {text: 'How many hour will It take to complete this program?',
-              nameInMessage: 'Time Range', rules: 'required', value:[null, null]}, // todo validate
+            hours: {text: 'How many hour will It take to complete this program?',
+              rules: 'required|hours', value:[null, null],
+              customRules: {
+                hours({value}) {
+                  return value.every(v => v != null && hp.isNumber(v))
+                },
+              },
+              messages: {
+                hours({value, field}) {
+                  for (const v of value) {
+                    if (v == null) {
+                      return `The ${field.name} is required`
+                    } else if (!hp.isNumber(v)) {
+                      return `The ${field.name} must be number`
+                    }
+                  }
+                },
+              },
+            },
             description: {text: 'Description of the program (What we will do)', nameInMessage: 'description', rules: 'required'},
           },
         },
@@ -394,10 +412,11 @@ export default {
           ],
           fields: {
             language: {text: 'This Program Will be Offered in', nameInMessage: 'language', rules: 'required'},
+            // todo autofill
             instructors: {
               value: [
-                {name: '', phone: '', description: '', photo: ''},
-                {name: '', phone: '', description: '', photo: ''},
+                {name: null, phone: null, description: null, photo: null},
+                {name: null, phone: null, description: null, photo: null},
               ],
             },
           },
@@ -462,7 +481,10 @@ export default {
               value: true,
             },
             meals: {
-              rules: '',// todo
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: ({fields}) => fields.mealsIncluded.value
+              },
               value: [],
             },
             weatherArrangement: {
@@ -487,7 +509,10 @@ export default {
               text: 'Will you issue certificate to your guests?',
             },
             certificate: {
-              rules: '', // todo
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: ({fields}) => fields.issueCertificate.value
+              },
             },
           },
         },
@@ -501,9 +526,10 @@ export default {
             requestFormEnabled: {
               text: 'Would you like to set up a request form?',
             },
+            // need validate in server
             requestForm: {
-              rules: '', //todo
-              value: [{enabled: false, value: ''}, {enabled: false, value: ''}],
+              rules: '',
+              value: [{enabled: false, value: null}, {enabled: false, value: null}],
             },
           },
         },
@@ -547,8 +573,7 @@ export default {
         {
           step: 4,
           title: 'Pricing & Quota',
-          // todo get site name from config
-          tips: ['Please make sure you have enough seat for people to register through our platform (Borocol).'],
+          tips: [`Please make sure you have enough seat for people to register through our platform (${siteName}).`],
           fields: {
             groupSize: {
               rules: 'required|integer',
@@ -557,13 +582,14 @@ export default {
             },
             seatQuota: {
               rules: 'required|integer',
-              // todo get site name from config
-              text: 'How many seat will be available for guest to register on Borocol?',
+              text: `How many seat will be available for guest to register on ${siteName}?`,
               nameInMessage: 'seat quota',
             },
             price: {
-              rules: 'integer',
-              // todo validate, required if without accomodation
+              rules: 'requiredIf|integer',
+              ruleParams: {
+                requiredIf: () => !this.withAccom
+              },
               text: 'How much do you charge per guest? (Price)',
               nameInMessage: 'price',
             },
@@ -584,7 +610,7 @@ export default {
           step: 5,
           title: 'Pricing & Quota',
           fields: {
-            // todo validate
+            // need validate in server
             earlyBird: {
               value: {enabled: false, discount: null, quota: null, endDate: null},
             },

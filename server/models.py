@@ -146,19 +146,18 @@ class student_profile(Model):
     
 class course(Model):
     file_fields = ['instructors.*.photo', 'cover', 'photos']
-    json_fields = ['instructors']
+    json_fields = ['instructors', 'request_form', 'early_bird', 'down_payment']
 
     id      = columns.UUID(required=True, partition_key=True)
     school_id      = columns.UUID(required=False, )
 
-    name = columns.Text(required=True, )
-    category_id = columns.Text(required=True, )
-    level = columns.Text(required=True, )
-    start_date = columns.DateTime(required=True, )
-    end_date = columns.DateTime(required=True, )
+    name = columns.Text(required=False, )
+    category_id = columns.Text(required=False, )
+    level = columns.Text(required=False, )
+    start_date = columns.DateTime(required=False, )
+    end_date = columns.DateTime(required=False, )
     # 
     description = columns.Text(required=False, )
-    # group_size = columns.Integer(required=True, )
     gender = columns.Text(required=False, )
     age_range = columns.List(columns.Integer, required=False, )
     hours = columns.List(columns.Integer, required=False, )
@@ -166,37 +165,42 @@ class course(Model):
     language = columns.Text(required=False, )
     instructors = columns.Text(required=False, default='[{"name":null,"phone":null,"description":null,"photo":null},{"name":null,"phone":null,"description":null,"photo":null}]')
     # 
-    instructor_info = columns.Text(required=False, )
-    issue_certificate = columns.Boolean(required=True, )
-    certificate = columns.Text(required=False, )
-    address = columns.Text(required=True, )
-    city = columns.Text(required=True, )
-    country = columns.Text(required=True, )
-    api_key = columns.Text(required=True, )
+    street = columns.Text(required=False, )
+    city = columns.Text(required=False, )
+    province = columns.Text(required=False, )
+    zip_code = columns.Text(required=False, )
+    country = columns.Text(required=False, )
+    api_key = columns.Text(required=False, )
     location_description = columns.Text(required=False, )
     how_to_get_there = columns.Text(required=False, )
     where_to_meet = columns.Text(required=False, )
-    schedule = columns.Text(required=True, )
-    meals_included = columns.Boolean(required=True, )
+    # 
+    schedule = columns.Text(required=False, )
+    meals_included = columns.Boolean(required=False, )
     meals = columns.List(columns.Text, required=False, )
-    meals_info = columns.Text(required=False, )
+    weather_arrangement = columns.Text(required=False, )
+    # 
     provide = columns.Text(required=False, )
     guest_needs_to_bring = columns.Text(required=False, )
-    guest_requirement = columns.Text(required=False, )
-    request_form_existed = columns.Boolean(required=True, )
-    request_form = columns.Text(required=False, )
+    issue_certificate = columns.Boolean(required=False, )
+    certificate = columns.Text(required=False, )
+    # 
+    entry_requirment = columns.Text(required=False, )
+    request_form_enabled = columns.Boolean(required=False, )
+    request_form = columns.Text(required=False, default='[{"enabled":false,"value":null},{"enabled":false,"value":null}]')
+    # in frontend, create program page 9 is accomodation
+    # 
+    group_size = columns.Integer(required=False, )
+    seat_quota = columns.Integer(required=False, )
+    price = columns.Decimal(required=False, )
+    # 
+    early_bird = columns.Text(required=False, default='{"enabled":false,"discount":null,"quota":null,"end_date":null}')
+    down_payment = columns.Text(required=False, default='{"enabled":false,"discount":null,"rest":null}')
+    # 
+    cover = columns.Text(required=False, )
+    photos = columns.List(columns.Text, required=False, )
+    youtube_video_link = columns.Text(required=False, )
     tags = columns.List(columns.Text, required=False, )
-    cover = columns.Text(required=True, )
-    photos = columns.List(columns.Text, required=True, )
-    notes = columns.Text(required=False, )
-    seats = columns.Integer(required=True, )
-    price = columns.Decimal(required=True, )
-    registration_start_date = columns.DateTime(required=True, )
-    registration_end_date = columns.DateTime(required=True, )
-    early_bird_discount = columns.Boolean(required=False, )
-    discount_rate = columns.Text(required=False, )
-    quota = columns.Text(required=False, )
-    down_payment = columns.Boolean(required=False, )
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
