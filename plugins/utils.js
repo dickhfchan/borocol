@@ -45,3 +45,24 @@ export function errorRequestMessage(error, msg) {
   }
   return  error.response && error.response.message || error.message || msg || ''
 }
+
+// 9-digit to 10-digit, Sat Mar 03 1973 17:46:40 GMT+0800 (CST) to Sun Nov 21 2286 01:46:39 GMT+0800 (CST)
+export function isSecond(n) {
+  if (Number.isInteger(n)) {
+    const len = n.toString().length
+    if (len === 9 || len === 10) {
+      return true
+    }
+  }
+  return false
+}
+// 12-digit to 13-digit
+export function isMillisecond(n) {
+  if (Number.isInteger(n)) {
+    const len = n.toString().length
+    if (len === 12 || len === 13) {
+      return true
+    }
+  }
+  return false
+}

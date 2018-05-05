@@ -64,7 +64,7 @@ function resolveRequestData(requestData) {
     if (!parent) return
     if (value instanceof Date) {
       value = parseInt(value.getTime() / 1000)
-    } else if (Number.isInteger(value) && value.toString().length === 13) {
+    } else if (ut.isMillisecond(value)) {
       value = value / 1000
     }
     if (hp.isString(key)) {
@@ -77,7 +77,7 @@ function resolveRequestData(requestData) {
 function resolveResponseData(respData) {
   return hp.mapObjectTree(respData, (value, key, parent) => {
     if (!parent) return
-    if (hp.isNumber(value) && value.toString().length === 10) {
+    if (ut.isSecond(value)) {
       // timestamp
       // to millisecond
       value = value * 1000
