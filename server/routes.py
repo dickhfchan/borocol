@@ -16,7 +16,7 @@ routes = [
     ]),
     *group({'prefix': app.config['api_prefix']}, [
         # auth
-        *group({'controller': controllers.UserController, 'prefix': '/user'}, [
+        *group({'prefix': '/user', 'controller': controllers.UserController}, [
             *restful(['current_user', 'register', 'login']),
             *group({'middlewares': [auth]}, [
                 *restful(['logout', 'confirm_email', 'send_confirmation_email', 'update_email'])
@@ -25,22 +25,22 @@ routes = [
             *restful(['send_reset_password_email', 'check_reset_password_token', 'reset_password']),
         ]),
         # school
-        *group({'controller': controllers.SchoolController, 'prefix': '/school'}, [
+        *group({'prefix': '/school', 'controller': controllers.SchoolController}, [
             *restful(['register']),
         ]),
         # openid sign in and up
         *group({'prefix': '/google', 'controller': controllers.GoogleAuthController}, restful(['login', 'link', 'register'])),
         # file
-        *group({'controller': controllers.FileController, 'prefix': '/file'}, [
+        *group({'prefix': '/file', 'controller': controllers.FileController}, [
             *restful(['store']),
-            {'name': 'getFile', 'path': '/<year>/<month>/<date>/<filename>', 'action': 'get_file', 'methods': ['GET']},
+            {'path': '/<year>/<month>/<date>/<filename>', 'name': 'getFile', 'action': 'get_file', 'methods': ['GET']},
         ]),
         # user
-        *group({'controller': controllers.UserController, 'prefix': '/user', 'middlewares': [auth]}, [
+        *group({'prefix': '/user', 'controller': controllers.UserController, 'middlewares': [auth]}, [
             *restful(['profile']),
         ]),
         *group({'middlewares': [auth]}, [
-            *group({'controller': controllers.CourseController, 'prefix': '/course'}, restful(['select', 'store', 'update', 'destroy'])),
+            *group({'prefix': '/course', 'controller': controllers.CourseController}, restful(['select', 'store', 'update', 'destroy'])),
         ]),
     ]),
 ]
