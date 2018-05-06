@@ -32,10 +32,15 @@ def update(model, data, id):
 # for get ,save and delete data
 class ResourceController(object):
     model = None
-    def beforeUpdate(self, item):
+    def canUpdate(self, item):
         return True
-    def beforeDestroy(self, items):
+    def canDestroy(self, items):
         return True
+    def beforeWrite(self, data, type):
+        # for store and update; type is one of them
+        # do validate or others
+        # return failed response(utils.failed) if failed
+        pass
     # get data
     def select(self, id=None, *args, **kwargs):
         model = self.model
@@ -60,8 +65,12 @@ class ResourceController(object):
     def store(self, *args, **kwargs):
         errorMsg = None
         item = None
+        data = request_json()
+        t = self.beforeWrite(data, 'store')
+        if t:
+            return t
         try:
-            item = store(self.model, request_json())
+            item = store(self.model, data)
         except Exception as e:
             print(e)
             errorMsg = str(e)
@@ -70,11 +79,14 @@ class ResourceController(object):
     def update(self, *args, **kwargs):
         errorMsg = None
         data = request_json()
+        t = self.beforeWrite(data, 'update')
+        if t:
+            return t
         id = data.get('id')
         item = self.model.objects(id=id).first()
         if not item:
             return ut.failed('Not found', code=404)
-        if not self.beforeUpdate(item):
+        if not self.canUpdate(item):
             return ut.failed()
         try:
             item = update(self.model, data, id)
@@ -90,7 +102,7 @@ class ResourceController(object):
         errorMsg = None
         try:
             items = model.objects.filter(id__in=ids)[:]
-            if not self.beforeDestroy(items):
+            if not self.canDestroy(items):
                 return ut.failed()
             model.objects.filter(id__in=ids).delete()
         except Exception as e:
