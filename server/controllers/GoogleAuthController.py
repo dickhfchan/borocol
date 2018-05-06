@@ -60,9 +60,9 @@ class GoogleAuthController():
         user = self.model.objects.filter(google_id=gid).first()
         if user:
             login_user(user)
-            return success(data={'linked':True})
+            return success(append={'linked':True})
         session['google_user_info'] = info
-        return success(data={'linked':False})
+        return success(append={'linked':False})
     def link(self):
         data = request_json()
         info = session.get('google_user_info')
@@ -95,7 +95,7 @@ class GoogleAuthController():
             'email': info['email'],
             'user_type': 'student',
             'google_id': gid,
-            'password': hash_pwd(str_rand(16)), 
+            'password': hash_pwd(str_rand(16)),
         }
         try:
             avatar = save_remote_pic(info['picture'])
@@ -114,7 +114,7 @@ class GoogleAuthController():
             return failed(str(e))
         login_user(user)
         return success()
-        
+
     def resolve_token(self):
         data = request_json()
         token = data.get('token', None)

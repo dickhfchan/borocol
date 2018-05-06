@@ -16,4 +16,4 @@ class IndexController(object):
         if current_user.is_authenticated:
             initialData['authenticated'] = True
             initialData['user'] = user_to_dict(current_user)
-        return success(data={'data': initialData})
+        return success(data=initialData)

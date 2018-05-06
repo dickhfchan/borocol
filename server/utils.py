@@ -244,16 +244,20 @@ def pwd_hashed_compare(pwd, hashed):
     return hashed == bcrypt.hashpw(pwd, hashed)
 
 #
-def success(message = '', data = None, code = 200):
-    data2 = {'result': 'success', 'message': message}
+def success(data = None, message = None, code = 200, append = None):
+    result = {'result': 'success'}
+    if message:
+        result['message'] = message
     if data:
-        data2 = dict(data2, **data)
-    return data2, code
-def failed(message = 'Failed', data = None, code = 400):
-    data2 = {'result': 'failed', 'message': message}
-    if data:
-        data2 = dict(data2, **data)
-    return data2, code
+        result['data'] = data
+    if append:
+        result = dict(result, **append)
+    return result, code
+def failed(message = 'Failed', append = None, code = 400):
+    result = {'result': 'failed', 'message': message}
+    if append:
+        result = dict(result, **append)
+    return result, code
 def trim_dict(dc):
     for k,v in dc.items():
         if isinstance(v, str):

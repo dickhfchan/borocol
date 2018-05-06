@@ -74,7 +74,7 @@ class AuthController(ResourceController):
             item = user_to_dict(current_user)
         else:
             item['is_anonymous'] = True
-        return success(data = {'data': item})
+        return success(item)
     # confirm email
     def confirm_email(self):
         data = request_json()
@@ -178,7 +178,7 @@ class AuthController(ResourceController):
         if expired:
             return failed('Link expired')
         user = self.model.objects.filter(email=item.email).first()
-        return success(data = {'data': user_to_dict(user)})
+        return success(user_to_dict(user))
     def reset_password(self):
         data = request_json()
         # recaptcha
@@ -233,7 +233,7 @@ class UserController(AuthController):
         data = (request_json() or {}).get('data')
         if not data:
             # get
-            return success(data={'data': to_dict(get_user_profile(current_user))})
+            return success(to_dict(get_user_profile(current_user)))
         else:
             # update
             if current_user.user_type == 'student':
@@ -275,7 +275,7 @@ class UserController(AuthController):
                     print(e)
                     return failed('Invalid input')
             # todo validate school profile
-            # 
+            #
             model = models.student_profile if current_user.user_type == 'student' else models.school_profile
             profile = get_user_profile(current_user)
             if current_user.email != data['email']:
@@ -284,4 +284,3 @@ class UserController(AuthController):
                 current_user.save()
             update(model, data, profile.id)
             return success()
-        

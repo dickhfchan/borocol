@@ -2,6 +2,7 @@ from flask import request
 from datetime import datetime
 import time
 from utils import to_dict, sort_models, before_write, saved, request_json
+import utils as ut
 import cassandra
 
 def store(model, data):
@@ -9,7 +10,6 @@ def store(model, data):
     data = before_write(model, data)
     data['created_at'] = data['updated_at'] = datetime.now()
     data['id'] = cassandra.util.uuid_from_time(time.time())
-    errorMsg = None
     item = None
     # save
     item = model.create(**data)
@@ -32,6 +32,10 @@ def update(model, data, id):
 # for get ,save and delete data
 class ResourceController(object):
     model = None
+    def beforeUpdate(self, item):
+        return True
+    def beforeDestroy(self, items):
+        return True
     # get data
     def select(self, id=None, *args, **kwargs):
         model = self.model
@@ -41,7 +45,7 @@ class ResourceController(object):
         if id:
             # return one row
             item = model.objects.filter(id=id).first()
-            return {'result': 'success', 'data': to_dict(item)} if item else ({'result': 'failed', 'message': 'Not found'}, 400)
+            return ut.success(data=to_dict(item)) if item else ut.failed('Not found', code=404)
         else:
             # return resources list
             # default page: 1, per_page: 20
@@ -51,7 +55,7 @@ class ResourceController(object):
             end = page * per_page
             models = model.objects.all()[start:end]
             modelsDict = [to_dict(item) for item in models]
-            return {'result': 'success', 'data': modelsDict}
+            return ut.success(modelsDict)
     # create a row; will check row if exist by id
     def store(self, *args, **kwargs):
         errorMsg = None
@@ -61,23 +65,34 @@ class ResourceController(object):
         except Exception as e:
             print(e)
             errorMsg = str(e)
-        return ({'result': 'failed', 'message': errorMsg}, 400) if errorMsg else {'result': 'success', 'id': str(item.id)}
+        return ut.failed(errorMsg) if errorMsg else ut.success(append={'id': str(item.id)})
     # update a row
-    def update(self, id, *args, **kwargs):
+    def update(self, *args, **kwargs):
         errorMsg = None
-        item = None
+        data = request_json()
+        id = data.get('id')
+        item = self.model.objects(id=id).first()
+        if not item:
+            return ut.failed('Not found', code=404)
+        if not self.beforeUpdate(item):
+            return ut.failed()
         try:
-            item = update(self.model, request_json(), id)
+            item = update(self.model, data, id)
         except Exception as e:
             errorMsg = str(e)
-        return ({'result': 'failed', 'message': errorMsg}, 400) if errorMsg else {'result': 'success'}
+        return ut.failed(errorMsg) if errorMsg else ut.success()
     # delete a row or many rows
-    def destroy(self, id, *args, **kwargs):
+    def destroy(self, *args, **kwargs):
         model = self.model
+        data = request_json()
+        id = data.get('id')
         ids = [id] if ',' not in id else id.split(',')
         errorMsg = None
         try:
+            items = model.objects.filter(id__in=ids)[:]
+            if not self.beforeDestroy(items):
+                return ut.failed()
             model.objects.filter(id__in=ids).delete()
         except Exception as e:
             errorMsg = str(e)
-        return ({'result': 'failed', 'message': errorMsg}, 400) if errorMsg else {'result': 'success'}
+        return ut.failed(errorMsg) if errorMsg else ut.success()

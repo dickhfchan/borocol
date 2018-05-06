@@ -29,7 +29,7 @@ def make_dir_by_path(fullPath):
         makedirs(dirname)
 # url eg: /api/v1/2018/08/08/...
 def get_filename_from_url(url):
-    return url.replace(app.config['api_prefix'], '~')
+    return url.replace(app.config['api_prefix'] + '/file', '~')
 
 def save_remote_pic(url):
     data = request_bytes(url)
