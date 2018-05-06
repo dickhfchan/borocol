@@ -104,10 +104,7 @@ def setByDotPath(obj, dotPath, valueOrGetter):
         val = valueOrGetter
         if callable(valueOrGetter):
             val = valueOrGetter(v[curPath])
-        if val == None:
-            del v[curPath]
-        else:
-            v[curPath] = val
+        v[curPath] = val
 
 # convert to dict; datetime to int, id to str, format decimal
 def to_dict(item):
@@ -223,13 +220,13 @@ rules = {
 def keys_match(dc, keys):
     dcs = dc if isinstance(dc, list) else [dc]
     for dc in dcs:
-        keys = keys[:]
+        keys2 = keys[:]
         for k, v in dc.items():
-            if k not in keys:
+            if k not in keys2:
                 return False
             else:
-                keys.remove(k)
-        if len(keys) != 0:
+                keys2.remove(k)
+        if len(keys2) != 0:
             return False
     return True
 def dict_any_key_none(dc):

@@ -29,11 +29,26 @@ export default {
         return
       }
       Object.values(fields).forEach(v => {
-        if (v.value != null) {
+        if (hp.isArray(v.value)) {
+          if (v.value.length > 0) {
+            return
+          }
+        } else if (v.value != null) {
           return
         }
+        if (!v.hasOwnProperty('value')) {
+          this.$set(v, 'value', null)
+        }
         if (v.type === 'file') {
-          v.value = 'https://picsum.photos/40/40?image=401'
+          if (hp.isArray(v.value)) {
+            v.value = [
+              'https://picsum.photos/200/200?image=401',
+              'https://picsum.photos/200/200?image=402',
+              'https://picsum.photos/200/200?image=403',
+            ]
+          } else {
+            v.value = 'https://picsum.photos/200/200?image=401'
+          }
         } else if (v.type === 'date') {
           v.value = new Date()
         } else if (v.rules) {
@@ -41,11 +56,17 @@ export default {
             v.value = `example_${hp.strRand(5)}@example.com`
           } else if (v.rules.includes('accepted')) {
             v.value = true
+          } else if (v.rules.includes('integer')) {
+            v.value = hp.numRand(0, 999)
           } else {
-            v.value = hp.strRand(5)
+            if (!hp.isArray(v.value)) {
+              v.value = hp.strRand(5)
+            }
           }
         } else {
-          v.value = hp.strRand(5)
+          if (!hp.isArray(v.value)) {
+            v.value = hp.strRand(5)
+          }
         }
       })
     }

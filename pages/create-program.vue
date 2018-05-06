@@ -216,8 +216,8 @@ CardContainer.create-program
               el-col.mbm(:md="12")
                 FormItemInline(:field="pageCur.fields.name")
               el-col.mbm(:md="12")
-                FormItemInline(:field="pageCur.fields.tel")
-                  PhoneInput(slot="control" v-model="pageCur.fields.tel.value")
+                FormItemInline(:field="pageCur.fields.phone")
+                  PhoneInput(slot="control" v-model="pageCur.fields.phone.value")
             FormItemInline.mbm(:field="pageCur.fields.address")
             FormItem.mbm(:field="pageCur.fields.facilities")
               el-checkbox-group(slot="control" v-model="pageCur.fields.facilities.value")
@@ -362,7 +362,7 @@ export default {
     return {
       loading: false,
       withAccom: true,
-      page: 8,
+      page: 0,
       pages: [
         {
           agreed: false,
@@ -372,13 +372,14 @@ export default {
           title: 'Start with the basic 1.1',
           tips: [null, 'Create a title that can attract people’s attention. '],
           fields: {
-            startDate: {text: 'Start Date', rules: 'required'},
-            endDate: {text: 'End Date', rules: 'required'},
+            startDate: {text: 'Start Date', rules: 'required', type: 'date'},
+            endDate: {text: 'End Date', rules: 'required', type: 'date'},
             categoryId: {text: 'Category', rules: 'required'},
             level: {text: 'Level', rules: 'required'},
             title: {text: 'Create an Attractive Title', nameInMessage: 'title', rules: 'required'},
           },
         },
+        // 2
         {
           step: 1,
           title: 'Start with the basic 1.2',
@@ -425,6 +426,7 @@ export default {
             },
           },
         },
+        // 4
         {
           step: 1,
           title: 'Start with the basic 1.4',
@@ -471,6 +473,7 @@ export default {
             },
           },
         },
+        // 5
         {
           step: 2,
           title: 'General Details 2.1',
@@ -496,6 +499,7 @@ export default {
             },
           },
         },
+        // 6
         {
           step: 2,
           title: 'General Details 2.2',
@@ -520,6 +524,7 @@ export default {
             },
           },
         },
+        // 7
         {
           step: 2,
           title: 'General Details 2.3',
@@ -529,6 +534,7 @@ export default {
             },
             requestFormEnabled: {
               text: 'Would you like to set up a request form?',
+              value: false,
             },
             // need validate in server
             requestForm: {
@@ -549,7 +555,7 @@ export default {
                 requiredIf: () => this.withAccom
               },
               nameInMessage: 'accomodation type',
-              value: 'hotel',
+              value: null,
               options: [
                 {value: 'hotel', text: 'Hotel'},
               ],
@@ -562,9 +568,9 @@ export default {
               },
               nameInMessage: 'accomodation name',
             },
-            tel: {
+            phone: {
               text: 'Tel',
-              rules: 'requiredIf',
+              rules: 'requiredIf|phone',
               ruleParams: {
                 requiredIf: () => this.withAccom
               },
@@ -614,7 +620,7 @@ export default {
               nameInMessage: 'seat quota',
             },
             price: {
-              rules: 'requiredIf|integer',
+              rules: 'requiredIf|price',
               ruleParams: {
                 requiredIf: () => !this.withAccom
               },
@@ -659,12 +665,13 @@ export default {
             cover: {
               rules: 'required',
               text: 'Cover Photo',
+              type: 'file',
             },
             photos: {
               rules: 'required|minLength:2',
-              text: 'Photos (Min. 3)',
               nameInMessage: 'photos',
               value: [],
+              type: 'file',
             },
             youtubeVideoLink: {
               text: 'Insert a “Youtube” video link',
@@ -713,7 +720,7 @@ export default {
     'pages.3.autoFill': {
       immediate: true,
       async handler(autoFill) {
-        if (autoFill) {
+        if (autoFill) {;
           const {data} = await this.$apiPost('/user/profile')
           const instructor = this.pages[3].fields.instructors.value[0]
           Object.assign(instructor, {
@@ -743,7 +750,7 @@ export default {
       // todo
       const data = {withAccom: this.withAccom}
       this.pages.forEach((page, i) => {
-        if (i === 8) {
+        if (i === 0 || i === 8) {
           return
         }
         Object.keys(page.fields).forEach(key => {
@@ -757,7 +764,7 @@ export default {
         data.accomodation[key] = p8.fields[key].value
       })
       this.loading = true
-      await this.$apiPost('/course', data)
+      await this.$apiPost('/course/store', data)
       this.$alert(`Created Successfully`, '')
       this.loading = false
     },
@@ -774,6 +781,61 @@ export default {
         this.$validate(page.validation, page.fields)
       }
     }, {immediate: true})
+    this.$testPanel({
+      fill: () => {
+        this.pages[0].agreed = true
+        this.page = 11
+        this.pages.forEach((page, i) => {
+          if (i === 0) {
+            return
+          }
+          this.$testFill(page.fields)
+          let t
+          switch (i) {
+            case 2:
+                page.fields.gender.value = 'male'
+                page.fields.hours.value = [20, 30]
+              break
+            case 3:
+                t = {name: 'David Black', phone: '+1 23456', description: 'xxxxxxxx', photo: 'https://picsum.photos/200/200?image=200'}
+                page.fields.instructors.value.splice(0, 1, t)
+              break
+            case 4:
+                page.fields.country.value = 'US'
+              break
+            case 5:
+                page.fields.meals.value = ['breakfast']
+              break
+            case 7:
+                t = {enabled: true, value: 'xxxxxxxx'}
+                page.fields.requestForm.value.splice(0, 1, t)
+              break
+            case 8:
+                page.fields.type.value = 'hotel'
+                page.fields.phone.value = '+1 2344567'
+                page.fields.facilities.value = ['wifi']
+                page.fields.photos.value = [
+                  'https://picsum.photos/400/200?image=300',
+                  'https://picsum.photos/400/200?image=301',
+                  'https://picsum.photos/400/200?image=302',
+                  'https://picsum.photos/400/200?image=303',
+                  'https://picsum.photos/400/200?image=304',
+                  'https://picsum.photos/400/200?image=305',
+                ]
+              break
+            case 9:
+                t = {enabled: true, type: 'shared half', quota: 6, price: 20.23}
+                page.fields.rooms.value.splice(0, 1, t)
+                page.fields.price.value = 666.66
+              break
+            case 10:
+                page.fields.earlyBird.value = {enabled: true, discount: 0.2, quota: 5, endDate: new Date().getTime()}
+                page.fields.downPayment.value = {enabled: true, discount: 0.3, rest: 'xxxxxxxxxxxxxxxxx'}
+              break
+          }
+        })
+      },
+    })
   },
 }
 </script>

@@ -4,11 +4,17 @@ from plugins.ResourceController import ResourceController, store
 import cassandra
 from utils import request_json
 import utils as ut
+from flask_login import current_user
 
 class CourseController(ResourceController):
     model = models.course
     def beforeWrite(self, data, type):
         self.data = data
+        # 
+        if current_user.user_type != 'school':
+            return ut.failed('Only schools can create courses')
+        # 
+        data['school_id'] = current_user.id
         # validate
         schema = {
             #
@@ -63,7 +69,7 @@ class CourseController(ResourceController):
             return ut.failed('Invalid input')
         k = ut.dict_any_key_none(t[0])
         if k:
-            return ut.failed('The %s of instructor is required.'%(k.replace('_', ' ')))
+            return ut.failed('The %s of main instructor is required.'%(k.replace('_', ' ')))
         if data['meals_included']:
             if len(data['meals']) == 0:
                 return ut.failed('The meals is required.')
@@ -91,7 +97,7 @@ class CourseController(ResourceController):
             schema = {
                 'type': {'required': True, 'type': 'string'},
                 'name': {'required': True, 'type': 'string'},
-                'tel': {'required': True, 'type': 'string'},
+                'phone': {'required': True, 'type': 'string'},
                 'address': {'required': True, 'type': 'string'},
                 'facilities': {'required': True, 'type': 'list'},
                 'description': {'required': True, 'type': 'string', 'maxlength': 10000},
@@ -100,10 +106,15 @@ class CourseController(ResourceController):
             v = ut.make_validator(schema)
             if not v.validate(data['accomodation']):
                 return ut.failed('Invalid input for accomodation', {'error': v.errors})
+            roomCount = 0
             for i, v in enumerate(data['accomodation']['rooms']):
-                k = v['enabled'] and ut.dict_any_key_none(v)
-                if k:
-                    return ut.failed('The %s of room %s is required.'%(k.replace('_', ' '), i + 1))
+                if v['enabled']:
+                    roomCount += 1
+                    k = ut.dict_any_key_none(v)
+                    if k:
+                        return ut.failed('The %s of room %s is required.'%(k.replace('_', ' '), i + 1))
+            if roomCount == 0:
+                return ut.failed('At least one enabled room is needed')
     def store(self):
         r = super().store()[0]
         # may failed
@@ -115,7 +126,11 @@ class CourseController(ResourceController):
             try:
                 item = store(models.accomodation, data)
                 r['accomodation_id'] = str(item.id)
+                return ut.success(append=r)
             except Exception as e:
+                print(666)
+                app.logger.debug(e)
                 print(e)
                 return ut.failed(str(e))
-        return ut.success(r)
+        else:
+            return ut.failed(append=r)

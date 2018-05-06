@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, current_app as app
 from datetime import datetime
 import time
 from utils import to_dict, sort_models, before_write, saved, request_json
@@ -72,6 +72,7 @@ class ResourceController(object):
         try:
             item = store(self.model, data)
         except Exception as e:
+            app.logger.debug(e)
             print(e)
             errorMsg = str(e)
         return ut.failed(errorMsg) if errorMsg else ut.success(append={'id': str(item.id)})

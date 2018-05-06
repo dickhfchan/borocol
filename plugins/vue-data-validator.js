@@ -25,6 +25,13 @@ export default ({store}) => {
       const t = value.split(' ')
       return t.length === 2 && t[0].length > 1 && t[0][0] === '+' && hp.isNumeric(t[0].substr(1)) && t[1].length > 0 && hp.isNumeric(t[1])
     },
+    price({value}) {
+      if (!hp.isNumber(value)) {
+        return false
+      }
+      const [a, b] = value.toString().split('.')
+      return b == null || b.length <= 2
+    },
   })
   Object.assign(Vue.validator.messages, {
     phone({value}) {
@@ -37,5 +44,6 @@ export default ({store}) => {
       }
       return 'Invalid phone number'
     },
+    price: 'The :name field is invalid price.',
   })
 }
