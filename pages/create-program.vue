@@ -255,7 +255,10 @@ CardContainer.create-program
                     span.mrs Quota
                     el-input.mrm.quota-input(v-model="item.quota")
                     span.mrs Price
-                    el-input.price-input(v-model="item.price" placeholder="USD")
+                    el-input.price-input.mrl(v-model="item.price" placeholder="USD")
+                    el-button(type="danger" icon="el-icon-delete" circle @click="rooms.splice(i, 1)")
+                el-col.mbm()
+                  el-button(icon="el-icon-plus" type="primary" circle @click="addRoom")
           //- page 10 Additional Options
           div(v-else-if="page===10")
             h2.mbl Additional Options
@@ -358,7 +361,7 @@ export default {
     const {siteName} = this.$store.state
     return {
       withAccom: true,
-      page: 11,
+      page: 9,
       pages: [
         {
           agreed: false,
@@ -403,6 +406,7 @@ export default {
             description: {text: 'Description of the program (What we will do)', nameInMessage: 'description', rules: 'required'},
           },
         },
+        // 3
         {
           step: 1,
           autoFill: false,
@@ -412,7 +416,6 @@ export default {
           ],
           fields: {
             language: {text: 'This Program Will be Offered in', nameInMessage: 'language', rules: 'required'},
-            // todo autofill
             instructors: {
               value: [
                 {name: null, phone: null, description: null, photo: null},
@@ -594,7 +597,7 @@ export default {
               nameInMessage: 'price',
             },
             rooms: {
-              rules: 'required', // todo
+              rules: 'required',
               text: 'Please select room type, price & quota: ',
               value: [
                 {enabled: false, type: 'shared half', quota: null, price: null},
@@ -678,7 +681,22 @@ export default {
     earlyBird() { return this.pages[10].fields.earlyBird.value },
     downPayment() { return this.pages[10].fields.downPayment.value },
   },
-  // watch: {},
+  watch: {
+    'pages.3.autoFill': {
+      immediate: true,
+      async handler(autoFill) {
+        if (autoFill) {
+          const {data} = await this.$apiPost('/user/profile')
+          const instructor = this.pages[3].fields.instructors.value[0]
+          Object.assign(instructor, {
+            name: `${data.firstName} ${data.lastName}`,
+            phone: data.phone,
+            photo: data.avatar
+          })
+        }
+      }
+    }
+  },
   methods: {
     page0confirm() {
       if (!this.pages[0].agreed) {
@@ -697,6 +715,9 @@ export default {
     },
     preview() {
       // todo
+    },
+    addRoom() {
+      this.rooms.push({enabled: false, type: null, quota: null, price: null})
     },
   },
   // created() {},
