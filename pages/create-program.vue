@@ -360,6 +360,7 @@ export default {
   data() {
     const {siteName} = this.$store.state
     return {
+      loading: false,
       withAccom: true,
       page: 8,
       pages: [
@@ -734,14 +735,31 @@ export default {
     },
     async next() {
       if (this.pageCur.validation) {
-        await this.$checkValidation(this.pageCur.validation).then(data => {
-          // todo
-        })
+        await this.$checkValidation(this.pageCur.validation)
       }
       this.page++
     },
-    preview() {
+    async preview () {
       // todo
+      const data = {withAccom: this.withAccom}
+      this.pages.forEach((page, i) => {
+        if (i === 8) {
+          return
+        }
+        Object.keys(page.fields).forEach(key => {
+          data[key] = page.fields[key].value
+        })
+      })
+      const p9 = this.pages[9]
+      data.accomodation = {rooms: p9.fields.rooms.value}
+      const p8 = this.pages[8]
+      Object.keys(p8.fields).forEach(key => {
+        data.accomodation[key] = p8.fields[key].value
+      })
+      this.loading = true
+      await this.$apiPost('/course', data)
+      this.$alert(`Created Successfully`, '')
+      this.loading = false
     },
     addRoom() {
       this.rooms.push({enabled: false, type: null, quota: null, price: null})
