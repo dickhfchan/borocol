@@ -258,18 +258,21 @@ def failed(message = 'Failed', append = None, code = 400):
     if append:
         result = dict(result, **append)
     return result, code
-def trim_dict(dc):
-    for k,v in dc.items():
-        if isinstance(v, str):
-            dc[k] = v.strip()
 
 def request_json():
     data = request.get_json()
     if not data:
         return None
-    for key in list(data.keys()):
-        if isinstance(data[key], str):
-            data[key] = data[key].strip()
+    def trim(obj):
+        keyValues = enumerate(obj)
+        if isinstance(obj, dict):
+            keyValues = [(t[1], obj[t[1]]) for t in list(keyValues)]
+        for k,v in keyValues:
+            if isinstance(v, str):
+                obj[k] = obj[k].strip()
+            elif isinstance(v, (dict, list)):
+                trim(v)
+    trim(data)
     return data
 
 def get_https_conn(domain):

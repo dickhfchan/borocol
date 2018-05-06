@@ -3,7 +3,7 @@ import models
 from plugins.ResourceController import ResourceController, store, update
 from utils import failed, success, make_validator, hash_pwd, pwd_hashed_compare
 from utils import dict_pluck, request_json, to_dict, sort_models, validate_recaptcha
-from utils import str_rand, user_to_dict, md5, get_user_profile, rules, trim_dict, keys_match, some
+from utils import str_rand, user_to_dict, md5, get_user_profile, rules, keys_match, some
 from flask_login import login_user, logout_user, current_user
 from plugins.mail import mail
 from flask_mail import Message
@@ -256,15 +256,12 @@ class UserController(AuthController):
                     return failed('Invalid input', {'error': v.errors})
                 try:
                     t = data['passport_info']
-                    trim_dict(t)
                     if not keys_match(t, ['number', 'issued_country', 'expiry_date']):
                         return failed('Invalid input')
                     for k, v in t.items():
                         if not v:
                             return failed('The %s is required.'%(k.replace('_', ' ')))
                     t = data['emergency_contact_persons']
-                    trim_dict(t[0])
-                    trim_dict(t[1])
                     keys = ['name', 'relationship', 'tel']
                     if not keys_match(t[0], keys) or not keys_match(t[1], keys):
                         return failed('Invalid input')
