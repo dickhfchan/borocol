@@ -40,7 +40,7 @@ routes = [
             *restful(['profile']),
         ]),
         *group({'middlewares': [auth]}, [
-            *group({'prefix': '/course', 'controller': controllers.CourseController}, restful(['select', 'store', 'update', 'destroy'])),
+            *group({'prefix': '/course', 'controller': controllers.CourseController}, restful(['select', 'store'])),
         ]),
     ]),
 ]

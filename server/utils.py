@@ -221,13 +221,22 @@ rules = {
     'gender': {'required': True, 'type': 'string', 'maxlength': 255, 'allowed': ['male', 'female']},
 }
 def keys_match(dc, keys):
-    keys = keys[:]
-    for k, v in dc.items():
-        if k not in keys:
+    dcs = dc if isinstance(dc, list) else [dc]
+    for dc in dcs:
+        keys = keys[:]
+        for k, v in dc.items():
+            if k not in keys:
+                return False
+            else:
+                keys.remove(k)
+        if len(keys) != 0:
             return False
-        else:
-            keys.remove(k)
-    return len(keys) == 0
+    return True
+def dict_any_key_none(dc):
+    for k, v in dc.items():
+        if v == None:
+            return k
+    return False
 def some(immutableVal, fun):
     for val in immutableVal:
         if fun(val):

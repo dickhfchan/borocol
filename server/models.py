@@ -151,16 +151,19 @@ class course(Model):
     id      = columns.UUID(required=True, partition_key=True)
     school_id      = columns.UUID(required=False, )
 
-    name = columns.Text(required=False, )
-    category_id = columns.Text(required=False, )
-    level = columns.Text(required=False, )
+    # 
+    with_accom = columns.Boolean(required=False, )
+    # 
     start_date = columns.DateTime(required=False, )
     end_date = columns.DateTime(required=False, )
+    category_id = columns.Text(required=False, )
+    level = columns.Text(required=False, )
+    title = columns.Text(required=False, )
     # 
-    description = columns.Text(required=False, )
     gender = columns.Text(required=False, )
     age_range = columns.List(columns.Integer, required=False, )
     hours = columns.List(columns.Integer, required=False, )
+    description = columns.Text(required=False, )
     # 
     language = columns.Text(required=False, )
     instructors = columns.Text(required=False, default='[{"name":null,"phone":null,"description":null,"photo":null},{"name":null,"phone":null,"description":null,"photo":null}]')
