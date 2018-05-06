@@ -207,24 +207,19 @@ class course(Model):
 
 class accomodation(Model):
     file_fields = ['photos']
+    json_fields = ['rooms']
 
     id      = columns.UUID(required=True, partition_key=True)
     course_id      = columns.UUID(required=False, )
 
-    options = columns.List(columns.Text, required=False, )
-    other_options = columns.Text(required=False, )
-    location_description = columns.Text(required=False, )
+    type = columns.Text(required=False, )
+    name = columns.Text(required=False, )
+    phone = columns.Text(required=False, )
+    address = columns.Text(required=False, )
     facilities = columns.List(columns.Text, required=False, )
-    other_facilities = columns.Text(required=False, )
+    description = columns.Text(required=False, )
     photos = columns.List(columns.Text, required=False, )
-    room1_enabled = columns.Boolean(required=False, )
-    room1_type = columns.Text(required=False, )
-    room1_quota = columns.Text(required=False, )
-    room1_price = columns.Text(required=False, )
-    room2_enabled = columns.Boolean(required=False, )
-    room2_type = columns.Text(required=False, )
-    room2_quota = columns.Text(required=False, )
-    room2_price = columns.Text(required=False, )
+    rooms = columns.Text(required=False, default='[{"enabled":false,"type":"shared half","quota":null,"price":null},{"enabled":false,"type":"shared 3 ppl","quota":null,"price":null},{"enabled":false,"type":"private double bed","quota":null,"price":null}]')
 
     created_at = columns.DateTime()
     updated_at = columns.DateTime()
