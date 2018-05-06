@@ -79,7 +79,7 @@ CardContainer.create-program
                   el-col.mbm(:sm="12")
                     .form-item
                       FormLabel Name
-                      el-input(v-model="pageCur.fields.instructors.value[0].name" placeholder="First Name, Last Name")
+                      el-input(v-model="pageCur.fields.instructors.value[0].name" placeholder="Full Name")
                   el-col.mbm(:sm="12")
                     .form-item
                       FormLabel Contact Number
@@ -99,7 +99,7 @@ CardContainer.create-program
                   el-col.mbm(:sm="12")
                     .form-item
                       FormLabel Name
-                      el-input(v-model="pageCur.fields.instructors.value[1].name" placeholder="First Name, Last Name")
+                      el-input(v-model="pageCur.fields.instructors.value[1].name" placeholder="Full Name")
                   el-col.mbm(:sm="12")
                     .form-item
                       FormLabel Contact Number
@@ -231,7 +231,7 @@ CardContainer.create-program
                 el-checkbox(label="drying machine") Drying Machine
                 el-checkbox(label="swimming pool") Swimming pool
                 el-checkbox(label="kitchen") Kitchen
-            FormItem.mbm(:field="pageCur.fields.description" type="textarea"
+            FormItem.mbm(:field="pageCur.fields.description" type="textarea" :controlAttrs="{rows:3}"
               placeholder="ABC Resorts is located at Country side…."
             )
             FormItemInline.mbm(:field="pageCur.fields.photos")
@@ -361,7 +361,7 @@ export default {
     const {siteName} = this.$store.state
     return {
       withAccom: true,
-      page: 9,
+      page: 8,
       pages: [
         {
           agreed: false,
@@ -543,6 +543,10 @@ export default {
           fields: {
             type: {
               text: 'Select the type of accomodation you provide',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
               nameInMessage: 'accomodation type',
               value: 'hotel',
               options: [
@@ -551,12 +555,27 @@ export default {
             },
             name: {
               text: 'Name',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
+              nameInMessage: 'accomodation name',
             },
             tel: {
               text: 'Tel',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
+              nameInMessage: 'accomodation tel',
             },
             address: {
               text: 'Address',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
+              nameInMessage: 'accomodation address',
             },
             facilities: {
               text: 'What facilities do they offer?',
@@ -564,6 +583,11 @@ export default {
             },
             description: {
               text: 'Description',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
+              nameInMessage: 'accomodation description',
             },
             photos: {
               text: 'Upload photos',
@@ -597,7 +621,10 @@ export default {
               nameInMessage: 'price',
             },
             rooms: {
-              rules: 'required',
+              rules: 'requiredIf',
+              ruleParams: {
+                requiredIf: () => this.withAccom
+              },
               text: 'Please select room type, price & quota: ',
               value: [
                 {enabled: false, type: 'shared half', quota: null, price: null},
