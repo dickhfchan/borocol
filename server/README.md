@@ -20,6 +20,9 @@ pip freeze > requirements.txt
 
 # development
 python run.py
+python run.py --remigrate
+python run.py --seed
+python run.py --remigrate --seed
 ```
 ## models and materialized view
 models.py defined all models and materialized views. You can edit it to change data table structure. To apply the changes, run sync_tables_and_materialized_views.py
