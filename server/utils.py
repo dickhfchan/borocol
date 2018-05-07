@@ -340,9 +340,15 @@ def user_to_dict(user):
     item['is_authenticated'] = user.is_authenticated
     item['is_anonymous'] = user.is_anonymous
     profile = to_dict(get_user_profile(user))
-    item['avatar'] = profile['avatar']
-    item['name'] = '%s %s %s'%(profile['first_name'], profile['middle_name'] or '', profile['last_name'])
-    item['name'] = item['name'].replace('  ', ' ')
+    if user.user_type == 'student':
+        # student
+        item['avatar'] = profile['avatar']
+        item['name'] = '%s %s %s'%(profile['first_name'], profile['middle_name'] or '', profile['last_name'])
+        item['name'] = item['name'].replace('  ', ' ')
+    else:
+        # school
+        item['avatar'] = profile['logo']
+        item['name'] = profile['name']
     return item
 
 def bubble_sort(list0, func):
