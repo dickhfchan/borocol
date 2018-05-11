@@ -141,8 +141,11 @@ class AuthController(ResourceController):
             return failed('Invalid input', {'error': v.errors})
         # whether exist
         email = data['email']
-        if self.model.objects.filter(email = email).count() == 0:
+        user = self.model.objects.filter(email = email).first()
+        if not user:
             return failed('The account for the given email does not exist')
+        if user.user_type == 'school' and get_user_profile(user).status != 'normal':
+            return failed('This account is currently not enabled')
         #
         data = {
             'token': md5(str_rand(16)),
