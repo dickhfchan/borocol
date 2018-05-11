@@ -13,6 +13,15 @@ class MyFakeProvider(BaseProvider):
     def rand(self, *ls):
         n = random.randint(0, len(ls) - 1)
         return ls[n]
+    def randmany(self, *ls, min = 0):
+        total = random.randint(min, len(ls))
+        r = []
+        for i in range(total):
+            n = random.randint(0, len(ls) - 1)
+            val = ls[n]
+            if val not in r:
+                r.append(val)
+        return r
     def randstr(self, *a, **b):
         return str_rand(*a, **b)
     def gender(self):

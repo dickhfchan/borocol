@@ -70,7 +70,7 @@ for i in range(5):
     with_accom = random.random() > 0.3
     data = {
         'school_id': school.id,
-        # 
+        #
         'with_accom': with_accom,
         #
         'start_date': fake.ts(),
@@ -85,7 +85,7 @@ for i in range(5):
         'description': fake.sentence(),
         #
         'language': fake.word(),
-        'instructors': fake.word(),todo
+        'instructors': [{"name":fake.name(),"phone":fake.phone(),"description":fake.paragraph(),"photo":fake.img()},{"name":None,"phone":None,"description":None,"photo":None}],
         #
         'street': fake.sentence(),
         'city': fake.word(),
@@ -93,33 +93,49 @@ for i in range(5):
         'zip_code': fake.word(),
         'country': fake.country_code(),
         'api_key': fake.word(),
-        'location_description': fake.sentences(),
-        'how_to_get_there': fake.sentences(),
-        'where_to_meet': fake.sentences(),
+        'location_description': fake.sentence(),
+        'how_to_get_there': fake.sentence(),
+        'where_to_meet': fake.sentence(),
         #
-        'schedule': fake.sentences(),
-        'meals_included': todo,
-        'meals': todo,
-        'weather_arrangement': fake.sentences(),
+        'schedule': fake.sentence(),
+        'meals_included': random.random() > 0.5,
+        'meals':  fake.randmany('breakfast', 'lunch', 'bunch', 'dinner', 'snacks'),
+        'weather_arrangement': fake.sentence(),
         #
-        'provide': fake.sentences(),
-        'guest_needs_to_bring': fake.sentences(),
-        'issue_certificate': todo,
-        'certificate': fake.sentences(),
+        'provide': fake.sentence(),
+        'guest_needs_to_bring': fake.sentence(),
+        'issue_certificate': random.random() > 0.5,
+        'certificate': fake.paragraph(),
         #
-        'entry_requirment': fake.sentences(),
-        'request_form_enabled': True,
-        'request_form': fake.word(),todo
+        'entry_requirment': fake.paragraph(),
+        'request_form_enabled': random.random() > 0.5,
+        'request_form': [{"enabled":True,"value":fake.paragraph()},{"enabled":False,"value":None}],
         #
         'group_size': fake.random_int(),
         'seat_quota': fake.random_int(),
         'price': 66.66,
         #
-        'early_bird': fake.word(),todo
-        'down_payment': fake.word(),todo
+        'early_bird': {"enabled": random.random() > 0.5,"discount": 0.2,"quota": 0.2,"end_date":fake.ts()},
+        'down_payment': {"enabled": random.random() > 0.5,"discount":None,"rest":fake.paragraph()},
         #
         'cover': fake.img(),
         'photos': fake.imgs(),
         'youtube_video_link': fake.img(),
         'tags': ['Design', 'IT'],
     }
+    course = store(models.course, data)
+    # accomodation
+    if not with_accom:
+        continue
+    data = {
+        'course_id': course.id,
+        'type': 'hotel',
+        'name': fake.sentence(),
+        'phone': fake.phone(),
+        'address': fake.address(),
+        'facilities': ['wifi', 'gym'],
+        'description': fake.paragraph(),
+        'photos': fake.imgs(),
+        'rooms': [{"enabled":random.random() > 0.5,"type":"shared half","quota":fake.random_int(),"price":666.66},{"enabled":False,"type":"shared 3 ppl","quota":None,"price":None},{"enabled":False,"type":"private double bed","quota":None,"price":None}],
+    }
+    accm = store(models.accomodation, data)
